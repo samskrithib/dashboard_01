@@ -1,17 +1,18 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" >
       <div class="navbar-header">
-        <button type="button" ng-click="isCollapsed = !isCollapsed"class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" ui-sref="view"><img  class="img-responsive" src="assets/images/Cogitare.jpg" height="200" width="770"/></a>
+      <button type="button" ng-click="isCollapsed = !isCollapsed" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+
+      </button>
+      <a class="navbar-brand" ui-sref="view"><img  class="img-responsive" src="assets/images/Cogitare.jpg" height="200" width="770"/></a>
     </div>
     <!-- /.navbar-header -->
 
     <!-- <div uib-collapse="isCollapsed" class="collapse navbar-collapse" id="bs-example-navbar-collapse-6"> -->
-       <ul class="nav navbar-nav">
+       <ul class="nav navbar-nav navbar-collapse"  uib-collapse="isCollapsed">
            <li><a>DRIVE - Driver Login  </a> </li>  
            <li><a> Driver Name:  Mark W, Last Logged in : March 23 2017</a></li>
       </ul>
@@ -33,7 +34,7 @@
     <!-- </div> -->
 
     <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
+                <div class="sidebar-nav navbar-collapse" uib-collapse="isCollapsed" >
                     <ul class="nav" id="side-menu">
                          <li>
                             <a ui-sref="view"><i class="fa fa-dashboard fa-fw"></i> View Runs</a>
