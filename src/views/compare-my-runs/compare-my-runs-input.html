@@ -1,0 +1,53 @@
+
+<div class="wrapper">
+  <acme-navbar></acme-navbar>
+
+
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-lg-12">
+        <h3 class="page-header">Compare my runs</h3>
+      </div>
+      </div>
+      <!-- /.col-lg-12 -->
+      <form class="form-horizontal" role="form" name="form" class="col-xl-8 col-8" id="form" ng-submit="vm.submit(form.$valid)" novalidate>
+        <!--<div class="alert alert-info">All fields marked with an asterisk (*) are required</div>-->
+        
+        <div new-Row id="addRow"></div>
+        <div class="form-group">
+          <label class="col-md-2 pull-left control-label mandatory">Report type</label>
+          <div class="col-8 pull-left form-group" name="multipleCheckbox" id="multipleCheckbox">
+
+            <label class="checkbox-inline no_indent" ng-repeat= "(key, val) in vm.itemsList">
+              <input type="checkbox"
+                     ng-required="!vm.someSelected(vm.formData.selectedItems)"
+                     ng-model="vm.formData.selectedItems[val.name]"
+                     ng-init="vm.formData.selectedItems[val.name] = true"
+                     ng-click="vm.toggleCheck(val.id, val.name)">
+               {{::val.name}}
+            </label>
+            <div class="col-md-6">
+            <span class="help-block" ng-show="!vm.someSelected(vm.formData.selectedItems)"> You must choose at least one item</span>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div class="col-md-12 col-md-offset-2">
+            <!--<div ng-show="">-->
+                <input type="submit" class="btn btn-primary" />
+                <!--</div>-->
+          <button type="button" class="btn btn-primary" ng-click="vm.addRow(form)">Add Row</button>
+          <button type="button" class="btn btn-primary" ng-click="vm.reset(form)">Reset</button>
+          <br/>
+        </div>
+
+      </form>
+    </div>
+
+
+
+  </div>
+</div>
