@@ -199,8 +199,7 @@
             y: {
               lines: [
                 { value: energySummary[3], text: 'Energy Target ' + energySummary[3], position: 'end' }
-              ],
-              show: false
+              ]
             }
           }
         });
@@ -239,7 +238,7 @@
         EnergySummaryChart.ygrids([{ value: dataColumns[3], text: 'Energy Target ' + dataColumns[3], position: 'end' }]);
       },
 
-      toggleEnergyTarget: function (dataColumns, isOn) {
+      toggleEnergyTarget: function (isOn) {
         if (isOn) {
           d3.selectAll('.c3-grid line')
             .style('visibility', 'visible')

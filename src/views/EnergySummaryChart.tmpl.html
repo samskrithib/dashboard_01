@@ -4,16 +4,19 @@
   <div class="form-group row">
     <!--<p class="checkbox-inline"><strong> View results for specific Station to Station Stop(s) </strong></p>-->
     <!--<input type="checkbox" ng-model='vm.key' ng-change='vm.key || vm.checkboxModel(vm.key)'>-->
-    <div class="col-lg-4">
-    <md-switch class="md-primary" md-invert ng-model='vm.key' ng-change='vm.checkboxModel(vm.key)'>
-      View results for specific Station to Station Stop(s):
-    </md-switch>
+    <div class="col-md-6">
+      <div style="padding-right: 15px; margin: 16px 0; ">
+        View results for specific Station to Station Stop(s):
+        <toggle ng-model="vm.key" size="btn-sm" ng-change="vm.checkboxModel(vm.key)"></toggle>
+      </div>
+
     </div>
-    <div class="col-lg-4"></div>
-    <div class="col-lg-4 form-group" >
-      <md-switch class="md-primary" md-invert md-no-ink ng-model="vm.energyTargetSwitch" ng-change="vm.energyTargetSwitchOnchange(vm.energyTargetSwitch)">
-        Energy Target: 
-      </md-switch>
+    <div class="col-md-6 form-group">
+      <div style="padding-right: 15px; margin: 16px 0; float: right">
+        Energy Target:
+        <toggle ng-model="vm.energyTargetSwitch" size="btn-sm" ng-change="vm.energyTargetSwitchOnchange(vm.energyTargetSwitch)"></toggle>
+      </div>
+
     </div>
     <div class="col-lg-8 form-group">
       <div class="input-group" ng-show="vm.key">

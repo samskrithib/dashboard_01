@@ -12,10 +12,9 @@
 
       </div>
       <div class="col-lg-2">
-        <md-switch ng-model="vm.gridOnOff" ng-true-value="'On'" ng-false-value="'Off'" ng-change="vm.gridbtnOnChange(vm.gridOnOff)"
-          aria-label="Gridlines">
-          Gridlines: {{ vm.gridOnOff }}
-        </md-switch>
+        <div style="padding-right: 15px; margin: 16px 0; ">
+        Gridlines: <toggle ng-model="vm.gridOnOff" size="btn-sm" ng-change="vm.gridbtnOnChange(vm.gridOnOff)"></toggle>
+        </div>
       </div>
     </div>
 

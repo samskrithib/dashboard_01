@@ -148,7 +148,7 @@
         // $log.debug('tezxt')
       },
       setGridOnOff: function(value){
-        if(value == 'On'){
+        if(value == true){
           d3.selectAll('.c3-grid line')
             .style('visibility', 'visible')
         }else{

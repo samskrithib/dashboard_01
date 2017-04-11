@@ -217,7 +217,7 @@
 
     })
 
-    vm.gridOnOff = 'On';
+    vm.gridOnOff = true;
     vm.gridbtnOnChange = function (btn) {
       speedDistanceChartFactory.setGridOnOff(btn)
     }
