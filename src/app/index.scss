@@ -1,15 +1,15 @@
-// @import "bower_components/bootswatch/cosmo/_variables.scss";
-// $brand-primary:         #2780E3 !default;
-// $brand-success:         #3FB618 !default;
-// $brand-info:            #9954BB !default;
-// $brand-warning:         #FF7518 !default;
-// $brand-danger:          #FF0039 !default;
+// @import "bower_components/bootswatch/paper/_variables.scss";
+
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// @import "bower_components/bootswatch/cosmo/_bootswatch.scss";
+// @import "bower_components/bootswatch/paper/_bootswatch.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+// body{
+//   background-color: #fff !important;
+// }
 
 #page-wrapper{
+  // background-color: $brand-primary !important;
   .row{
     margin-left: 0px;
 
@@ -28,8 +28,8 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   }
   
 }
-.btn-default.btn-on-1.active{background-color: #006FFC;color: white;}
-.btn-default.btn-off-1.active{background-color: #DA4F49;color: white;}
+.btn-default.btn-on-1.active{background-color: $brand-primary;color: white;}
+.btn-default.btn-off-1.active{background-color: $brand-success;color: white;}
 .help-block{
   font-size: 0.8em;
   color: darkred;
