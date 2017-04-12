@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation" >
       <div class="navbar-header">
-      <button type="button" ng-click="isCollapsed = !isCollapsed" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
+      <button type="button" ng-click="vm.isCollapsed = !vm.isCollapsed" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -12,7 +12,7 @@
     <!-- /.navbar-header -->
 
     <!-- <div uib-collapse="isCollapsed" class="collapse navbar-collapse" id="bs-example-navbar-collapse-6"> -->
-       <ul class="nav navbar-nav navbar-collapse"  uib-collapse="isCollapsed">
+       <ul class="nav navbar-nav navbar-collapse"  uib-collapse="vm.isCollapsed">
            <li><a>DRIVE - Driver Login  </a> </li>  
            <li><a> Driver Name:  Mark W, Last Logged in : March 23 2017</a></li>
       </ul>
@@ -34,7 +34,7 @@
     <!-- </div> -->
 
     <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse" uib-collapse="isCollapsed" >
+                <div class="sidebar-nav navbar-collapse" uib-collapse="vm.isCollapsed" >
                     <ul class="nav" id="side-menu">
                          <li>
                             <a ui-sref="view"><!--<i class="fa fa-dashboard fa-fw"></i> --> View Runs</a>

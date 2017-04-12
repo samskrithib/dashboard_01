@@ -10,9 +10,6 @@
     var vm = this;
     var _selectedFrom,_selectedTo,_selectedTime;
     vm.opened = false;
-    /* in navbar*/
-    $scope.isCollapsed = true;
-    $log.info($scope.isCollapsed)
     vm.state = "LOADING" ;
     vm.statusmessage = "Loading..." ;
     vm.dpOpenStatus = {};

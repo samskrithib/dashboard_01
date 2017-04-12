@@ -4,7 +4,7 @@
   'use strict';
   angular
     .module('dassimFrontendV03')
-    .factory('UtilityService', function UtilityService($log) {
+    .factory('UtilityService', function UtilityService($log, typeaheadService) {
       var tabsList = [];
       var checkedItems;
 
@@ -54,11 +54,22 @@
         },
 
         _findStringinArray: function (string, searcharr) {
-          return jQuery.inArray(true, jQuery.map(searcharr, function(s) {
+          return jQuery.inArray(true, jQuery.map(searcharr, function (s) {
             return s.indexOf(string) > -1;
-        }))
+          }))
 
+        },
+
+        searchBySmartOrder: function (obj) {
+          var queryObj = typeaheadService.getQueryObject(),
+            key = Object.keys(queryObj)[0],
+            query = queryObj[key];
+          if (obj[key].toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            return ('a' + obj[key]);
+          }
+          return ('b' + obj[key]);
         }
+
       }
     });
 })();

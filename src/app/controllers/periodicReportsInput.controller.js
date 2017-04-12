@@ -52,7 +52,6 @@
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }
-    vm.isCollapsed = false;
     vm.state = "LOADING" ;
     vm.statusmessage = "Loading..." ;
     
