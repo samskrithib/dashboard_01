@@ -287,22 +287,22 @@
             "serviceCode": "21793000",
             "unitNumber": "156451",
             "acheivableArrivalLatenessInSeconds": 310,
-            "actualArrivalEarlinessInSeconds": 480,
-            "actualArrivalLatenessInSeconds": 0,
+            "actualArrivalEarlinessInSeconds": -480,
+            "actualArrivalLatenessInSeconds": 50,
             "latenessSummaries": [
                 {
                     "latenessSummary": {
-                        "acheivableArrivalLatenessInSeconds": 10,
-                        "actualArrivalEarlinessInSeconds": 20,
-                        "actualArrivalLatenessInSeconds": 0
+                        "acheivableArrivalLatenessInSeconds": 30,
+                        "actualArrivalEarlinessInSeconds": -20,
+                        "actualArrivalLatenessInSeconds": 10
                     },
                     "link": "A-B"
                 },
                 {
                     "latenessSummary": {
                         "acheivableArrivalLatenessInSeconds": 10,
-                        "actualArrivalEarlinessInSeconds": 20,
-                        "actualArrivalLatenessInSeconds": 0
+                        "actualArrivalEarlinessInSeconds": -40,
+                        "actualArrivalLatenessInSeconds": 30
                     },
                     "link": "B-C"
                 }
@@ -316,23 +316,23 @@
             "scheduledDepartureTimeAtOrigin": 1490865840000,
             "serviceCode": "21793000",
             "unitNumber": "156451",
-            "acheivableArrivalLatenessInSeconds": 310,
-            "actualArrivalEarlinessInSeconds": 480,
-            "actualArrivalLatenessInSeconds": 0,
+            "acheivableArrivalLatenessInSeconds": 130,
+            "actualArrivalEarlinessInSeconds": -490,
+            "actualArrivalLatenessInSeconds": 80,
             "latenessSummaries": [
                 {
                     "latenessSummary": {
-                        "acheivableArrivalLatenessInSeconds": 10,
-                        "actualArrivalEarlinessInSeconds": 20,
-                        "actualArrivalLatenessInSeconds": 0
+                        "acheivableArrivalLatenessInSeconds": 80,
+                        "actualArrivalEarlinessInSeconds": 0,
+                        "actualArrivalLatenessInSeconds": 50
                     },
                     "link": "A-B"
                 },
                 {
                     "latenessSummary": {
-                        "acheivableArrivalLatenessInSeconds": 10,
-                        "actualArrivalEarlinessInSeconds": 20,
-                        "actualArrivalLatenessInSeconds": 0
+                        "acheivableArrivalLatenessInSeconds": 60,
+                        "actualArrivalEarlinessInSeconds": 0,
+                        "actualArrivalLatenessInSeconds": 70
                     },
                     "link": "B-C"
                 }
