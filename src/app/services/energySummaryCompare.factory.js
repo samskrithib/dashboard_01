@@ -5,122 +5,130 @@
     angular
         .module('dassimFrontendV03')
         .factory('energySummaryCompareFactory', energySummaryCompareFactory);
-    function energySummaryCompareFactory($log, $window, $filter) {
+    function energySummaryCompareFactory($log, $window, $filter, energySummaryBarColors, DRIVE_COLORS) {
         var actualEnergyTotal, optimalEnergyTotal, onTimeOptimalEnergyTotal, targetEnergyTotal;
-        var energySummaryLinks = [];
+        var energySummaryValues = [];
         var EnergySummaryChart;
-        var blue = '#7cb5ec',
-            orange = '#FF7F0E';
+        var energySummaryDataAllRuns_array = [];
+        var eachRunallLinks;
         return {
-            getEnergySummaryData: function (data) {
-                return _.pluck(data, 'energySummary');
+            getEnergySummaryData: function (energySummaries) {
+                energySummaryDataAllRuns_array = [];
+                _.each(energySummaries, function (val, key) {
+                    eachRunallLinks = _.pluck(energySummaries[key].energySummaryLinks, 'energySummary');
+                    energySummaryDataAllRuns_array.push(eachRunallLinks)
+                })
+                // $log.debug(energySummaryDataAllRuns_array);
+                return energySummaryDataAllRuns_array;
             },
             // Data to generate Total or Sum of selected links Energy sumamry report
-            getEnergySummarySumofLinks: function (bar) {
-                // _.reduce sums up all the values and adds to memo
-                actualEnergyTotal = $filter('number')(_.reduce(bar, function (memo, num) { return memo + num.actualEnergyConsumption; }, 0), 2);
-                optimalEnergyTotal = $filter('number')(_.reduce(bar, function (memo, num) { return memo + num.optimalEnergyConsumption; }, 0), 2);
-                onTimeOptimalEnergyTotal = $filter('number')(_.reduce(bar, function (memo, num) { return memo + num.onTimeOptimalEnergyConsumption; }, 0), 2);
-                targetEnergyTotal = $filter('number')(_.reduce(bar, function (memo, num) { return memo + num.targetEnergyConsumption; }, 0), 2);
-                energySummaryLinks = [actualEnergyTotal, optimalEnergyTotal, onTimeOptimalEnergyTotal, targetEnergyTotal];
-                return energySummaryLinks;
+            getEnergySummarySumofLinks: function (energySummaryDataAllRuns_array) {
+                var SumOfLinksEnergySummaryDataAllRuns_array = [];
+                _.each(energySummaryDataAllRuns_array, function (val, key) {
+                    // _.reduce sums up all the values and adds to memo
+                    actualEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) { return memo + num.actualEnergyConsumption; }, 0), 2);
+                    optimalEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) { return memo + num.optimalEnergyConsumption; }, 0), 2);
+                    onTimeOptimalEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) { return memo + num.onTimeOptimalEnergyConsumption; }, 0), 2);
+                    targetEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) { return memo + num.targetEnergyConsumption; }, 0), 2);
+                    //    $log.debug(energySummaryDataAllRuns_array[key])
+                    energySummaryValues = {
+                        'name': 'Run_' + (key + 1),
+                        'actualEnergyConsumption': actualEnergyTotal,
+                        'optimalEnergyConsumption': optimalEnergyTotal,
+                        'onTimeOptimalEnergyConsumption': onTimeOptimalEnergyTotal,
+                        'targetEnergyConsumption': targetEnergyTotal
+                    };
+                    SumOfLinksEnergySummaryDataAllRuns_array.push(energySummaryValues)
+                })
+                return SumOfLinksEnergySummaryDataAllRuns_array;
             },
             /// Data for view specific links in Energy summary report
-            getEnergySummarylinksData: function (data, links) {
-                var arr = [];
-                var indexes = [];
-                var foo = _.pluck(data, 'link');
-                _.each(links, function (val, key) {
-                    indexes.push(_.indexOf(foo, links[key]));
-                });
-                // $log.debug(indexes);
-                _.each(indexes, function (val, key) {
-                    arr.push(data[indexes[key]].energySummary);
-                });
-                // $log.debug(arr);
-                return arr;
+            getenergySummaryLinksData: function (data, links) {
+                var energySummaryLinksData_array = [];
+                var graphIndicators_array=[];
+                _.each(data, function (val, key) {
+                    var arr = [];
+                    var GI = [];
+                    var energySummaryAdvice_array = [];
+                    var indexes = [];
+                    var foo = _.pluck(data[key].energySummaryLinks, 'link');
+                    _.each(links, function (val, key1) {
+                        indexes.push(_.indexOf(foo, links[key1]));
+                    });
+                    // $log.debug(indexes);
+                    _.each(indexes, function (val, key2) {
+                        arr.push(data[key].energySummaryLinks[indexes[key2]].energySummary);
+                    });
+                    //get graphIndicators 
+                    _.each(arr, function(val, key3){
+                        GI.push(arr[key3].energySummaryAdvice.graphIndicator)
+                    })
+                     graphIndicators_array.push(GI)
+                    energySummaryLinksData_array.push(arr)
+                })
+                    
+                return {
+                    energySummaryLinksData_array : energySummaryLinksData_array,
+                    graphIndicators_array: graphIndicators_array
+                }
             },
 
             getEnergySummaryGraphLinks: function (data) {
                 return (_.pluck(data, 'link'));
             },
 
+            getEnergySummaryGraphIndicators: function (energySummaries) {
+
+            },
+
             //------------------------------Graph Labels --------------------------------------------------//
             getEnergySummaryGraphLabels: function () {
                 var graphLabelsAndTitles = {
-                    "xAxisLabels": [
-                        "Actual Driving & Actual Time",
-                        "Eco Driving & Actual Time",
-                        "Eco Driving & On Time Running"
-                    ],
+                    "xAxisLabels": {
+                        actualEnergyConsumption: "Actual Driving & Actual Time",
+                        optimalEnergyConsumption: "Eco Driving & Actual Time",
+                        onTimeOptimalEnergyConsumption: "Eco Driving & On-Time Running"
+                    },
                     "yAxisLabel": "Fuel (litres)",
                     "graphTitle": "Actual vs Achievable Fuel Consumption",
                     "seriesLabels": null
                 }
                 return graphLabelsAndTitles;
             },
-            getGraphLabelsPeriodic: function () {
-                var graphLabelsAndTitles = {
-                    "xAxisLabels": [
-                        "Actual Driving & Actual Time",
-                        "Eco Driving & Actual Time",
-                        "Eco Driving & On Time Running"
-                    ],
-                    "yAxisLabel": "Fuel (litres)",
-                    "graphTitle": "Actual vs Achievable Fuel Consumption (Total)",
-                    "seriesLabels": null
-                }
-                return graphLabelsAndTitles;
-            },
+
             //------------------------------Generate c3 chart----------------------------------------------//
-            getEnergySummaryChart: function (energySummary, graphLabels) {
+            getEnergySummaryChart: function (energySummary, graphLabels, graphIndicator) {
                 EnergySummaryChart = c3.generate({
                     bindto: '#chart0',
                     size: {
                         height: 350
                     },
                     data: {
-                        columns: [
-                            ['data1', energySummary[0], energySummary[1], energySummary[2]],
-                            ['data2', energySummary[1], energySummary[2], energySummary[0]]
-                        ],
-                        type: 'bar',
-                        groups: [
-                            ['data1', 'data2']
-                        ],
-                        labels: {
-                            format: function (v) {
-                                var screenWidth = $window.innerWidth;
-                                if (screenWidth < 786) {
-                                    if (v == 0) {
-                                        return v;
-                                    } else return "";
-                                } else if (screenWidth >= 786) {
-                                    return v;
-                                }
-                            }
+                        json: energySummary,
+                        keys: {
+                            x: 'name',
+                            value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
                         },
-                        // colors: {
-                        //     'data1': function (d) { return d.value <= energySummary[3] ? blue : orange }
-                        // }
+                        type: 'bar',
+                        names: graphLabels.xAxisLabels,
+                        labels: true,
+                        
+                        colors: energySummaryBarColors.barColors_JsonInput(graphIndicator)
                     },
                     title: {
                         text: graphLabels.graphTitle
                     },
-                    // color: {
-                    //     pattern: [orange, blue]
-                    // },
+
                     legend: {
                         show: true
                     },
                     axis: {
                         x: {
                             type: 'category',
-                            categories: graphLabels.xAxisLabels,
+                            // categories: graphLabels.xAxisLabels,
                             height: 50
                         },
                         y: {
-                            //min: 0,
                             label: {
                                 text: graphLabels.yAxisLabel,
                                 position: 'outer-middle'
@@ -134,33 +142,25 @@
                         width: {
                             ratio: 0.3 // this makes bar width 30% of length between ticks
                         }
-                    },
-                    grid: {
-                        lines: {
-                            front: false
-                        },
-                        y: {
-                            lines: [
-                                { value: energySummary[3], text: 'Energy Target ' + energySummary[3], position: 'end' }
-                            ]
-                        }
                     }
+
                 });
             },
 
-            setEnergySummaryChart: function (dataColumns) {
+
+            setEnergySummaryChart: function (dataColumns, graphIndicator) {
                 EnergySummaryChart.load({
-                    columns: [
-                        ['data1', dataColumns[0], dataColumns[1], dataColumns[2]],
-                        ['data2', dataColumns[2], dataColumns[1], dataColumns[0]]
-                    ],
+                    json: dataColumns,
+                    keys: {
+                        value: ['actualEnergyConsumption', 'onTimeOptimalEnergyConsumption', 'optimalEnergyConsumption']
+                    },
+                    colors: energySummaryBarColors.barColors_JsonInput(graphIndicator)
                     
                 });
-                EnergySummaryChart.ygrids([{ value: dataColumns[3], text: 'Energy Target ' + dataColumns[3], position: 'end' }]);
             },
 
 
-            
+
         }
     }
 })();

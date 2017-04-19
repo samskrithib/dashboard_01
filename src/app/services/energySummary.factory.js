@@ -4,56 +4,68 @@
   'use strict';
   angular
     .module('dassimFrontendV03')
-    .factory('energySummaryFactory', energySummaryFactory);
-  function energySummaryFactory($log, $window, $filter) {
-    var actualEnergyTotal, optimalEnergyTotal, onTimeOptimalEnergyTotal, targetEnergyTotal;
-    var energySummaryLinks = [];
-    var EnergySummaryChart;
-    var blue = '#7cb5ec',
-      blue_dark = '#1f77b4',
-      red = '#d62728',
-      orange = '#FF7F0E',
-      green = '#2ca02c',
-      green_light = '#98df8a';
-
-    function barColors(graphIndicator) {
-      return {
-        'Fuel': function (d) {
-          switch (d.x) {
-            case 0: {
-              if (graphIndicator === 'GOODDRIVING') {
-                return green;
-              } else if (graphIndicator === 'AVERAGEDRIVING') {
-                return orange;
-              } else if (graphIndicator === 'POORDRIVING') {
-                return red;
-              } else {
-                return blue_dark;
+    .factory('energySummaryFactory', energySummaryFactory)
+    .factory('energySummaryBarColors', energySummaryBarColors)
+  function energySummaryBarColors(DRIVE_COLORS, $log) {
+    return {
+      barColors_JsonInput: function (graphIndicator) {
+        return {
+          'actualEnergyConsumption': function(color,d) {
+             return DRIVE_COLORS.blue_dark;
+          },
+          'optimalEnergyConsumption': function(d){
+            return DRIVE_COLORS.green
+          },
+          'onTimeOptimalEnergyConsumption': function(d){
+            return DRIVE_COLORS.green_light
+          }
+        }
+      },
+      barColors: function (graphIndicator) {
+        return {
+          'Fuel': function (d) {
+            // $log.debug(d)
+            switch (d.x) {
+              case 0: {
+                if (graphIndicator === 'GOODDRIVING') {
+                  return DRIVE_COLORS.green;
+                } else if (graphIndicator === 'AVERAGEDRIVING') {
+                  return DRIVE_COLORS.orange;
+                } else if (graphIndicator === 'POORDRIVING') {
+                  return DRIVE_COLORS.red;
+                } else {
+                  return DRIVE_COLORS.blue_dark;
+                }
+                break;
               }
-              break;
-            }
-            case 1: {
-              return green;
-              break;
-            }
-            case 2: {
-              return green_light;
-              // return d3.rgb(green).darker(d.value / 150);
-              break;
-            }
-            default: {
-              return green;
-              break;
+              case 1: {
+                return DRIVE_COLORS.green;
+                break;
+              }
+              case 2: {
+                return DRIVE_COLORS.green_light;
+                // return d3.rgb(green).darker(d.value / 150);
+                break;
+              }
+              default: {
+                return DRIVE_COLORS.green;
+                break;
+              }
             }
           }
         }
       }
     }
+  }
+  function energySummaryFactory($log, $window, $filter, energySummaryBarColors) {
+    var actualEnergyTotal, optimalEnergyTotal, onTimeOptimalEnergyTotal, targetEnergyTotal;
+    var energySummaryLinks = [];
+    var EnergySummaryChart;
     return {
       getEnergySummaryData: function (data) {
         return _.pluck(data, 'energySummary');
       },
-      // Data to generate Total or Sum of selected links Energy sumamry report
+      // Data to generate Total or Sum of selected links Energy summary report
       getEnergySummarySumofLinks: function (bar) {
         // _.reduce sums up all the values and adds to memo
         actualEnergyTotal = $filter('number')(_.reduce(bar, function (memo, num) { return memo + num.actualEnergyConsumption; }, 0), 2);
@@ -123,14 +135,12 @@
             ],
             type: 'bar',
             labels: true,
-            colors: barColors(graphIndicator)
+            colors: energySummaryBarColors.barColors(graphIndicator)
           },
           title: {
             text: graphLabels.graphTitle
           },
-          color: {
-            pattern: [orange]
-          },
+
           legend: {
             show: false,
             position: 'inset',
@@ -210,7 +220,7 @@
           columns: [
             ['Fuel', dataColumns[0], dataColumns[1], dataColumns[2]]
           ],
-          colors: barColors(graphIndicator)
+          colors: energySummaryBarColors.barColors(graphIndicator)
         });
         EnergySummaryChart.ygrids([{ value: dataColumns[3], text: 'Energy Target ' + dataColumns[3], position: 'end' }]);
       },

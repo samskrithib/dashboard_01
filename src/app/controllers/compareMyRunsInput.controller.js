@@ -15,9 +15,11 @@
     vm.statusmessage = "Loading...";
     vm.datePickerPopup = {};
     vm.compareRunsFormdata = [];
+    vm.formData = [];
     vm.open = function () {
       vm.datePickerPopup.opened = true
     };
+    vm.runslength = 3;
     vm.dateOptions = {
       // dateDisabled: disabled, check https://angular-ui.github.io/bootstrap/#!#datepickerPopup
       formatYear: 'yy',
@@ -27,7 +29,9 @@
     };
 
     vm.getStations = function () {
-      httpCallsService.getByUrl('locationnamesandtiplocs').then(function (data) {
+      httpCallsService.getByUrl('locationnamesandtiplocs')
+      // httpCallsService.getByJson('assets/locationandTiplocs.json')
+      .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
           vm.statusmessage = "No results";
@@ -67,8 +71,8 @@
           vm.timePlaceholder = "Loading.."
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
-          // UrlGenerator.get("assets/times.json")
           httpCallsService.getByUrl(vm.url)
+          // httpCallsService.getByJson("assets/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -116,7 +120,6 @@
         vm.time = _selectedTime;
       } else {
         return _selectedTime;
-        // $log.debug("time  :" + _selectedTime)
       }
     }
     vm.modelOptions = {
@@ -132,10 +135,9 @@
       { name: 'On-Time Running', id: '1' },
       { name: 'Speed Distance', id: '2' }];
     vm.checkedItems = ["0", "1", "2"];
-    vm.compareRunsFormdata.selectedItems = [];
+    vm.formData.selectedItems = [];
     vm.someSelected = function (object) {
       return Object.keys(object).some(function (key) {
-        //$log.debug(object[key])
         return object[key];
       });
     };
@@ -145,19 +147,15 @@
     UtilityService.addTab('On-Time Running', '1')
     UtilityService.addTab('Speed Distance', '2')
     vm.toggleCheck = function (id, name) {
-      if (vm.compareRunsFormdata.selectedItems[name] == false) {
+      if (vm.formData.selectedItems[name] == false) {
         vm.checkedItems.splice(vm.checkedItems.indexOf(id), 1);
         UtilityService.removeTab(name);
-        // $log.debug(vm.checkedItems)
-      } else if (vm.compareRunsFormdata.selectedItems[name] == true) {
+      } else if (vm.formData.selectedItems[name] == true) {
         vm.checkedItems.push(id);
         UtilityService.addTab(name, id);
-        // $log.debug(vm.checkedItems)
-        // $log.debug(UrlGenerator.getTab())
-      } else if (vm.compareRunsFormdata.selectedItems[name] === undefined) {
+      } else if (vm.formData.selectedItems[name] === undefined) {
         UtilityService.clearTab();
         vm.checkedItems = []
-        // $log.debug(vm.checkedItems)
       }
     };
 
@@ -170,7 +168,6 @@
     };
 
     vm.reset = function (form) {
-      // vm.compareRunsFormdata = angular.copy(master)
       _selectedTo = ''
       _selectedFrom = ''
       vm.times = []
@@ -188,7 +185,7 @@
 
     vm.allRuns = [];
 
-    vm.addRow = function (form) {
+    vm.addRun = function (form) {
       if (form) {
         vm.allRuns.push({
           'date': vm.compareRunsFormdata.date,
@@ -205,7 +202,7 @@
         //  vm.times = undefined;
         form.$setUntouched();
         form.$setPristine();
-        $log.info(vm.allRuns)
+        // $log.info(vm.allRuns)
       }
 
     };
