@@ -32,6 +32,7 @@
             .then(function (data) {
               vm.error = false;
               vm.response0 = data;
+              $log.debug(vm.response0)
               vm.graphIndicator = vm.response0.energySummaryAdvice.graphIndicator;
               vm.energySummaryAdvice = vm.response0.energySummaryAdvice.energySummaryAdvice;
               // $log.debug(vm.graphIndicator);

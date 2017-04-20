@@ -5,88 +5,68 @@
     angular
         .module('dassimFrontendV03')
         .factory('testFactory', testFactory);
-    function testFactory($log, UtilityService) {
-        var speedDistanceChart;
+    function testFactory($log, UtilityService, DRIVE_COLORS) {
+        var lateness_EnergyChart;
+        var latenessChart;
         return {
 
-            getTestTrainGraph: function (data) {
-                speedDistanceChart = c3.generate({
-                    bindto: '#chart',
+            getTestChart: function (data) {
+                lateness_EnergyChart = c3.generate({
+                    bindto: '#chart1',
                     size: {
                         height: 400
                     },
                     data: {
-                        json: data[1].actualSpeedAndPositionList,
+
+                        json: data,
                         keys: {
-                            x: 'position',
-                            value: ['speed']
+                            x: 'category',
+                            value: ['total.acheivableArrivalLatenessInSeconds', 'total.actualArrivalEarlinessInSeconds', 'total.actualArrivalLatenessInSeconds',
+                                'total.actualEnergyConsumption', 'total.onTimeOptimalEnergyConsumption', 'total.optimalEnergyConsumption']
                         },
                         xSort: false,
-                        names: {
-                            'speed.actualDrving': 'Actual Driving'
+                        type: 'bar',
+                        axes: {
+                            'total.actualEnergyConsumption': 'y2',
+                            'total.onTimeOptimalEnergyConsumption': 'y2',
+                            'total.optimalEnergyConsumption': 'y2'
                         },
+                        colors: {
+                            'total.actualArrivalLatenessInSeconds': DRIVE_COLORS.orange,
+                            'total.actualArrivalEarlinessInSeconds': DRIVE_COLORS.red,
+                            'total.acheivableArrivalLatenessInSeconds': DRIVE_COLORS.green,
+                            'total.onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light,
+                            'total.optimalEnergyConsumption': DRIVE_COLORS.green,
+                            'total.actualEnergyConsumption': DRIVE_COLORS.red,
+                        }
 
+                    },
+                    legend: {
+                        
                     },
                     axis: {
                         x: {
-                            tick: {
-                                centered: true,
-                                fit: false,
-                                culling: {
-                                    max: 5
-                                }
-                            }
+                            type: 'category',
+
                         },
                         y2: {
                             show: true
                         }
+                    },
+                    grid: {
+                        y2: {
+                            // show: true,
+                            lines:[
+                                {value: 'total.targetEnergyConsumption', text: 'Energy target'}
+                            ]
+                        },
+
                     }
 
                 })
             },
 
-            LoadTrainGraphData: function (data) {
-                speedDistanceChart.load({
-                    json: data[0].speedRestrictionList,
-                    keys: {
-                        x: 'beginPoint',
-                        value: ['speedRestrictionValue']
-                    },
-                    type: 'step'
-                })
-                speedDistanceChart.load({
-                    json: data[1].flatoutSpeedAndPositionList,
-                    keys: {
-                        x: 'position',
-                        value: ['speed']
-                    },
-                    names: {
-                        'speed.flatoutDriving': 'flatout'
-                    }
-                })
-                speedDistanceChart.load({
-                    json: data[0].optimalSpeedAndPositionList,
-                    keys: {
-                        x: 'position',
-                        value: ['speed.optimalDriving']
-                    },
-                    names: {
-                        'speed.optimalDriving': 'optimalDriving'
-                    }
-                })
 
-                speedDistanceChart.load({
-                    json: data[0].scaledElevationList,
-                    keys: {
-                        x: 'position',
-                        value: ['scaledElevation']
-                    },
-                    axes: {
-                        'scaledElevation': 'y2'
-                    }
-                })
-
-            }
         }
     }
 })();
