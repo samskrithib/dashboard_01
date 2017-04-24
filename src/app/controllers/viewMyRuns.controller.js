@@ -11,104 +11,53 @@
     })
     .controller('ViewMyRunsController', ViewMyRunsController);
 
-  function ViewMyRunsController(UrlGenerator, httpCallsService, speedDistanceChartFactory,
+  function ViewMyRunsController(UrlGenerator, httpCallsService, unitPerformanceScoreFactory, speedDistanceChartFactory,
     $scope, $log, speedDistanceDataFactory, energySummaryFactory, onTimeRunningFactory, UtilityService) {
     var vm = this;
-    var index;
     vm.tabs = [];
-    vm.key = false, vm.error0 = false;
-    vm.error1 = false; vm.error2 = false;
-    var energySummaryGraphLabels, energySummaryData, energySummaryFunc, selectedLink;
-    var driverAdvice;
+    vm.key = true;
+
     vm.speedDistanceLinks = {};
-    vm.chartSubtitle = UrlGenerator.getData().subtitle;
+    UtilityService.addTab('Unit performance', '0')
+    UtilityService.addTab('Energy & Lateness Summary', '1')
+    UtilityService.addTab('Speed Distance', '2')
     vm.tabs = UtilityService.getTab();
-    _.each(vm.tabs, function (val, key) {
-      switch (vm.tabs[key].id) {
-        case "0": {
-          var energyUrl = UrlGenerator.getData().energyUrl;
-          $log.debug(energyUrl);
-          vm.promise = httpCallsService.getByUrl(energyUrl)
-            .then(function (data) {
-              vm.error = false;
-              vm.response0 = data;
-              $log.debug(vm.response0)
-              vm.graphIndicator = vm.response0.energySummaryAdvice.graphIndicator;
-              vm.energySummaryAdvice = vm.response0.energySummaryAdvice.energySummaryAdvice;
-              // $log.debug(vm.graphIndicator);
-              energySummaryData = energySummaryFactory.getEnergySummaryData(vm.response0.energySummaryLink)
-              energySummaryFunc = energySummaryFactory.getEnergySummarySumofLinks(energySummaryData);
-              energySummaryGraphLabels = energySummaryFactory.getEnergySummaryGraphLabels();
-              energySummaryFactory.getEnergySummaryChart(energySummaryFunc, energySummaryGraphLabels, vm.graphIndicator);
-              vm.graphLinks = energySummaryFactory.getEnergySummaryGraphLinks(vm.response0.energySummaryLink);
-              // $log.debug(vm.graphLinks);
+    var viewRunsUrl = UrlGenerator.generateReportsUrl();
 
-            }).catch(function (response) {
-              vm.error0 = true;
-              vm.energySummaryErrorMessage = response.data + response.status + "<h1> Energy Summary Report error </h1>";
-            });
-          break;
-        }
-        case "1": {
-          var onTimeUrl = UrlGenerator.getData().onTimeUrl;
-          vm.promise = httpCallsService.getByUrl(onTimeUrl)
-            .then(function (data) {
-              vm.error1 = false;
-              vm.response1 = data;
-              vm.dataFunc = onTimeRunningFactory.getOnTimeData(vm.response1);
-              vm.onTimeGraphLabels = onTimeRunningFactory.getonTimeGraphLabels(vm.response1);
-              //$log.debug(vm.dataFunc);
-              onTimeRunningFactory.getOnTimeChart(vm.dataFunc, vm.onTimeGraphLabels);
-            }).catch(function (response) {
-              vm.error1 = true;
-              vm.onTimeErrorMessage = response.data + "<h1> OnTime Chart error </h1>";
-            });
-          break;
-        }
-        case "2": {
-          var speedDistanceUrl = UrlGenerator.getData().speedDistanceUrl;
-          $log.debug(speedDistanceUrl);
-          vm.promise = httpCallsService.getByUrl(speedDistanceUrl)
-            .then(function (data) {
-              vm.error2 = false;
-              vm.speedDistanceresponse = data;
 
-              speedDistanceData_All(vm.speedDistanceresponse);
-              vm.speedDistanceData_Kph = speedDistanceDataFactory.getSpeedDistanceData_Kph();
-              vm.routeLinks = vm.speedDistanceData_Kph.links;
-              vm.speedDistanceLinks.selected = vm.routeLinks[0];
-              index = _.indexOf(vm.routeLinks, vm.speedDistanceLinks.selected)
-              driverAdvice = speedDistanceDataFactory.getDriverAdvice(vm.speedDistanceresponse)
-              vm.runtimeDescription = driverAdvice[0].runtimeDescription
-              vm.earlyDepartureAdvice = driverAdvice[0].earlyDepartureAdvice
-              vm.earlyArrivalAdvice = driverAdvice[0].earlyArrivalAdvice
-              vm.timeSavingAdvice = driverAdvice[0].timeSavingAdvice
-              vm.timeSavedAdvice = driverAdvice[0].timeSavedAdvice
-              vm.energyAdvice = driverAdvice[0].energyAdvice
-              vm.goodDrivingAdvice = driverAdvice[0].goodDrivingAdvice
-              vm.spareTimeAdvice = driverAdvice[0].spareTimeAdvice
-              vm.speedingAdvice = driverAdvice[0].speedingAdvice
+    vm.promise = httpCallsService.getByJson(viewRunsUrl)
+      .then(function (response) {
+        vm.response = response;
+        vm.trainIdentifiers = _.pluck(vm.response, 'trainIdentifier')
 
-              vm.speedDistanceData_Mph = speedDistanceDataFactory.getSpeedDistanceData_Mph();
-              vm.SpeedDistanceGraphLabels = speedDistanceDataFactory.getSpeedDistanceGraphLabels();
-              speedDistanceChartFactory.getSpeedDistanceChart(vm.speedDistanceData_Kph, vm.SpeedDistanceGraphLabels);
-              speedDistanceChartFactory.setSDMarker(50);
-            }).catch(function (response) {
-              vm.error2 = true;
-              vm.speedDistanceErrorMessage = response.data + "<h1> sd Chart error </h1>";
-              // var myEl = angular.element( document.querySelector( '#chart2') );
-              // myEl.text('An error has occurred.\n HTTP error: '+ response.data + ' status: '+response.status + '(' + response.statusText + ')')
-              // vm.errormessage= "An error has occurred.\n HTTP error: " + response.data + "</br> status: "+response.status + "(" + response.statusText + ")"
-              // $log.debug("An error has occurred.\n HTTP error: " + response.data + "</br> status: "+response.status + "(" + response.statusText + ")");
-            });
-          break;
-        }
-        default: {
-          // $log.debug("inside switch")
-        }
-      }
+        _.each(vm.tabs, function (val, key) {
+          switch (vm.tabs[key].id) {
+            case "0": {
+              vm.unitPerformanceScores = _.pluck(vm.response, 'trainUnitPerformancePerJourney');
+              vm.trainUnitPerformancePerLinks_allRuns = _.pluck(vm.unitPerformanceScores, 'trainUnitPerformancePerLink')
+              vm.stationToStationLinks = _.pluck(vm.unitPerformanceScores[0].trainUnitPerformancePerLink, 'link')
+              // $log.debug(vm.trainUnitPerformancePerLinks_allRuns)
+              vm.unitPerformanceScoreChartLabels = unitPerformanceScoreFactory.getUnitPerformanceScoreChartLabels();
+              vm.chartIndicators = _.pluck(vm.unitPerformanceScores, 'performanceIndicator')
+              // $log.debug(vm.chartIndicators)
+              unitPerformanceScoreFactory.getUnitPerformanceScoreChart(vm.unitPerformanceScores, vm.chartIndicators, vm.unitPerformanceScoreChartLabels)
+              break;
+            }
+            case "1":{
+              vm.energySummaries = _.pluck(vm.response, 'energySummaryReportPerJourney');
+              $log.debug(vm.energySummaries)
 
-    });
+            }
+
+            default: {
+            }
+          }
+
+        })
+      }).catch(function (error) {
+
+      })
+
 
     function speedDistanceData_All(data) {
       speedDistanceDataFactory.getSpeedDistanceLinks(data);
@@ -122,19 +71,9 @@
 
 
 
-    vm.getInclude = function (x) {
-      if (x == 0) {
-        return 'views/EnergySummaryChart.tmpl.html'
-      } if (x == 1) {
-        return 'views/OnTimeRunningChart.tmpl.html'
-      } if (x == 2) {
-        return 'views/SpeedDistanceChart.tmpl.html'
-      } else return ''
-
-    };
 
 
-    vm.checkedItems = UtilityService.getCheckedItems();
+
 
     vm.checkboxModel = function (key) {
       if (!$scope[key]) {
@@ -145,28 +84,24 @@
       //do nothing
     };
     vm.links = {};
-    vm.energySummaryLinksOnselect = function () {
-      var dataColumns;
-      if (vm.key) {
-        UtilityService.addCheckedItems(vm.links.selected);
-        vm.newenergySummaryData = energySummaryFactory.getEnergySummarylinksData(vm.response0.energySummaryLink, vm.links.selected);
-        if (vm.newenergySummaryData.length == 1) {
-          vm.linkGraphIndicator = vm.newenergySummaryData[0].energySummaryAdvice.graphIndicator;
-          vm.linkenergySummaryAdvice = vm.newenergySummaryData[0].energySummaryAdvice.energySummaryAdvice;
-        } else {
-          vm.linkGraphIndicator = '';
-          vm.linkenergySummaryAdvice = vm.response0.energySummaryAdvice.multipleLinksSelectedAdvice;;
-        }
-        vm.newEnergySummaryTotal = energySummaryFactory.getEnergySummarySumofLinks(vm.newenergySummaryData);
-        $log.debug(vm.linkGraphIndicator);
-        dataColumns = vm.newEnergySummaryTotal;
-      }else{
-        dataColumns = energySummaryFunc
-      }
+    vm.linkOnselect = function (selectedLink) {
+      var arrayOfSelectedLinksUnitPerformanceScore =[]
+      var arrayOfSelectedLinksPerformanceIndicators =[]
+      $log.debug(selectedLink)
+      //find index of links 
+      var indexOfSelectedLink = _.indexOf(vm.stationToStationLinks, selectedLink)
+      // $log.debug(indexOfSelectedLink)
+      _.each( vm.trainUnitPerformancePerLinks_allRuns, function(val, key){
+          arrayOfSelectedLinksUnitPerformanceScore.push(vm.trainUnitPerformancePerLinks_allRuns[key][indexOfSelectedLink])
+          arrayOfSelectedLinksPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][indexOfSelectedLink].performanceIndicator)
+      })
+      $log.debug(arrayOfSelectedLinksPerformanceIndicators)
 
-      energySummaryFactory.setEnergySummaryChart(dataColumns, vm.linkGraphIndicator);
+      unitPerformanceScoreFactory.setUnitPerformanceScoreChart(arrayOfSelectedLinksUnitPerformanceScore, arrayOfSelectedLinksPerformanceIndicators)
 
     };
+
+
     vm.energyTargetSwitch = true;
     vm.energyTargetSwitchOnchange = function (isOn) {
       $log.debug(isOn)

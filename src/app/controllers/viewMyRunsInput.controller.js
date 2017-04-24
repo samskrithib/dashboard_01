@@ -141,8 +141,8 @@
     vm.formData = {};
 
     vm.itemsList =[
-    { name:'Energy Summary' , id: '0'},
-    { name:'On-Time Running', id: '1'},
+    { name:'Unit performance' , id: '0'},
+    { name:'Energy & Lateness Summary', id: '1'},
     { name:'Speed Distance', id: '2'}];
     vm.checkedItems=["0", "1", "2"];
     vm.formData.selectedItems = [];
@@ -154,9 +154,7 @@
     };
     
     UtilityService.clearTab();
-    UtilityService.addTab('Speed Distance', '2')
-    UtilityService.addTab('On-Time Running', '1')
-    UtilityService.addTab('Energy Summary', '0')
+    
     vm.toggleCheck = function (id, name) {
       if(vm.formData.selectedItems[name] == false){
        vm.checkedItems.splice(vm.checkedItems.indexOf(id), 1);

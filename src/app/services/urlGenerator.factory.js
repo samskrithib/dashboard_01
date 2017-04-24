@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
-      var url, energyUrl, onTimeUrl, speedDistanceUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains;
+      var url,viewRuns, energyUrl, onTimeUrl, speedDistanceUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains;
       var modifiedData = {};
       return {
         generateTrainTimesUrl: function (a, b, c) {
@@ -13,19 +13,22 @@
           return url;
         },
 
-        generateReportsUrl: function (date, time, from, to) {
-          var formatdate = $filter('date')(date, 'dd-MMM-yyyy')
-          energyUrl = 'energysummary?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
-          onTimeUrl = 'ontimerunning?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
-          speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
-          subtitle = from.locationName + ' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
+        generateReportsUrl: function (/*date, time, from, to */) {
+          // var formatdate = $filter('date')(date, 'dd-MMM-yyyy')
+          // energyUrl = 'energysummary?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
+          // onTimeUrl = 'ontimerunning?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
+          // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
+          // subtitle = from.locationName + ' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
+          viewRuns = 'assets/driverSingleRunResponse.json';
+          return viewRuns;
         },
         getData: function () {
           return {
             energyUrl: energyUrl,
             onTimeUrl: onTimeUrl,
             speedDistanceUrl: speedDistanceUrl,
-            subtitle: subtitle
+            subtitle: subtitle,
+            viewRuns: viewRuns
           }
         },
 

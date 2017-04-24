@@ -61,6 +61,16 @@
           </div>
         </uib-tab>
       </uib-tabset>
+      <br>
+      <div class="col-lg-8 form-group">
+      <label class="sr-only" for="links"></label>
+      <div class="input-group">
+        <div class="input-group-addon">Choose Interstation Station to Station Stop:</div>
+        <select class="form-control" aria-expanded="true" name="links" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)"
+          ng-options="link as link.stations for link in vm.stationToStationLinks">
+      </select>
+      </div>
+    </div>
     </div>
   </div>
 </div>
