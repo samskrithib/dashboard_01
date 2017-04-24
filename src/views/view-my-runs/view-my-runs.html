@@ -50,6 +50,7 @@
             <!-- <div ng-show="vm.error" class="container"><h2>{{vm.errormessage}}</h2></div> -->
             <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
               <div id="chart{{tab.id}}" ng-bind="chart{{tab.id}}"></div>
+              <div id="latenessSummaryChart" ng-bind="chart1"></div>
               <div ng-show="!vm.error{{tab.id}}" ng-include="vm.getInclude(tab.id)"></div>
               <div ng-show="vm.error{{tab.id}}">
                 <div ng-if="tab.id == 0" ng-bind-html="vm.energySummaryErrorMessage"></div>
@@ -62,9 +63,16 @@
         </uib-tab>
       </uib-tabset>
       <br>
+      <div class="col-md-8">
+      <div style="padding-right: 15px; margin: 16px 0; ">
+        View results for Station to Station Stop(s):
+        <toggle ng-model="vm.key" size="btn-sm" ng-change="vm.checkboxModel(vm.key)"></toggle>
+      </div>
+
+    </div>
       <div class="col-lg-8 form-group">
       <label class="sr-only" for="links"></label>
-      <div class="input-group">
+      <div class="input-group" ng-show="vm.key">
         <div class="input-group-addon">Choose Interstation Station to Station Stop:</div>
         <select class="form-control" aria-expanded="true" name="links" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)"
           ng-options="link as link.stations for link in vm.stationToStationLinks">

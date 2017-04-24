@@ -12,7 +12,7 @@
 
   /** @ngInject */
   function PeriodicReportsController(UtilityService, $scope, $log, $filter, 
-    $http, energySummaryFactory, onTimeRunningFactory, httpCallsService) {
+    $http, energySummaryPeriodicFactory, onTimeRunningFactory, httpCallsService) {
     var vm = this;
     var energySummaryAvg, energySummaryTot, energySummarygraphLabels, nTrains, graphIndicator;
     var rollingStockSubTitle, serviceCodeSubTitle;
@@ -61,9 +61,9 @@
         $filter('number')(vm.getResponse.onTimeOptimalEnergyConsumption/nTrains, decimalPlace), 
         $filter('number')(vm.getResponse.targetEnergyConsumption/nTrains, decimalPlace)]
         // $log.debug(energySummaryAvg)
-        energySummarygraphLabels = energySummaryFactory.getGraphLabelsPeriodic();
+        energySummarygraphLabels = energySummaryPeriodicFactory.getGraphLabelsPeriodic();
         // $log.debug(vm.energySummarygraphLabels);
-        energySummaryFactory.getEnergySummaryChart(energySummaryTot, energySummarygraphLabels, vm.graphIndicator);
+        energySummaryPeriodicFactory.getEnergySummaryChart(energySummaryTot, energySummarygraphLabels, vm.graphIndicator);
       }
     }).catch(function(data){
       vm.periodicEnergySummaryError=true;
@@ -93,12 +93,12 @@
   vm.open = function() {
     vm.opened = true;
     var title = 'Actual vs Achievable Fuel Consumption (Average per Trip)'
-    energySummaryFactory.setEnergySummaryChartPeriodic(energySummaryAvg, energySummarygraphLabels, title, nTrains, vm.graphIndicator);
+    energySummaryPeriodicFactory.setEnergySummaryChartPeriodic(energySummaryAvg, energySummarygraphLabels, title, nTrains, vm.graphIndicator);
   }
   vm.close = function() {
     vm.opened = false;
     var title = 'Actual vs Achievable Fuel Consumption (Total)'
-    energySummaryFactory.setEnergySummaryChartPeriodic(energySummaryTot, energySummarygraphLabels, title, nTrains, vm.graphIndicator);
+    energySummaryPeriodicFactory.setEnergySummaryChartPeriodic(energySummaryTot, energySummarygraphLabels, title, nTrains, vm.graphIndicator);
   }
 
 

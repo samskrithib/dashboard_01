@@ -45,8 +45,11 @@
             }
             case "1":{
               vm.energySummaries = _.pluck(vm.response, 'energySummaryReportPerJourney');
+              vm.totalEnergySummaries = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
+              vm.energySummaryChartLabels = energySummaryFactory.getEnergySummaryGraphLabels();
+              energySummaryFactory.getEnergySummaryChart(vm.totalEnergySummaries, vm.energySummaryChartLabels, vm.chartIndicators)
               $log.debug(vm.energySummaries)
-
+              vm.energySummaryLinks_allRuns = _.pluck(vm.energySummaries, 'energySummaryLinks')
             }
 
             default: {
@@ -59,34 +62,21 @@
       })
 
 
-    function speedDistanceData_All(data) {
-      speedDistanceDataFactory.getSpeedDistanceLinks(data);
-      speedDistanceDataFactory.getActualSpeedDistance(data);
-      speedDistanceDataFactory.getFlatoutSpeedDistance(data);
-      speedDistanceDataFactory.getOptimalSpeedDistance(data);
-      speedDistanceDataFactory.getSpeedLimits(data)
-      speedDistanceDataFactory.getElevation(data)
-      speedDistanceDataFactory.getDriverAdvice(data)
-    };
-
-
-
-
 
 
 
     vm.checkboxModel = function (key) {
       if (!$scope[key]) {
         //do something
-        energySummaryFactory.setEnergySummaryChart(energySummaryFunc, vm.graphIndicator)
+        unitPerformanceScoreFactory.setUnitPerformanceScoreChart(vm.unitPerformanceScores, vm.chartIndicators)
         return;
       }
       //do nothing
     };
-    vm.links = {};
     vm.linkOnselect = function (selectedLink) {
       var arrayOfSelectedLinksUnitPerformanceScore =[]
       var arrayOfSelectedLinksPerformanceIndicators =[]
+      var arrayOfSelectedLinksEnergySummary =[]
       $log.debug(selectedLink)
       //find index of links 
       var indexOfSelectedLink = _.indexOf(vm.stationToStationLinks, selectedLink)
@@ -95,18 +85,17 @@
           arrayOfSelectedLinksUnitPerformanceScore.push(vm.trainUnitPerformancePerLinks_allRuns[key][indexOfSelectedLink])
           arrayOfSelectedLinksPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][indexOfSelectedLink].performanceIndicator)
       })
-      $log.debug(arrayOfSelectedLinksPerformanceIndicators)
+
+      _.each(vm.energySummaryLinks_allRuns, function(val,key){
+        arrayOfSelectedLinksEnergySummary.push(vm.energySummaryLinks_allRuns[key][indexOfSelectedLink].energySummary)
+      })
+      $log.debug(arrayOfSelectedLinksEnergySummary)
 
       unitPerformanceScoreFactory.setUnitPerformanceScoreChart(arrayOfSelectedLinksUnitPerformanceScore, arrayOfSelectedLinksPerformanceIndicators)
-
+      energySummaryFactory.setEnergySummaryChart(arrayOfSelectedLinksEnergySummary, arrayOfSelectedLinksPerformanceIndicators)
     };
 
 
-    vm.energyTargetSwitch = true;
-    vm.energyTargetSwitchOnchange = function (isOn) {
-      $log.debug(isOn)
-      energySummaryFactory.toggleEnergyTarget(isOn)
-    }
     vm.speedDistanceLinkOnselect = function (selected) {
       selectedLink = selected;
       index = _.indexOf(vm.routeLinks, selected)

@@ -5,37 +5,68 @@
     angular
         .module('dassimFrontendV03')
         .factory('unitPerformanceScoreFactory', unitPerformanceScoreFactory)
+        .factory('chartColors', chartColors)
+    function chartColors($log, DRIVE_COLORS) {
+        return {
+            unitPerformanceScoreChartColors: function (performanceIndicator) {
+                return {
+                    'percentageScore': function (d) {
+                        switch (performanceIndicator[d.x]) {
+                            case 'GOOD_DRIVING': {
+                                return DRIVE_COLORS.green;
+                                break;
+                            }
+                            case 'AVERAGE_DRIVING': {
+                                return DRIVE_COLORS.orange;
+                                break;
+                            }
+                            case 'POOR_DRIVING': {
+                                return DRIVE_COLORS.red;
+                                break;
+                            }
 
-    function unitPerformanceScoreFactory($log, $window, $filter, DRIVE_COLORS) {
-        var unitPerformanceScoreChart;
-        function barColors(performanceIndicator) {
-          return{
-            'percentageScore': function(d){
-                switch (performanceIndicator[d.x]) {
-                case 'GOOD_DRIVING': {
-                    return DRIVE_COLORS.green;
-                    break;
+                        }
+                    }
                 }
-                case 'AVERAGE_DRIVING': {
-                    return DRIVE_COLORS.orange;
-                    break;
-                }
-                case 'POOR_DRIVING': {
-                    return DRIVE_COLORS.red;
-                    break;
-                }
+            },
+            energySummaryChartColors: function (performanceIndicator) {
+                return {
+                    'actualEnergyConsumption': function (d) {
+                        $log.debug(d)
+                         switch (performanceIndicator[d.x]) {
+                            case 'GOOD_DRIVING': {
+                                return DRIVE_COLORS.green;
+                                break;
+                            }
+                            case 'AVERAGE_DRIVING': {
+                                return DRIVE_COLORS.orange;
+                                break;
+                            }
+                            case 'POOR_DRIVING': {
+                                return DRIVE_COLORS.red;
+                                break;
+                            }
 
+                        }
+                    },
+                    'optimalEnergyConsumption': function (d) {
+                        return DRIVE_COLORS.green
+                    },
+                    'onTimeOptimalEnergyConsumption': function (d) {
+                        return DRIVE_COLORS.green_light
+                    }
+                }
             }
-            }
-          }
-            
         }
+    }
+    function unitPerformanceScoreFactory($log, $window, $filter, chartColors) {
+        var unitPerformanceScoreChart;
         return {
             //------------------------------Graph Labels --------------------------------------------------//
             getUnitPerformanceScoreChartLabels: function () {
                 var chartLabelsAndTitles = {
                     "yAxisLabel": "Score",
-                    "chartTitle": "Unit Performace Score",
+                    "chartTitle": "Train Unit Performance Score",
                     "seriesLabels": null
                 }
                 return chartLabelsAndTitles;
@@ -56,13 +87,14 @@
                         xSort: false,
                         type: 'bar',
                         labels: true,
-                        colors: barColors(performanceIndicators)
+                        colors: chartColors.unitPerformanceScoreChartColors(performanceIndicators)
+                    },
+                    legend: {
+                        show: false
                     },
                     title: {
                         text: chartLabels.chartTitle
                     },
-
-
                     axis: {
 
                         y: {
@@ -81,7 +113,6 @@
                             ratio: 0.3 // this makes bar width 30% of length between ticks
                         }
                     },
-
                     grid: {
                         lines: {
                             front: true
@@ -92,22 +123,14 @@
             },
 
             setUnitPerformanceScoreChart: function (unitPerformanceScores, performanceIndicatorsArray) {
-                
                 unitPerformanceScoreChart.load({
                     json: unitPerformanceScores,
                     keys: {
                         value: ['percentageScore']
                     },
-
+                    colors: chartColors.unitPerformanceScoreChartColors(performanceIndicatorsArray)
                 })
-
-                unitPerformanceScoreChart.data.colors(barColors(performanceIndicatorsArray))
-
             }
-
-
-
-
 
         }
     }

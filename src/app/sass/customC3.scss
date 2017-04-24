@@ -50,7 +50,7 @@
 }
 #chart1{
   .c3-axis-y, .c3-chart-text, .c3-ygrid-line text{
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: bold;
     fill: $gray;
   }
@@ -58,6 +58,10 @@
     fill: $gray;
     font-size: 1.2em;
   }
+  .c3-title {
+  font-size: 1.3em;
+  font-weight: bold;
+}
   
 }
 .c3-region.regionX{
