@@ -48,7 +48,7 @@
     fill: $gray;
   }
 }
-#chart1{
+#chart1, #latenessSummaryChart{
   .c3-axis-y, .c3-chart-text, .c3-ygrid-line text{
     font-size: 1em;
     font-weight: bold;

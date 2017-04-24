@@ -11,13 +11,12 @@
     })
     .controller('ViewMyRunsController', ViewMyRunsController);
 
-  function ViewMyRunsController(UrlGenerator, httpCallsService, unitPerformanceScoreFactory, speedDistanceChartFactory,
-    $scope, $log, speedDistanceDataFactory, energySummaryFactory, onTimeRunningFactory, UtilityService) {
+  function ViewMyRunsController($scope, $log, UrlGenerator, httpCallsService, unitPerformanceScoreFactory, 
+     energySummaryFactory, latenessSummaryFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
     vm.key = true;
 
-    vm.speedDistanceLinks = {};
     UtilityService.addTab('Unit performance', '0')
     UtilityService.addTab('Energy & Lateness Summary', '1')
     UtilityService.addTab('Speed Distance', '2')
@@ -48,8 +47,15 @@
               vm.totalEnergySummaries = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
               vm.energySummaryChartLabels = energySummaryFactory.getEnergySummaryGraphLabels();
               energySummaryFactory.getEnergySummaryChart(vm.totalEnergySummaries, vm.energySummaryChartLabels, vm.chartIndicators)
-              $log.debug(vm.energySummaries)
               vm.energySummaryLinks_allRuns = _.pluck(vm.energySummaries, 'energySummaryLinks')
+
+
+              vm.latenessSummaries = _.pluck(vm.response, 'latenessSummaryReportPerJourney');
+              vm.totalLatenessSummaries = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
+              vm.latenessSummaryChartLabels = latenessSummaryFactory.getLatenessSummaryChartLabels();
+              latenessSummaryFactory.getLatenessSummaryChart(vm.totalLatenessSummaries, vm.latenessSummaryChartLabels, vm.chartIndicators)
+              $log.debug(vm.latenessSummaries)
+              vm.latenessSummaryLinks_allRuns = _.pluck(vm.latenessSummaries, 'latenessSummaries')
             }
 
             default: {
@@ -69,6 +75,8 @@
       if (!$scope[key]) {
         //do something
         unitPerformanceScoreFactory.setUnitPerformanceScoreChart(vm.unitPerformanceScores, vm.chartIndicators)
+        energySummaryFactory.setEnergySummaryChart(vm.totalEnergySummaries, vm.chartIndicators)
+        latenessSummaryFactory.setLatenessSummaryChart(vm.totalLatenessSummaries, vm.chartIndicators)
         return;
       }
       //do nothing
@@ -77,6 +85,7 @@
       var arrayOfSelectedLinksUnitPerformanceScore =[]
       var arrayOfSelectedLinksPerformanceIndicators =[]
       var arrayOfSelectedLinksEnergySummary =[]
+      var arrayOfSelectedLinksLatenessSummary = []
       $log.debug(selectedLink)
       //find index of links 
       var indexOfSelectedLink = _.indexOf(vm.stationToStationLinks, selectedLink)
@@ -89,10 +98,15 @@
       _.each(vm.energySummaryLinks_allRuns, function(val,key){
         arrayOfSelectedLinksEnergySummary.push(vm.energySummaryLinks_allRuns[key][indexOfSelectedLink].energySummary)
       })
-      $log.debug(arrayOfSelectedLinksEnergySummary)
+
+      _.each(vm.latenessSummaryLinks_allRuns, function(val, key){
+        arrayOfSelectedLinksLatenessSummary.push(vm.latenessSummaryLinks_allRuns[key][indexOfSelectedLink].latenessSummary)
+      })
+      $log.debug(arrayOfSelectedLinksLatenessSummary)
 
       unitPerformanceScoreFactory.setUnitPerformanceScoreChart(arrayOfSelectedLinksUnitPerformanceScore, arrayOfSelectedLinksPerformanceIndicators)
       energySummaryFactory.setEnergySummaryChart(arrayOfSelectedLinksEnergySummary, arrayOfSelectedLinksPerformanceIndicators)
+      latenessSummaryFactory.setLatenessSummaryChart(arrayOfSelectedLinksLatenessSummary, arrayOfSelectedLinksPerformanceIndicators)
     };
 
 

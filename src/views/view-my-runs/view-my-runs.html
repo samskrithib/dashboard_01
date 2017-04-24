@@ -2,85 +2,65 @@
   <acme-navbar></acme-navbar>
   <div id="page-wrapper">
     <!--<div class="container-fluid">-->
-      <div class="row">
-        <div class="col-lg-12">
-          <h4 class="page-header">Reports</h4>
-        </div>
-        <!-- Nav tabs -->
-        <div class="tabscss col-xl-8">
-          <uib-tabset justified="true">
-            <uib-tab ng-repeat="tab in vm.tabs" active="tab.active" disable="tab.disabled">
-              <uib-tab-heading>
-                {{::tab.title}}
-              </uib-tab-heading>
-              <!-- {{tab.content}} -->
-              <div class="tab-container row">
-
-                <div class="subtitle row ">
-                  <div class="col-md-8 col-xs-12">
-                    <div ng-if="tab.id == 0">
-                      <div ng-show="!vm.key"> {{vm.energySummaryAdvice}} </div>
-                      <div ng-show="vm.key">
-                        <div> {{vm.linkenergySummaryAdvice}} </div>
-                        <!--Links Selected : {{vm.links.selected.join()}}-->
-                      </div>
-                    </div>
-                    <div ng-if="tab.id == 2">
-                      <div class="driverAdvice">
-                        <div style="color:  #DCDCDC ;">{{vm.runtimeDescription}}</div>
-                        <div ng-if="vm.earlyDepartureAdvice">{{vm.earlyDepartureAdvice}}</div>
-                        <div ng-if="vm.earlyArrivalAdvice">{{vm.earlyArrivalAdvice}}</div>
-                        <div ng-if="vm.timeSavedAdvice">{{vm.timeSavedAdvice}}</div><span ng-if="vm.timeSavingAdvice">{{vm.timeSavingAdvice}}</span>
-                        <div ng-if="vm.energyAdvice">{{vm.energyAdvice}}</div>
-                        <div ng-if="vm.goodDrivingAdvice">{{vm.goodDrivingAdvice}}</div>
-                        <div ng-if="vm.spareTimeAdvice">{{vm.spareTimeAdvice}}</div>
-                        <div ng-if="vm.speedingAdvice"><span style="background-color: orangered"> {{vm.speedingAdvice}}</span> </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-xs-12">
-                    <div style="text-align: right; padding-bottom: 10px; font-size: 0.8em">{{vm.chartSubtitle}}
-                      <div>
-                        {{vm.response0.unitNumber}} <span ng-show="vm.response0.headcode"> - {{vm.response0.headcode}}                 </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4 class="page-header">Reports</h4>
+      </div>
+      <!-- Nav tabs -->
+      <div class="tabscss col-xl-8">
+        <uib-tabset justified="true" active="active">
+          <uib-tab index="0" heading="Unit performance">
+            <div class="tab-container">
+              <div class="subtitle row">
+                <div class="col-md-8">{{vm.energySummaryAdvice}}</div>
+                <div class="col-md-4">
+                  <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.subTitle"></div>
                 </div>
               </div>
-            </div>
-            <!--<div><h3>{{title}}</h3></div>-->
-            <div class="clearfix" compile-html="tab.content"></div>
-            <!-- <div ng-show="vm.error" class="container"><h2>{{vm.errormessage}}</h2></div> -->
-            <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
-              <div id="chart{{tab.id}}" ng-bind="chart{{tab.id}}"></div>
-              <div id="latenessSummaryChart" ng-bind="chart1"></div>
-              <div ng-show="!vm.error{{tab.id}}" ng-include="vm.getInclude(tab.id)"></div>
-              <div ng-show="vm.error{{tab.id}}">
-                <div ng-if="tab.id == 0" ng-bind-html="vm.energySummaryErrorMessage"></div>
-                <div ng-if="tab.id == 1" ng-bind-html="vm.onTimeErrorMessage"></div>
-                <div ng-if="tab.id == 2" ng-bind-html="vm.speedDistanceErrorMessage"></div>
+              <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
+                <div id="chart0"></div>
+                
               </div>
             </div>
+          </uib-tab>
+          <uib-tab index="2" heading="Energy and lateness Summary">
+            <div class="tab-container">
+              <div class="subtitle row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.subTitle"></div>
+                </div>
+              </div>
+              <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
+                  <div id="chart1"></div><hr>
+                  <div id="latenessSummaryChart"></div>
+              </div>
+            </div>
+            <!--<div class="row"></div>-->
+          </uib-tab>
+        </uib-tabset>
+        <!-- /.col-lg-12 -->
+        
 
+        <div class="col-md-8">
+          <div style="padding-right: 15px; margin: 16px 0; ">
+            View results for Station to Station Stop(s):
+            <toggle ng-model="vm.key" size="btn-sm" ng-change="vm.checkboxModel(vm.key)"></toggle>
           </div>
-        </uib-tab>
-      </uib-tabset>
-      <br>
-      <div class="col-md-8">
-      <div style="padding-right: 15px; margin: 16px 0; ">
-        View results for Station to Station Stop(s):
-        <toggle ng-model="vm.key" size="btn-sm" ng-change="vm.checkboxModel(vm.key)"></toggle>
-      </div>
 
-    </div>
-      <div class="col-lg-8 form-group">
-      <label class="sr-only" for="links"></label>
-      <div class="input-group" ng-show="vm.key">
-        <div class="input-group-addon">Choose Interstation Station to Station Stop:</div>
-        <select class="form-control" aria-expanded="true" name="links" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)"
-          ng-options="link as link.stations for link in vm.stationToStationLinks">
-      </select>
+        </div>
+        <div class="col-lg-8 form-group">
+          <label class="sr-only" for="links"></label>
+          <div class="input-group" ng-show="vm.key">
+            <div class="input-group-addon">Choose Interstation Station to Station Stop:</div>
+            <select class="form-control" aria-expanded="true" name="links" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)"
+              ng-options="link as link.stations for link in vm.stationToStationLinks">
+            </select>
+          </div>
+        </div>
       </div>
-    </div>
+      
     </div>
   </div>
-</div>
-<!--</div>-->
+  <!--</div>-->
 </div>

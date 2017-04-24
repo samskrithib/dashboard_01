@@ -4,48 +4,46 @@
     'use strict';
     angular
         .module('dassimFrontendV03')
-        .factory('energySummaryFactory', energySummaryFactory)
+        .factory('latenessSummaryFactory', latenessSummaryFactory)
 
-    function energySummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
+    function latenessSummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
 
-        var EnergySummaryChart;
+        var LatenessSummaryChart;
         return {
 
             //------------------------------Graph Labels --------------------------------------------------//
-            getEnergySummaryGraphLabels: function () {
+            getLatenessSummaryChartLabels: function () {
                 var graphLabelsAndTitles = {
-                    "xAxisLabels": [
-                        "Actual Driving & Actual Time",
-                        "Eco Driving & Actual Time (Achievable)",
-                        "Eco Driving & On-Time Running (Optimum)"
-                    ],
-                    "yAxisLabel": "Fuel (litres)",
-                    "graphTitle": "Actual vs Achievable Fuel Consumption",
+
+                    "yAxisLabel": "Average lateness",
+                    "graphTitle": "Actual vs Achievable Arrival Lateness",
                     "seriesLabels": null
                 }
                 return graphLabelsAndTitles;
             },
 
             //------------------------------Generate c3 chart----------------------------------------------//
-            getEnergySummaryChart: function (energySummary, graphLabels, graphIndicator) {
-                EnergySummaryChart = c3.generate({
-                    bindto: '#chart1',
+            getLatenessSummaryChart: function (latenessSummary, graphLabels, graphIndicator) {
+                LatenessSummaryChart = c3.generate({
+                    bindto: '#latenessSummaryChart',
                     size: {
-                        height: 300,
+                        height: 300
                     },
                     data: {
-                        json: energySummary,
+                        json: latenessSummary,
                         keys: {
-                            value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
+                            value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
                         },
                         type: 'bar',
                         labels: true,
                         colors: {
-                            'actualEnergyConsumption': function (d) {
+                            'actualArrivalLatenessInSeconds': function (d) {
                                 return chartColors.colors(graphIndicator, d)
                             },
-                            'optimalEnergyConsumption': DRIVE_COLORS.green,
-                            'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
+                            'actualArrivalEarlinessInSeconds': function (d) {
+                                return chartColors.colors(graphIndicator, d)
+                            },
+                            'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
                         }
                     },
                     title: {
@@ -83,47 +81,30 @@
                         },
                         y: {
                             lines: [
-                                { value: energySummary[0].targetEnergyConsumption, text: 'Energy Target ' + energySummary[0].targetEnergyConsumption, position: 'end' }
+                                { value: 0}
                             ]
                         }
                     }
                 });
             },
 
-            setEnergySummaryChart: function (energySummary, graphIndicator) {
-                EnergySummaryChart.load({
-                    json: energySummary,
+            setLatenessSummaryChart: function (latenessSummary, graphIndicator) {
+                LatenessSummaryChart.load({
+                    json: latenessSummary,
                     keys: {
-                        value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
+                        value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
                     },
                     colors: {
-                        'actualEnergyConsumption': function (d) {
+                        'actualArrivalLatenessInSeconds': function (d) {
                             return chartColors.colors(graphIndicator, d)
                         },
-                        'optimalEnergyConsumption': DRIVE_COLORS.green,
-                        'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
+                        'actualArrivalEarlinessInSeconds': function (d) {
+                            return chartColors.colors(graphIndicator, d)
+                        },
+                        'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
                     }
                 });
             },
-
-
-
-
-            toggleEnergyTarget: function (isOn) {
-                if (isOn) {
-                    d3.selectAll('.c3-grid line')
-                        .style('visibility', 'visible')
-                    d3.selectAll('.c3-ygrid-line text')
-                        .style('visibility', 'visible')
-                } else {
-                    d3.selectAll('.c3-grid line')
-                        .style('visibility', 'hidden')
-                    d3.selectAll('.c3-ygrid-line text')
-                        .style('visibility', 'hidden')
-                }
-
-            }
-
 
         }
     }

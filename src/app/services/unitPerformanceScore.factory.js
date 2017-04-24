@@ -7,59 +7,28 @@
         .factory('unitPerformanceScoreFactory', unitPerformanceScoreFactory)
         .factory('chartColors', chartColors)
     function chartColors($log, DRIVE_COLORS) {
+
         return {
-            unitPerformanceScoreChartColors: function (performanceIndicator) {
-                return {
-                    'percentageScore': function (d) {
-                        switch (performanceIndicator[d.x]) {
-                            case 'GOOD_DRIVING': {
-                                return DRIVE_COLORS.green;
-                                break;
-                            }
-                            case 'AVERAGE_DRIVING': {
-                                return DRIVE_COLORS.orange;
-                                break;
-                            }
-                            case 'POOR_DRIVING': {
-                                return DRIVE_COLORS.red;
-                                break;
-                            }
-
-                        }
+            colors: function (performanceIndicator, d) {
+                switch (performanceIndicator[d.x]) {
+                    case 'GOOD_DRIVING': {
+                        return DRIVE_COLORS.green;
+                        break;
                     }
-                }
-            },
-            energySummaryChartColors: function (performanceIndicator) {
-                return {
-                    'actualEnergyConsumption': function (d) {
-                        $log.debug(d)
-                         switch (performanceIndicator[d.x]) {
-                            case 'GOOD_DRIVING': {
-                                return DRIVE_COLORS.green;
-                                break;
-                            }
-                            case 'AVERAGE_DRIVING': {
-                                return DRIVE_COLORS.orange;
-                                break;
-                            }
-                            case 'POOR_DRIVING': {
-                                return DRIVE_COLORS.red;
-                                break;
-                            }
-
-                        }
-                    },
-                    'optimalEnergyConsumption': function (d) {
-                        return DRIVE_COLORS.green
-                    },
-                    'onTimeOptimalEnergyConsumption': function (d) {
-                        return DRIVE_COLORS.green_light
+                    case 'AVERAGE_DRIVING': {
+                        return DRIVE_COLORS.orange;
+                        break;
                     }
+                    case 'POOR_DRIVING': {
+                        return DRIVE_COLORS.red;
+                        break;
+                    }
+
                 }
             }
         }
     }
-    function unitPerformanceScoreFactory($log, $window, $filter, chartColors) {
+    function unitPerformanceScoreFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
         var unitPerformanceScoreChart;
         return {
             //------------------------------Graph Labels --------------------------------------------------//
@@ -87,7 +56,11 @@
                         xSort: false,
                         type: 'bar',
                         labels: true,
-                        colors: chartColors.unitPerformanceScoreChartColors(performanceIndicators)
+                        colors: {
+                            'percentageScore': function (d) {
+                                return chartColors.colors(performanceIndicators, d)
+                            }
+                        }
                     },
                     legend: {
                         show: false
@@ -128,7 +101,11 @@
                     keys: {
                         value: ['percentageScore']
                     },
-                    colors: chartColors.unitPerformanceScoreChartColors(performanceIndicatorsArray)
+                    colors: {
+                        'percentageScore': function (d) {
+                            return chartColors.colors(performanceIndicatorsArray, d)
+                        }
+                    }
                 })
             }
 

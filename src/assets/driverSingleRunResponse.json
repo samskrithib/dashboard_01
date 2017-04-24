@@ -160,28 +160,28 @@
     "latenessSummaryReportPerJourney": {
     	"latenessSummaryPerJourney": {
             "achievableArrivalLatenessInSeconds": 10,
-            "actualArrivalEarlinessInSeconds": 20,
+            "actualArrivalEarlinessInSeconds": -20,
             "actualArrivalLatenessInSeconds": 0
         },
         "latenessSummaries": [
             {
                 "latenessSummary": {
-                    "achievableArrivalLatenessInSeconds": 10,
-                    "actualArrivalEarlinessInSeconds": 20,
-                    "actualArrivalLatenessInSeconds": 0
+                    "achievableArrivalLatenessInSeconds": 1,
+                    "actualArrivalEarlinessInSeconds": -2,
+                    "actualArrivalLatenessInSeconds": 3
                 },
-                "link": {
-                    "stations": "CARLILE-WETHERL"
+               "link": {
+                    "stations": "Newcastle - Metrocentre"
                 }
             },
             {
                 "latenessSummary": {
                     "achievableArrivalLatenessInSeconds": 10,
-                    "actualArrivalEarlinessInSeconds": 20,
-                    "actualArrivalLatenessInSeconds": 0
+                    "actualArrivalEarlinessInSeconds": -20,
+                    "actualArrivalLatenessInSeconds": 5
                 },
                 "link": {
-                    "stations": "CARLILE-WETHERL"
+                    "stations": "Metrocentre - Prudhoe"
                 }
             }
         ]
@@ -521,29 +521,29 @@
     },
     "latenessSummaryReportPerJourney": {
     	"latenessSummaryPerJourney": {
-            "achievableArrivalLatenessInSeconds": 10,
-            "actualArrivalEarlinessInSeconds": 20,
-            "actualArrivalLatenessInSeconds": 0
+            "achievableArrivalLatenessInSeconds": 50,
+            "actualArrivalEarlinessInSeconds": -60,
+            "actualArrivalLatenessInSeconds": 70
         },
         "latenessSummaries": [
             {
                 "latenessSummary": {
                     "achievableArrivalLatenessInSeconds": 10,
-                    "actualArrivalEarlinessInSeconds": 20,
-                    "actualArrivalLatenessInSeconds": 0
+                    "actualArrivalEarlinessInSeconds": -20,
+                    "actualArrivalLatenessInSeconds": 30
                 },
                 "link": {
-                    "stations": "CARLILE-WETHERL"
+                    "stations": "Newcastle - Metrocentre"
                 }
             },
             {
                 "latenessSummary": {
-                    "achievableArrivalLatenessInSeconds": 10,
-                    "actualArrivalEarlinessInSeconds": 20,
-                    "actualArrivalLatenessInSeconds": 0
+                    "achievableArrivalLatenessInSeconds": 40,
+                    "actualArrivalEarlinessInSeconds": -30,
+                    "actualArrivalLatenessInSeconds": 40
                 },
                 "link": {
-                    "stations": "CARLILE-WETHERL"
+                    "stations": "Metrocentre - Prudhoe"
                 }
             }
         ]
