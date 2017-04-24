@@ -1,0 +1,346 @@
+{
+	"trainIdentifier": {
+        "destinationTiploc": "NWCSTLE",
+        "headcode": "2N5T",
+        "originTiploc": "CARLILE",
+        "rollingStockID": "156",
+        "scheduledDepartureTimeAtOrigin": 10000000,
+        "serviceCode": "21793000",
+        "unitNumber": "156469"
+    },
+    "unitPerformancePerJourney": {
+        "message": "Good Driving",
+        "percentageScore": 92,
+        "performanceIndicator": "GOOD_DRIVING",
+        "unitPerformancePerLink": [
+            {
+                "link": {
+                    "stations": "CARLILE-WETHERL"
+                },
+                "message": "Good Driving",
+                "percentageScore": 91,
+                "performanceIndicator": "GOOD_DRIVING"
+            },
+            {
+                "link": {
+                    "stations": "CARLILE-WETHERL"
+                },
+                "message": "Good Driving",
+                "percentageScore": 93,
+                "performanceIndicator": "GOOD_DRIVING"
+            }
+        ]
+    },
+    "energySummaryReportPerJourney": {
+    	"energySummaryPerJourney": {
+            "actualEnergyConsumption": 10.0,
+            "onTimeOptimalEnergyConsumption": 20.0,
+            "optimalEnergyConsumption": 25.0,
+            "targetEnergyConsumption": 30.0
+        },
+        "energySummaryLinks": [
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 2.0,
+                    "onTimeOptimalEnergyConsumption": 2.0,
+                    "optimalEnergyConsumption": 2.0,
+                    "targetEnergyConsumption": 2.1
+                },
+                "link": {
+                    "stations": "Newcastle - Metrocentre"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 9.7,
+                    "onTimeOptimalEnergyConsumption": 9.7,
+                    "optimalEnergyConsumption": 9.7,
+                    "targetEnergyConsumption": 9.6
+                },
+                "link": {
+                    "stations": "Metrocentre - Prudhoe"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 11.0,
+                    "onTimeOptimalEnergyConsumption": 11.0,
+                    "optimalEnergyConsumption": 11.0,
+                    "targetEnergyConsumption": 11.4
+                },
+                "link": {
+                    "stations": "Prudhoe - Hexham"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 8.5,
+                    "onTimeOptimalEnergyConsumption": 8.5,
+                    "optimalEnergyConsumption": 8.5,
+                    "targetEnergyConsumption": 9.1
+                },
+                "link": {
+                    "stations": "Hexham - Haydon Bridge"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 5.2,
+                    "onTimeOptimalEnergyConsumption": 4.6,
+                    "optimalEnergyConsumption": 5.2,
+                    "targetEnergyConsumption": 4.8
+                },
+                "link": {
+                    "stations": "Haydon Bridge - Bardon Mill"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 6.2,
+                    "onTimeOptimalEnergyConsumption": 6.2,
+                    "optimalEnergyConsumption": 6.2,
+                    "targetEnergyConsumption": 6.9
+                },
+                "link": {
+                    "stations": "Bardon Mill - Haltwhistle"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 11.4,
+                    "onTimeOptimalEnergyConsumption": 11.4,
+                    "optimalEnergyConsumption": 11.4,
+                    "targetEnergyConsumption": 12.1
+                },
+                "link": {
+                    "stations": "Haltwhistle - Brampton"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 3.1,
+                    "onTimeOptimalEnergyConsumption": 2.6,
+                    "optimalEnergyConsumption": 3.1,
+                    "targetEnergyConsumption": 2.7
+                },
+                "link": {
+                    "stations": "Brampton - Wetheral"
+                }
+            },
+            {
+                "energySummary": {
+                    "actualEnergyConsumption": 3.1,
+                    "onTimeOptimalEnergyConsumption": 0.8,
+                    "optimalEnergyConsumption": 1.0,
+                    "targetEnergyConsumption": 1.3
+                },
+                "link": {
+                    "stations": "Wetheral - Carlisle"
+                }
+            }
+        ]
+    },
+    "latenessSummaryReportPerJourney": {
+    	"latenessSummaryPerJourney": {
+            "achievableArrivalLatenessInSeconds": 10,
+            "actualArrivalEarlinessInSeconds": 20,
+            "actualArrivalLatenessInSeconds": 0
+        },
+        "latenessSummaries": [
+            {
+                "latenessSummary": {
+                    "achievableArrivalLatenessInSeconds": 10,
+                    "actualArrivalEarlinessInSeconds": 20,
+                    "actualArrivalLatenessInSeconds": 0
+                },
+                "link": {
+                    "stations": "CARLILE-WETHERL"
+                }
+            },
+            {
+                "latenessSummary": {
+                    "achievableArrivalLatenessInSeconds": 10,
+                    "actualArrivalEarlinessInSeconds": 20,
+                    "actualArrivalLatenessInSeconds": 0
+                },
+                "link": {
+                    "stations": "CARLILE-WETHERL"
+                }
+            }
+        ]
+    },
+    "speedDistanceReportPerSingleLink": {
+        "driverAdvice": {
+            "earlyArrivalAdvice": null,
+            "earlyDepartureAdvice": null,
+            "energyAdvice": null,
+            "goodDrivingAdvice": null,
+            "runtimeDescription": null,
+            "spareTimeAdvice": null,
+            "speedingAdvice": null,
+            "timeSavedAdvice": null,
+            "timeSavingAdvice": null
+        },
+        "link": {
+            "stations": "CARLILE-WETHERL"
+        },
+        "scaledElevations": [
+            {
+                "position": 0.0,
+                "scaledElevation": 0.0
+            },
+            {
+                "position": 193.5,
+                "scaledElevation": 0.0
+            },
+            {
+                "position": 619.4,
+                "scaledElevation": -1.4
+            },
+            {
+                "position": 941.2,
+                "scaledElevation": -0.6
+            },
+            {
+                "position": 965.4,
+                "scaledElevation": -0.5
+            },
+            {
+                "position": 1561.7,
+                "scaledElevation": 1.4
+            },
+            {
+                "position": 1609.0,
+                "scaledElevation": 0.9
+            },
+            {
+                "position": 1674.0,
+                "scaledElevation": -0.1
+            },
+            {
+                "position": 2214.0,
+                "scaledElevation": -8.5
+            },
+            {
+                "position": 2434.0,
+                "scaledElevation": -10.2
+            },
+            {
+                "position": 3344.0,
+                "scaledElevation": -20.1
+            },
+            {
+                "position": 3574.0,
+                "scaledElevation": -21.2
+            },
+            {
+                "position": 3774.0,
+                "scaledElevation": -20.8
+            },
+            {
+                "position": 4164.0,
+                "scaledElevation": -23.2
+            },
+            {
+                "position": 4574.0,
+                "scaledElevation": -20.5
+            },
+            {
+                "position": 5254.0,
+                "scaledElevation": -24.8
+            },
+            {
+                "position": 6034.0,
+                "scaledElevation": -26.0
+            },
+            {
+                "position": 6053.0,
+                "scaledElevation": -26.0
+            }
+        ],
+        "speedDistanceProfiles": {
+            "actualSpeedAndPositions": null,
+            "flatoutSpeedAndPositions": null,
+            "optimalSpeedAndPositions": null
+        },
+        "speedRestrictions": [
+            {
+                "beginPoint": 0.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 298.0,
+                "id": "57ff688b6a7130ea0bd6fff7",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 24.1395
+            },
+            {
+                "beginPoint": 298.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 950.0,
+                "id": "57ff688b6a7130ea0bd6fff9",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 32.186
+            },
+            {
+                "beginPoint": 950.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 1632.0,
+                "id": "57ff688b6a7130ea0bd6fffa",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 40.2325
+            },
+            {
+                "beginPoint": 1632.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 3486.0,
+                "id": "57ff688b6a7130ea0bd6fffb",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 64.372
+            },
+            {
+                "beginPoint": 3486.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 3892.0,
+                "id": "57ff688b6a7130ea0bd6fffc",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 40.2325
+            },
+            {
+                "beginPoint": 3892.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 6030.0,
+                "id": "57ff688b6a7130ea0bd6fffd",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 72.4185
+            },
+            {
+                "beginPoint": 6030.0,
+                "createBy": null,
+                "createDateTime": null,
+                "endPoint": 6053.0,
+                "id": "57ff688b6a7130ea0bd6fffe",
+                "modifyBy": null,
+                "modifyDateTime": null,
+                "sectionID": "2",
+                "speedRestrictionValue": 64.372
+            }
+        ]
+    }
+}

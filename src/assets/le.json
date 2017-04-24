@@ -9,6 +9,17 @@
             "serviceCode": "21793000",
             "unitNumber": "156451",
             "energySummaryAdvice": null,
+            "total":{
+                "actualEnergyConsumption": 20.0,
+                        "energySummaryAdvice": {
+                            "energySummaryAdvice": "Poor Driving",
+                            "graphIndicator": "POORDRIVING",
+                            "multipleLinksSelectedAdvice": null
+                        },
+                        "onTimeOptimalEnergyConsumption": 20.0,
+                        "optimalEnergyConsumption": 20.0,
+                        "targetEnergyConsumption": 20.1
+            },
             "energySummaryLinks": [
                 {
                     "energySummary": {
@@ -139,7 +150,7 @@
             ]
         },
         {
-            "headcode": "2N17",
+            "headcode": "2N17_9",
             "originTiploc": "NWCSTLE",
             "destinationTiploc": "CARLILE",
             "rollingStockID": "156",
@@ -147,6 +158,17 @@
             "serviceCode": "21793000",
             "unitNumber": "156451",
             "energySummaryAdvice": null,
+            "total":{
+                "actualEnergyConsumption": 250.0,
+                        "energySummaryAdvice": {
+                            "energySummaryAdvice": "Poor Driving",
+                            "graphIndicator": "POORDRIVING",
+                            "multipleLinksSelectedAdvice": null
+                        },
+                        "onTimeOptimalEnergyConsumption": 260.0,
+                        "optimalEnergyConsumption": 280.0,
+                        "targetEnergyConsumption": 207.1
+            },
             "energySummaryLinks": [
                 {
                     "energySummary": {

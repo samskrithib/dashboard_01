@@ -7,7 +7,26 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // body{
 //   background-color: #fff !important;
 // }
-
+.grey {
+    color: $brand-danger;
+    background-color: $brand-warning;
+    height: 60px;
+}
+.text-replacement {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 250px;
+  width: 250px;
+  padding-top: 250px;
+  overflow: hidden;
+  background: #333 no-repeat;
+}
+.black{
+   color: $brand-success;
+  background-color: $brand-danger;
+    height: 60px;
+}
 #page-wrapper{
   // background-color: $brand-primary !important;
   .row{
