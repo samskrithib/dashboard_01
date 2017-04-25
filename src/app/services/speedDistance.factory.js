@@ -41,11 +41,11 @@
               data.actualPosition[0],
               data.flatoutPosition[0],
               data.optimalPosition[0],
-              data.endPoint[0],
+              // data.endPoint[0],
               data.actualDriving[0],
               data.flatoutDriving[0],
               data.ecoDriving[0],
-              data.speedLimit[0],
+              // data.speedLimit[0],
               data.Elevation[0],
               data.scaledPosition[0]
             ],
@@ -53,9 +53,9 @@
               Elevation: 'y2'
             },
             xSort: false,
-            types: {
-            'SpeedLimit': 'step',
-            },
+            // types: {
+            // 'SpeedLimit': 'step',
+            // },
             labels: false,
             colors: {
               'ActualDriving': '#1f77b4',
@@ -65,10 +65,6 @@
               'Elevation': '#8c564b'
             }
           },
-          /*onrendered: function(){
-           $log.debug('rendered')
-           d3.select('.c3-circles-ActualDriving .c3-circle-54').attr('r', 15)
-         },*/
           zoom: {
             enabled: false
           },
@@ -164,11 +160,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                data.endPoint[selected],
+                // data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                data.speedLimit[selected],
+                // data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]
@@ -197,11 +193,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                data.endPoint[selected],
+                // data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                data.speedLimit[selected],
+                // data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]
@@ -218,11 +214,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                data.endPoint[selected],
+                // data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                data.speedLimit[selected],
+                // data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]

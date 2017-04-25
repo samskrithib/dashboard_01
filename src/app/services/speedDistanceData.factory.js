@@ -53,8 +53,8 @@
       actualSpeedMph=[], actualPositionM=[];
       _.each(data, function(val,key){
 
-       actualSpeed[key] = _.pluck(data[key].actualSpeedAndPositionList, 'speed');
-       actualPosition[key] = _.pluck(data[key].actualSpeedAndPositionList, 'position');
+       actualSpeed[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositionList, 'speed');
+       actualPosition[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositionList, 'position');
 
        actualSpeedMph[key]=[];
        actualPositionM[key] =[];
@@ -74,15 +74,14 @@
       flatoutSpeed=[], flatoutPosition=[];
       flatoutSpeedMph=[], flatoutPositionM=[];
       _.each(data, function(val,key){
-        flatoutSpeed[key]= _.pluck(data[key].flatoutSpeedAndPositionList, 'speed');
-        flatoutPosition[key] = _.pluck(data[key].flatoutSpeedAndPositionList, 'position');
+        flatoutSpeed[key]= _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositionList, 'speed');
+        flatoutPosition[key] = _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositionList, 'position');
 
         flatoutSpeedMph[key]=[];
         flatoutPositionM[key]=[];
 
         mathUtilsService.convertKphtoMph(flatoutSpeed[key], flatoutSpeedMph[key])
         mathUtilsService.convertMetersToMiles(flatoutPosition[key], flatoutPositionM[key])
-        
 
         flatoutSpeed[key].splice(0,0, seriesNameMatchers[2]);
         flatoutSpeedMph[key].splice(0,0, seriesNameMatchers[2]);
@@ -97,8 +96,8 @@
       optimalSpeed=[],  optimalPosition=[];
       optimalSpeedMph=[], optimalPositionM=[];
      _.each(data, function(val,key){
-      optimalSpeed[key] = _.pluck(data[key].optimalSpeedAndPositionList, 'speed');
-      optimalPosition[key] = _.pluck(data[key].optimalSpeedAndPositionList, 'position');
+      optimalSpeed[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositionList, 'speed');
+      optimalPosition[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositionList, 'position');
 
       optimalSpeedMph[key]=[];
       optimalPositionM[key]=[];
@@ -110,6 +109,7 @@
       optimalSpeedMph[key].splice(0,0, seriesNameMatchers[4]);
       optimalPosition[key].splice(0,0, seriesNameMatchers[5])
       optimalPositionM[key].splice(0,0, seriesNameMatchers[5])
+
     })
   },
 
@@ -180,10 +180,8 @@
 },
 
 getSpeedDistanceLinks: function(data){
-  links=[];
-  _.each(data, function(val,key){
-    links[links.length]=(data[key].fromStation + " - " + data[key].toStation);
-  })
+  links = _.pluck(data, 'link')
+  return links;
 },
 
 getSpeedDistanceData_Kph : function(){
@@ -195,8 +193,8 @@ getSpeedDistanceData_Kph : function(){
     flatoutPosition : flatoutPosition,
     ecoDriving : optimalSpeed,
     optimalPosition : optimalPosition,
-    speedLimit :  speedValues,
-    endPoint : speedRestrictionPoints,
+    // speedLimit :  speedValues,
+    // endPoint : speedRestrictionPoints,
     scaledPosition : scaledElevationPosition,
     Elevation: scaledElevationValue
   }
@@ -211,8 +209,8 @@ getSpeedDistanceData_Mph: function(){
     flatoutPosition : flatoutPositionM,
     ecoDriving : optimalSpeedMph,
     optimalPosition : optimalPositionM,
-    speedLimit :  speedValuesMph,
-    endPoint : speedRestrictionPointsM,
+    // speedLimit :  speedValuesMph,
+    // endPoint : speedRestrictionPointsM,
     scaledPosition : scaledElevationPositionM,
     Elevation: scaledElevationValue
   }
