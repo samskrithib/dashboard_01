@@ -19,7 +19,7 @@
           // onTimeUrl = 'ontimerunning?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           // subtitle = from.locationName + ' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
-          viewRuns = 'assets/driverSingleRunResponse.json';
+          viewRuns = 'assets/SINGLERUN_JSON_LATEST.json';
           return viewRuns;
         },
         getData: function () {

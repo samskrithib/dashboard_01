@@ -41,11 +41,11 @@
               data.actualPosition[0],
               data.flatoutPosition[0],
               data.optimalPosition[0],
-              // data.endPoint[0],
+              data.endPoint[0],
               data.actualDriving[0],
               data.flatoutDriving[0],
               data.ecoDriving[0],
-              // data.speedLimit[0],
+              data.speedLimit[0],
               data.Elevation[0],
               data.scaledPosition[0]
             ],
@@ -160,11 +160,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                // data.endPoint[selected],
+                data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                // data.speedLimit[selected],
+                data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]
@@ -193,11 +193,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                // data.endPoint[selected],
+                data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                // data.speedLimit[selected],
+                data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]
@@ -214,11 +214,11 @@
                 data.actualPosition[selected],
                 data.flatoutPosition[selected],
                 data.optimalPosition[selected],
-                // data.endPoint[selected],
+                data.endPoint[selected],
                 data.actualDriving[selected],
                 data.flatoutDriving[selected],
                 data.ecoDriving[selected],
-                // data.speedLimit[selected],
+                data.speedLimit[selected],
                 data.Elevation[selected],
                 data.scaledPosition[selected]
               ]

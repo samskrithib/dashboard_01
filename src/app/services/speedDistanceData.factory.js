@@ -11,12 +11,12 @@
     var actualSpeed=[], actualPosition=[];
     var flatoutSpeed=[], flatoutPosition=[];
     var optimalSpeed=[],  optimalPosition=[];
-    var speedRestrictionValue = [], speedRestrictionendPoint = [], speedRestrictionbeginPoint=[];
+    // var speedRestrictionValue = [], speedRestrictionendPoint = [], speedRestrictionbeginPoint=[];
     var scaledElevationValue=[],  scaledElevationPosition=[];
     var actualSpeedMph=[], actualPositionM=[];
     var flatoutSpeedMph=[], flatoutPositionM=[];
     var optimalSpeedMph=[], optimalPositionM=[];
-    var speedRestrictionValueMph=[], speedRestrictionendPointM=[], speedRestrictionbeginPointM=[];
+    // var speedRestrictionValueMph=[], speedRestrictionendPointM=[], speedRestrictionbeginPointM=[];
     var scaledElevationValueMph=[],  scaledElevationPositionM=[];
     
     var speedRestrictionPointsM = [], speedValuesMph = [];
@@ -53,8 +53,8 @@
       actualSpeedMph=[], actualPositionM=[];
       _.each(data, function(val,key){
 
-       actualSpeed[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositionList, 'speed');
-       actualPosition[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositionList, 'position');
+       actualSpeed[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositions, 'speed');
+       actualPosition[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositions, 'position');
 
        actualSpeedMph[key]=[];
        actualPositionM[key] =[];
@@ -74,8 +74,8 @@
       flatoutSpeed=[], flatoutPosition=[];
       flatoutSpeedMph=[], flatoutPositionM=[];
       _.each(data, function(val,key){
-        flatoutSpeed[key]= _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositionList, 'speed');
-        flatoutPosition[key] = _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositionList, 'position');
+        flatoutSpeed[key]= _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositions, 'speed');
+        flatoutPosition[key] = _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositions, 'position');
 
         flatoutSpeedMph[key]=[];
         flatoutPositionM[key]=[];
@@ -96,8 +96,8 @@
       optimalSpeed=[],  optimalPosition=[];
       optimalSpeedMph=[], optimalPositionM=[];
      _.each(data, function(val,key){
-      optimalSpeed[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositionList, 'speed');
-      optimalPosition[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositionList, 'position');
+      optimalSpeed[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositions, 'speed');
+      optimalPosition[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositions, 'position');
 
       optimalSpeedMph[key]=[];
       optimalPositionM[key]=[];
@@ -114,41 +114,17 @@
   },
 
   getSpeedLimits : function(data){
-    speedRestrictionValue = [], speedRestrictionendPoint = [], speedRestrictionbeginPoint=[];
-    speedRestrictionValueMph=[], speedRestrictionendPointM=[], speedRestrictionbeginPointM=[];
+    speedValues = [], speedRestrictionPoints = [];
+    speedValuesMph=[], speedRestrictionPointsM=[];
     _.each(data, function(val,key){
-      speedRestrictionValue[key] = _.pluck(data[key].speedRestrictionList, 'speedRestrictionValue')
-      speedRestrictionendPoint[key] = _.pluck(data[key].speedRestrictionList, 'endPoint')
-      speedRestrictionbeginPoint[key] = _.pluck(data[key].speedRestrictionList, 'beginPoint')
+      speedValues[key] = _.pluck(data[key].speedRestrictions, 'value')
+      speedRestrictionPoints[key] = _.pluck(data[key].speedRestrictions, 'point')
 
-      speedRestrictionValueMph[key]=[];
-      speedRestrictionendPointM[key]=[];
-      speedRestrictionbeginPointM[key]=[];
+      speedValuesMph[key]=[];
+      speedRestrictionPointsM[key]=[];
 
-      mathUtilsService.convertKphtoMph(speedRestrictionValue[key], speedRestrictionValueMph[key])
-      mathUtilsService.convertMetersToMiles(speedRestrictionendPoint[key], speedRestrictionendPointM[key])
-      mathUtilsService.convertMetersToMiles(speedRestrictionbeginPoint[key], speedRestrictionbeginPointM[key])
-      
-
-      speedRestrictionPoints[key] = [];
-      speedRestrictionPointsM[key] = [];
-      speedValues[key] = [];
-      speedValuesMph[key] = [];
-
-      _.each(speedRestrictionbeginPoint[key], function(val,index){
-        speedRestrictionPoints[key][speedRestrictionPoints[key].length] = speedRestrictionbeginPoint[key][index];
-        speedRestrictionPoints[key][speedRestrictionPoints[key].length] = speedRestrictionendPoint[key][index];
-
-        speedRestrictionPointsM[key][speedRestrictionPointsM[key].length] = speedRestrictionbeginPointM[key][index];
-        speedRestrictionPointsM[key][speedRestrictionPointsM[key].length] = speedRestrictionendPointM[key][index];
-
-        speedValues[key][speedValues[key].length] = speedRestrictionValue[key][index];
-        speedValues[key][speedValues[key].length] = speedRestrictionValue[key][index];
-
-        speedValuesMph[key][speedValuesMph[key].length] = speedRestrictionValueMph[key][index];
-        speedValuesMph[key][speedValuesMph[key].length] = speedRestrictionValueMph[key][index];
-
-      })
+      mathUtilsService.convertKphtoMph(speedValues[key], speedValuesMph[key])
+      mathUtilsService.convertMetersToMiles(speedRestrictionPoints[key], speedRestrictionPointsM[key])
 
       speedValues[key].splice(0,0,seriesNameMatchers[6]);
       speedValuesMph[key].splice(0,0,seriesNameMatchers[6]);
@@ -163,8 +139,8 @@
     scaledElevationValue=[],  scaledElevationPosition=[];
     scaledElevationValueMph=[],  scaledElevationPositionM=[];
    _.each(data, function(val,key){
-    scaledElevationValue[key] = _.pluck(data[key].scaledElevationList, 'scaledElevation')
-    scaledElevationPosition[key] = _.pluck(data[key].scaledElevationList, 'position');
+    scaledElevationValue[key] = _.pluck(data[key].scaledElevations, 'scaledElevation')
+    scaledElevationPosition[key] = _.pluck(data[key].scaledElevations, 'position');
     scaledElevationValueMph[key]=[];
     scaledElevationPositionM[key]=[];
     // Elevation values should always be in Meters(Reqiurement)
@@ -193,8 +169,8 @@ getSpeedDistanceData_Kph : function(){
     flatoutPosition : flatoutPosition,
     ecoDriving : optimalSpeed,
     optimalPosition : optimalPosition,
-    // speedLimit :  speedValues,
-    // endPoint : speedRestrictionPoints,
+    speedLimit :  speedValues,
+    endPoint : speedRestrictionPoints,
     scaledPosition : scaledElevationPosition,
     Elevation: scaledElevationValue
   }
@@ -209,8 +185,8 @@ getSpeedDistanceData_Mph: function(){
     flatoutPosition : flatoutPositionM,
     ecoDriving : optimalSpeedMph,
     optimalPosition : optimalPositionM,
-    // speedLimit :  speedValuesMph,
-    // endPoint : speedRestrictionPointsM,
+    speedLimit :  speedValuesMph,
+    endPoint : speedRestrictionPointsM,
     scaledPosition : scaledElevationPositionM,
     Elevation: scaledElevationValue
   }
