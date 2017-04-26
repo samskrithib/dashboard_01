@@ -74,7 +74,7 @@
           }else if(newValues[0] === '' || newValues[1] === '' ||  newValues[2] === ''){
             return ''
           }else{
-            $log.debug(newValues);
+            // $log.debug(newValues);
             vm.tstate = "LOADING";
             vm.timePlaceholder = "Loading.."
             vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
@@ -115,7 +115,7 @@
       if (arguments.length) {
         _selectedTo = value;
         vm.toStat = _selectedTo.tiploc;
-        // $log.debug( $scope.toStat)
+        // $log.debug( vm.toStat)
       } else {
         return _selectedTo;
       }
@@ -124,7 +124,7 @@
       if (arguments.length) {
         _selectedTime = value;
         vm.time = _selectedTime;
-        $log.debug( _selectedTime)
+        // $log.debug( _selectedTime)
       } else {
         return _selectedTime;
       }
@@ -154,26 +154,11 @@
     };
     
     UtilityService.clearTab();
-    
-    vm.toggleCheck = function (id, name) {
-      if(vm.formData.selectedItems[name] == false){
-       vm.checkedItems.splice(vm.checkedItems.indexOf(id), 1);
-       UtilityService.removeTab(name);
-          // $log.debug(vm.checkedItems)
-        }else if (vm.formData.selectedItems[name] == true){
-          vm.checkedItems.push(id);
-          UtilityService.addTab(name, id);
-        // $log.debug(vm.checkedItems)
-        // $log.debug(UrlGenerator.getTab())
-      }else if (vm.formData.selectedItems[name] === undefined){
-        UtilityService.clearTab();
-        vm.checkedItems=[]
-        // $log.debug(vm.checkedItems)
-      }
-    };
+ 
     vm.submit = function(isValid){
       if(isValid){
         UtilityService.addCheckedItems(vm.checkedItems);
+        $log.debug(_selectedFrom, _selectedTo)
         UrlGenerator.generateReportsUrl(vm.inputDate, vm.customTimeSelected, _selectedFrom, _selectedTo);
         $location.path("/view-my-runs");
       }

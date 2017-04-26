@@ -6,29 +6,31 @@
         .module('dassimFrontendV03')
         .factory('unitPerformanceScoreFactory', unitPerformanceScoreFactory)
         .factory('chartColors', chartColors)
-    function chartColors($log, DRIVE_COLORS) {
+    function chartColors(DRIVE_COLORS) {
 
         return {
             colors: function (performanceIndicator, d) {
+                var indicator;
                 switch (performanceIndicator[d.x]) {
                     case 'GOOD_DRIVING': {
-                        return DRIVE_COLORS.green;
+                        indicator = DRIVE_COLORS.green;
                         break;
                     }
                     case 'AVERAGE_DRIVING': {
-                        return DRIVE_COLORS.orange;
+                        indicator = DRIVE_COLORS.orange;
                         break;
                     }
                     case 'POOR_DRIVING': {
-                        return DRIVE_COLORS.red;
+                        indicator = DRIVE_COLORS.red;
                         break;
                     }
 
                 }
+                return indicator;
             }
         }
     }
-    function unitPerformanceScoreFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
+    function unitPerformanceScoreFactory($log, $window, $filter, chartColors) {
         var unitPerformanceScoreChart;
         return {
             //------------------------------Graph Labels --------------------------------------------------//
@@ -83,13 +85,13 @@
                     },
                     bar: {
                         width: {
-                            ratio: 0.3 // this makes bar width 30% of length between ticks
+                            ratio: 0.1 // this makes bar width 30% of length between ticks
                         }
                     },
                     grid: {
                         lines: {
                             front: true
-                        },
+                        }
 
                     }
                 });

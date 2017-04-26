@@ -17,19 +17,24 @@
     vm.tabs = [];
     vm.key = false;
 
-    vm.firstLink;
+
     UtilityService.addTab('Unit performance', '0')
     UtilityService.addTab('Energy & Lateness Summary', '1')
     UtilityService.addTab('Speed Distance', '2')
     vm.tabs = UtilityService.getTab();
-    var viewRunsUrl = UrlGenerator.generateReportsUrl();
+    var viewRunsUrl = UrlGenerator.getData().viewRuns;
 
 
     vm.promise = httpCallsService.getByJson(viewRunsUrl)
       .then(function (response) {
         vm.response = response;
-        vm.trainIdentifiers = _.pluck(vm.response, 'trainIdentifier')
-
+        vm.trainIdentifiers = vm.response.trainIdentifier
+        $log.debug(vm.trainIdentifiers)
+        vm.chartSubtitle = UrlGenerator.getData().subtitle
+          + '<div>' +
+          vm.trainIdentifiers.unitNumber
+          + '<span ng-show=' + vm.trainIdentifiers.headcode + '> - ' + vm.trainIdentifiers.headcode + ' </span >'
+          + ' </div>';
         _.each(vm.tabs, function (val, key) {
           switch (vm.tabs[key].id) {
             case "0": {
@@ -59,7 +64,6 @@
             }
             case "2": {
               vm.speedDistanceLinks_allRuns = [vm.response.speedDistanceReportPerJourney.speedDistanceReports]
-              $log.debug(vm.speedDistanceLinks_allRuns)
               vm.speedDistanceChartLabels = speedDistanceDataFactory.getSpeedDistanceGraphLabels();
               speedDistanceData_All(vm.speedDistanceLinks_allRuns[0])
               vm.speedDistanceData_Kph = speedDistanceDataFactory.getSpeedDistanceData_Kph();
@@ -79,12 +83,19 @@
       })
 
     vm.checkboxModel = function (key) {
-      if (!$scope[key]) {
+      if (!key) {
         //do something
         unitPerformanceScoreFactory.setUnitPerformanceScoreChart([vm.unitPerformanceScores], vm.chartIndicators)
         energySummaryFactory.setEnergySummaryChart(vm.totalEnergySummaries, vm.chartIndicators)
         latenessSummaryFactory.setLatenessSummaryChart(vm.totalLatenessSummaries, vm.chartIndicators)
-        return;
+        return key;
+      } else if (key) {
+        if (vm.stationToStationLinks.selected) {
+          unitPerformanceScoreFactory.setUnitPerformanceScoreChart(vm.arrayOfSelectedLinksUnitPerformanceScore, vm.arrayOfSelectedLinksPerformanceIndicators)
+          energySummaryFactory.setEnergySummaryChart(vm.arrayOfSelectedLinksEnergySummary, vm.arrayOfSelectedLinksPerformanceIndicators)
+          latenessSummaryFactory.setLatenessSummaryChart(vm.arrayOfSelectedLinksLatenessSummary, vm.arrayOfSelectedLinksPerformanceIndicators)
+        }
+
       }
       //do nothing
 
@@ -97,7 +108,7 @@
       speedDistanceDataFactory.getOptimalSpeedDistance(data);
       speedDistanceDataFactory.getElevation(data)
       speedDistanceDataFactory.getSpeedLimits(data)
-      speedDistanceDataFactory.getDriverAdvice(data)
+      vm.getDriverAdvice = speedDistanceDataFactory.getDriverAdvice(data)
     };
 
     vm.linkOnselect = function (selectedLink) {
@@ -112,13 +123,20 @@
 
     function unitPerformanceScoreOnSelectLink() {
       vm.arrayOfSelectedLinksUnitPerformanceScore = []
+      vm.arrayOfSelectedLinksPerformanceMessage = []
       _.each(vm.trainUnitPerformancePerLinks_allRuns, function (val, key) {
         vm.arrayOfSelectedLinksUnitPerformanceScore.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink])
         vm.arrayOfSelectedLinksPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].performanceIndicator)
+        vm.arrayOfSelectedLinksPerformanceMessage.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].message)
       })
+      unitPerformanceMessage()
       unitPerformanceScoreFactory.setUnitPerformanceScoreChart(vm.arrayOfSelectedLinksUnitPerformanceScore, vm.arrayOfSelectedLinksPerformanceIndicators)
     }
 
+    function unitPerformanceMessage() {
+      vm.performanceMessage = vm.arrayOfSelectedLinksPerformanceMessage[0]
+      $log.debug(vm.performanceMessage)
+    }
     function energySummaryOnSelectLink() {
       vm.arrayOfSelectedLinksEnergySummary = []
       _.each(vm.energySummaryLinks_allRuns, function (val, key) {
@@ -136,12 +154,23 @@
     }
 
     function speedDistanceOnselectLink() {
+      speedDistanceDriverAdviceOfSelectedLink();
       speedDistanceChartFactory.getSpeedDistanceChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
       if (vm.radioModel === 'Kph') {
         speedDistanceChartFactory.setSpeedDistanceChart(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
       } else if (vm.radioModel === 'Mph') {
         speedDistanceChartFactory.setSpeedDistanceChart(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)
       }
+    }
+    function speedDistanceDriverAdviceOfSelectedLink() {
+      vm.runtimeDescription = vm.getDriverAdvice[vm.indexOfSelectedLink].runtimeDescription
+      vm.earlyDepartureAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyDepartureAdvice
+      vm.earlyArrivalAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyArrivalAdvice
+      vm.timeSavedAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].timeSavedAdvice
+      vm.energyAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].energyAdvice
+      vm.goodDrivingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].goodDrivingAdvice
+      vm.spareTimeAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].spareTimeAdvice
+      vm.speedingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].speedingAdvice
     }
 
     vm.radioModel = 'Kph';

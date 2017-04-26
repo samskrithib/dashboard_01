@@ -14448,7 +14448,7 @@
     },
     "trainIdentifier": {
         "destinationTiploc": "CARLILE",
-        "headcode": null,
+        "headcode": "2N17",
         "originTiploc": "NWCSTLE",
         "rollingStockID": "156",
         "scheduledDepartureTimeAtOrigin": 1490192640000,

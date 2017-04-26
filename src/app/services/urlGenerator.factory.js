@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
-      var url,viewRuns, energyUrl, onTimeUrl, speedDistanceUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains;
+      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains;
       var modifiedData = {};
       return {
         generateTrainTimesUrl: function (a, b, c) {
@@ -13,22 +13,17 @@
           return url;
         },
 
-        generateReportsUrl: function (/*date, time, from, to */) {
-          // var formatdate = $filter('date')(date, 'dd-MMM-yyyy')
-          // energyUrl = 'energysummary?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
-          // onTimeUrl = 'ontimerunning?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
+        generateReportsUrl: function (date, time, from, to) {
+          var formatdate = $filter('date')(date, 'dd-MMM-yyyy')
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
-          // subtitle = from.locationName + ' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
-          viewRuns = 'assets/SINGLERUN_JSON_LATEST.json';
-          return viewRuns;
+          subtitle = from.locationName +' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
+          viewRunsUrl = 'assets/SINGLERUN_JSON_LATEST.json';
+          
         },
         getData: function () {
           return {
-            energyUrl: energyUrl,
-            onTimeUrl: onTimeUrl,
-            speedDistanceUrl: speedDistanceUrl,
             subtitle: subtitle,
-            viewRuns: viewRuns
+            viewRuns: viewRunsUrl
           }
         },
 
