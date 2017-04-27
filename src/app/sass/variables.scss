@@ -1,6 +1,6 @@
 // Variables
 
-$ray-darker: lighten(#000, 13.5%);
+$gray-darker: lighten(#000, 13.5%);
 $gray-dark: lighten(#000, 20%);
 $gray: lighten(#000, 33.5%);
 $gray-light: lighten(#000, 60%);
@@ -13,4 +13,11 @@ $brand-warning: #f0ad4e;
 $brand-danger: #d9534f;
 $c3-brown: #8c564b;
 $c3-green-light: #98df8a;
+$c3-green: #2ca02c;
+$c3-green-actual: lighten(#2ca02c, 15%);
+$c3-blue: #7cb5ec;
+$c3-blue-dark: #1f77b4;
+$c3-red : #D2527F;
+$c3-orange : #FF7F0E;
+
 

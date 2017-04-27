@@ -4,16 +4,28 @@
     <!--<div class="container-fluid">-->
     <div class="row">
       <div class="col-lg-12">
-        <h4 class="page-header">Reports</h4>
+        <div class="page-header col-lg-8">
+          <div class="input-group">
+            <div class="input-group-addon">Choose Station to Station Stop(s):</div>
+            <select class="form-control" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)">
+              <option value="">All</option> 
+              <option data-ng-repeat="link in vm.unitPerformanceScores.trainUnitPerformancePerLink"
+              data-ng-class="vm.getLinkClass(link)">{{link.link.stations}}</option>
+            </select>
+          </div>
+        </div>
       </div>
+      
       <!-- Nav tabs -->
-      <div class="tabscss col-xl-8">
+      <div class="tabscss col-lg-12">
+
         <uib-tabset justified="true" active="active">
-          <uib-tab index="0" heading="Unit performance">
+          <uib-tab index="0" heading="Unit Performance">
             <div class="tab-container">
               <div class="subtitle row">
                 <div class="col-md-8">
-                  <div ng-show="vm.key" ng-bind-html="vm.performanceMessage"></div>
+                  <div ng-show="vm.stationToStationLinks.selected" ng-bind-html="vm.stationToStationLinks.selected + ' : ' + vm.performanceMessage"></div>
+                  <div ng-show="!vm.stationToStationLinks.selected">Showing unit performance score for complete journey</div>
                 </div>
                 <div class="col-md-4">
                   <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.chartSubtitle"></div>
@@ -24,11 +36,12 @@
               </div>
             </div>
           </uib-tab>
-          <uib-tab index="1" heading="Energy and lateness Summary">
+          <uib-tab index="1" heading="Energy and Lateness Summary">
             <div class="tab-container">
               <div class="subtitle row">
                 <div class="col-md-8">
-                  <div ng-show="vm.key" ng-bind-html="vm.performanceMessage"></div>
+                  <div ng-show="vm.stationToStationLinks.selected" ng-bind-html="vm.stationToStationLinks.selected + ' : ' + vm.performanceMessage"></div>
+                  <div ng-show="!vm.stationToStationLinks.selected">Showing energy and lateness summary for complete journey</div>
                 </div>
                 <div class="col-md-4">
                   <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.chartSubtitle"></div>
@@ -43,11 +56,11 @@
             <!--<div class="row"></div>-->
           </uib-tab>
 
-          <uib-tab index="2" heading="Speed distance">
+          <uib-tab index="2" heading="Speed Distance">
             <div class="tab-container">
               <div class="subtitle row">
                 <div class="col-md-8">
-                  <div ng-show="vm.key && vm.stationToStationLinks.selected" class="driverAdvice">
+                  <div ng-show="vm.stationToStationLinks.selected" class="driverAdvice">
                     <div style="color:  #DCDCDC ;">{{vm.runtimeDescription}}</div>
                     <div ng-if="vm.earlyDepartureAdvice">{{vm.earlyDepartureAdvice}}</div>
                     <div ng-if="vm.earlyArrivalAdvice">{{vm.earlyArrivalAdvice}}</div>
@@ -63,10 +76,10 @@
                 </div>
               </div>
               <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
-                <div ng-show="!vm.key || !vm.stationToStationLinks.selected">
+                <div ng-show="!vm.stationToStationLinks.selected">
                   <h3> Please select any Station to Station stop to view speed distance chart </h3>
                 </div>
-                <div ng-show="vm.key && vm.stationToStationLinks.selected">
+                <div ng-show="vm.stationToStationLinks.selected">
                   <div id="chart2"></div>
                   <hr>
                   <div class="form-group row">
@@ -95,22 +108,7 @@
         <!-- /.col-lg-12 -->
 
 
-        <div class="col-md-8">
-          <div style="padding-right: 15px; margin: 16px 0; ">
-            View results for Station to Station Stop(s):
-            <toggle ng-model="vm.key" size="btn-sm" ng-change="vm.checkboxModel(vm.key)"></toggle>
-          </div>
 
-        </div>
-        <div class="col-lg-8 form-group">
-          <label class="sr-only" for="links"></label>
-          <div class="input-group" ng-show="vm.key">
-            <div class="input-group-addon">Choose Interstation Station to Station Stop:</div>
-            <select class="form-control" aria-expanded="true" name="links" ng-model="vm.stationToStationLinks.selected" ng-change="vm.linkOnselect(vm.stationToStationLinks.selected)"
-              ng-options="link as link.stations for link in vm.stationToStationLinks">
-            </select>
-          </div>
-        </div>
       </div>
 
     </div>

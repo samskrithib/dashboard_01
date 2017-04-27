@@ -13,7 +13,7 @@
                 var indicator;
                 switch (performanceIndicator[d.x]) {
                     case 'GOOD_DRIVING': {
-                        indicator = DRIVE_COLORS.green;
+                        indicator = DRIVE_COLORS.green_actual;
                         break;
                     }
                     case 'AVERAGE_DRIVING': {
@@ -36,8 +36,8 @@
             //------------------------------Graph Labels --------------------------------------------------//
             getUnitPerformanceScoreChartLabels: function () {
                 var chartLabelsAndTitles = {
-                    "yAxisLabel": "Score",
-                    "chartTitle": "Train Unit Performance Score",
+                    "yAxisLabel": "%",
+                    "chartTitle": "Unit Performance Score",
                     "seriesLabels": null
                 }
                 return chartLabelsAndTitles;

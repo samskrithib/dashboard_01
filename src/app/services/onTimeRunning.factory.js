@@ -5,47 +5,8 @@
   angular
     .module('dassimFrontendV03')
     .service('onTimeRunningFactory', onTimeRunningFactory);
-  function onTimeRunningFactory($log, $window) {
+  function onTimeRunningFactory($log, $window, c3LegendOnHoverFactory) {
     var onTimeChart;
-    function insertAfter(referenceNode, newNode) {
-      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
-    function legendFollowMouse(e) {
-      var x = e[0];
-      var y = e[1];
-      return {
-        x: x - 50 + 'px',
-        y: y - 70 + 'px'
-      }
-    }
-
-    function createLegendTooltip() {
-      var svg = this.svg[0][0];
-      var frag = document.createDocumentFragment();
-      var div = document.createElement('div');
-      var span = document.createElement('span');
-      div.className = 'c3-legend-tooltip-container';
-      span.className = 'c3-legend-tooltip';
-
-      div.appendChild(span);
-      frag.appendChild(div);
-      insertAfter(svg, frag);
-
-      this.legendHoverNode = span;
-    }
-
-    function generateLegendHoverLabels(labels) {
-      createLegendTooltip.call(this);
-      var obj = {};
-      this.data.targets.map(function (data, i) {
-        if (typeof labels[i] !== 'undefined') {
-          obj[data.id] = labels[i];
-        }
-      })
-      return obj;
-    }
-    var debug = document.querySelector('#debug');
     return {
       getOnTimeData: function (response) {
         var actualLateness = d3.values([(response.actualLatenessPercentages)][0]);
@@ -119,37 +80,9 @@
               '% of trains arriving in this lateness range',
               '% of trains which could arrive in this lateness range with best practice driving assuming actual departure time from previous station stop'
             ];
-            this.legendHoverContent = generateLegendHoverLabels.call(this, legendLongLabels);
+            this.legendHoverContent = c3LegendOnHoverFactory.generateLegendHoverLabels.call(this, legendLongLabels);
           },
-          legend: {
-            item: {
-              onmouseover: function (id) {
-                // keep default behavior as well as our tooltip
-                d3.select(this.svg[0][0]).classed('c3-legend-item-focused', true);
-
-                if (!this.transiting && this.isTargetToShow(id)) {
-                  this.api.focus(id);
-                }
-
-                // if we defined the long labels, display them
-                if (this.legendHoverContent.hasOwnProperty(id)) {
-                  var coords = legendFollowMouse(d3.mouse(this.svg[0][0]))
-                  this.legendHoverNode.parentNode.style.display = 'block';
-                  this.legendHoverNode.parentNode.style.top = coords.y;
-                  this.legendHoverNode.parentNode.style.left = coords.x;
-                  this.legendHoverNode.innerHTML = this.legendHoverContent[id];
-                }
-              },
-              onmouseout: function (id) {
-                // keep default behavior as well
-                d3.select(this.svg[0][0]).classed('c3-legend-item-focused', false);
-                this.api.revert();
-
-                // just hide the tooltips
-                this.legendHoverNode.parentNode.style.display = 'none';
-              }
-            }
-          },
+          legend: c3LegendOnHoverFactory.legend(),
           axis: {
             y: {
 

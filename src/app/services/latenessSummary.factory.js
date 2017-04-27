@@ -7,21 +7,27 @@
         .factory('latenessSummaryFactory', latenessSummaryFactory)
 
     function latenessSummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
-
         var LatenessSummaryChart;
         return {
-
             //------------------------------Graph Labels --------------------------------------------------//
-            getLatenessSummaryChartLabels: function () {
+            getavgLatenessSummaryChartLabels: function () {
                 var graphLabelsAndTitles = {
-
-                    "yAxisLabel": "Average lateness",
+                    "yAxisLabel": "Average lateness (s)",
                     "graphTitle": "Actual vs Achievable Arrival Lateness",
-                    "seriesLabels": null
+                    "seriesLabels": {
+                        actualArrivalLatenessInSeconds: "Actual Arrival Lateness",
+                        actualArrivalEarlinessInSeconds: "Actual Arrival Earliness",
+                        achievableArrivalLatenessInSeconds: "Achievable Arrival Lateness"
+                    }
                 }
                 return graphLabelsAndTitles;
             },
-
+            getLatenessSummaryChartLabels: function () {
+                var graphLabelsAndTitles = {
+                    "yAxisLabel": "Lateness (s)",
+                }
+                return graphLabelsAndTitles;
+            },
             //------------------------------Generate c3 chart----------------------------------------------//
             getLatenessSummaryChart: function (latenessSummary, graphLabels, graphIndicator) {
                 LatenessSummaryChart = c3.generate({
@@ -35,6 +41,7 @@
                             value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
                         },
                         type: 'bar',
+                        names: graphLabels.seriesLabels,
                         labels: true,
                         colors: {
                             'actualArrivalLatenessInSeconds': function (d) {
@@ -81,14 +88,19 @@
                         },
                         y: {
                             lines: [
-                                { value: 0}
+                                { value: 0 }
                             ]
                         }
                     }
                 });
             },
 
-            setLatenessSummaryChart: function (latenessSummary, graphIndicator) {
+            setLatenessSummaryChart: function (latenessSummary, graphLabels, graphIndicator) {
+                // $log.debug(graphLabels)
+                // LatenessSummaryChart.data.names(graphLabels.seriesLabels)
+                LatenessSummaryChart.axis.labels({
+                    y: graphLabels.yAxisLabel
+                })
                 LatenessSummaryChart.load({
                     json: latenessSummary,
                     keys: {
@@ -102,8 +114,10 @@
                             return chartColors.colors(graphIndicator, d)
                         },
                         'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
-                    }
+                    },
+                   
                 });
+                
             },
 
         }

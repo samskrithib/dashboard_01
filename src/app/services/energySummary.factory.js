@@ -6,7 +6,7 @@
         .module('dassimFrontendV03')
         .factory('energySummaryFactory', energySummaryFactory)
 
-    function energySummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
+    function energySummaryFactory($log, $window, $filter, chartColors, c3LegendOnHoverFactory, DRIVE_COLORS) {
 
         var EnergySummaryChart;
         return {
@@ -21,7 +21,11 @@
                     ],
                     "yAxisLabel": "Fuel (litres)",
                     "graphTitle": "Actual vs Achievable Fuel Consumption",
-                    "seriesLabels": null
+                    "seriesLabels": {
+                        actualEnergyConsumption: "Actual Driving & Actual Time",
+                        optimalEnergyConsumption: "Eco Driving & Actual Time (Achievable)",
+                        onTimeOptimalEnergyConsumption: "Eco Driving & On-Time Running (Optimum)"
+                    }
                 }
                 return graphLabelsAndTitles;
             },
@@ -39,6 +43,7 @@
                             value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
                         },
                         type: 'bar',
+                        names: graphLabels.seriesLabels,
                         labels: true,
                         colors: {
                             'actualEnergyConsumption': function (d) {
@@ -51,10 +56,16 @@
                     title: {
                         text: graphLabels.graphTitle
                     },
-
-                    legend: {
-                        show: true,
+                    oninit: function () {
+                        // declare your extra long labels here
+                        var legendLongLabels = [
+                            'Actual fuel consumption',
+                            'Eco-Driving fuel consumption possible assuming actual departure time, or on-time if departing early, and arriving as close to on-time as possible at next station stop % of trains which could arrive in this lateness range with best practice driving assuming actual departure time from previous station stop',
+                            'Ecodriving fuel consumption possible for on-time departure and on-time arrival at next station stop'
+                        ];
+                        this.legendHoverContent = c3LegendOnHoverFactory.generateLegendHoverLabels.call(this, legendLongLabels);
                     },
+                    legend: c3LegendOnHoverFactory.legend(),
                     axis: {
                         x: {
                             type: 'category',
@@ -73,9 +84,7 @@
                         }
                     },
                     bar: {
-                        width: {
-                            ratio: 0.3 // this makes bar width 30% of length between ticks
-                        }
+                        width: 50
                     },
                     grid: {
                         lines: {
@@ -83,11 +92,13 @@
                         },
                         y: {
                             lines: [
-                                { value: energySummary[0].targetEnergyConsumption, text: 'Energy Target ' + energySummary[0].targetEnergyConsumption, position: 'end' }
+                                // { value: energySummary[0].targetEnergyConsumption, text: 'Energy Target ' + energySummary[0].targetEnergyConsumption, position: 'end' }
                             ]
                         }
                     }
                 });
+                d3.selectAll(".c3-bar")
+                    .attr("transform", "translate(-5, 0)");
             },
 
             setEnergySummaryChart: function (energySummary, graphIndicator) {

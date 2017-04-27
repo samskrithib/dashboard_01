@@ -14488,9 +14488,9 @@
                 "link": {
                     "stations": "Hexham-Haydon Bridge"
                 },
-                "message": "Good Driving",
+                "message": "Average Driving",
                 "percentageScore": 100,
-                "performanceIndicator": "GOOD_DRIVING"
+                "performanceIndicator": "AVERAGE_DRIVING"
             },
             {
                 "link": {

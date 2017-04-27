@@ -4,29 +4,27 @@
 // @import "bower_components/bootswatch/lumen/_bootswatch.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-// body{
-//   background-color: #fff !important;
-// }
-.grey {
-    color: $brand-danger;
-    background-color: $brand-warning;
-    height: 60px;
+@import "sass/variables.scss";
+
+
+.GOOD_DRIVING {
+  color: $c3-green !important;
+   
+  // color: white;
+  // background-color: $c3-green;
 }
-.text-replacement {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 250px;
-  width: 250px;
-  padding-top: 250px;
-  overflow: hidden;
-  background: #333 no-repeat;
+.AVERAGE_DRIVING {
+   color: $c3-orange;
+  //  color: white;
+  //  background-color: $c3-orange;
 }
-.black{
-   color: $brand-success;
-  background-color: $brand-danger;
-    height: 60px;
+.POOR_DRIVING{
+   color: $c3-red;
+  //  color: white;
+  // background-color: $c3-red;
 }
+
+
 #page-wrapper{
   // background-color: $brand-primary !important;
   .row{
@@ -64,30 +62,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   }
   
 }
-#switchbtn .btn-default.active {
-        border-color:transparent;
-        background-color: #5cb85c;
-        color: white;
-        margin-top: 5px;
-        padding: 3px 5px;
-        /*border-width:medium;*/
-}
 
-#switchbtn .btn-default {
-    border-color: #5cb85c;
-    margin-top: 5px;
-    padding: 3px 5px;
-    
-    /*border-width:medium;*/
-}
-#speedLabel {
-  position: relative;
-  /*margin: 20px auto;*/
-  // float: right;
-  height: 26px;
-  /*font-size: 0.9em;*/
-  padding: 5px 2px 5px 2px;
-}
 
 #separator{
   @media screen and (min-width: 991px) {
@@ -127,9 +102,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   background-color: #f9f9f9;
   
   }
-/* c3 js styling Start */
 
-/* c3 js styling End */
 
 #from .dropdown-menu {
   max-height: 250px;
