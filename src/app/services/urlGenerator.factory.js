@@ -14,11 +14,11 @@
         },
 
         generateReportsUrl: function (date, time, from, to) {
-          // var formatdate = $filter('date')(date, 'dd-MM-yyyy')
+          var formatdate = $filter('date')(date, 'dd-MM-yyyy')
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           // subtitle = from.locationName +' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
-          // viewRunsUrl = 'driverRuns/single?scheduledDepDateTime='+formatdate+' '+ time + '&originTiploc='+ from.tiploc + '&destinationTiploc=' +to.tiploc
-          viewRunsUrl = 'assets/SINGLERUN_JSON_LATEST.json';
+          viewRunsUrl = 'driverRuns/single?scheduledDepDateTime='+formatdate+' '+ time + '&originTiploc='+ from.tiploc + '&destinationTiploc=' +to.tiploc
+          // viewRunsUrl = 'assets/SINGLERUN_JSON_LATEST.json';
           
           // return viewRunsUrl;
         },
@@ -26,7 +26,7 @@
           // $log.debug(viewRunsUrl)
           return {
             // subtitle: subtitle,
-            viewRunsUrl: 'assets/SINGLERUN_JSON_LATEST.json'
+            viewRunsUrl: viewRunsUrl
           }
         },
 

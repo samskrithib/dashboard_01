@@ -92,7 +92,7 @@
                         },
                         y: {
                             lines: [
-                                // { value: energySummary[0].targetEnergyConsumption, text: 'Energy Target ' + energySummary[0].targetEnergyConsumption, position: 'end' }
+                                { value: energySummary[0].targetEnergyConsumption, text: 'Energy Target ' + energySummary[0].targetEnergyConsumption, position: 'end' }
                             ]
                         }
                     }
