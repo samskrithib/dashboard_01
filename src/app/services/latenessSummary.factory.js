@@ -38,7 +38,7 @@
                     data: {
                         json: latenessSummary,
                         keys: {
-                            value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
+                            value: ['actualArrivalEarlinessInSeconds','actualArrivalLatenessInSeconds', 'achievableArrivalLatenessInSeconds']
                         },
                         type: 'bar',
                         names: graphLabels.seriesLabels,
@@ -104,7 +104,7 @@
                 LatenessSummaryChart.load({
                     json: latenessSummary,
                     keys: {
-                        value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
+                        value: [ 'actualArrivalEarlinessInSeconds','actualArrivalLatenessInSeconds', 'achievableArrivalLatenessInSeconds']
                     },
                     colors: {
                         'actualArrivalLatenessInSeconds': function (d) {

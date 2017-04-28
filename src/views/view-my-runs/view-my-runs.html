@@ -12,20 +12,20 @@
               <option data-ng-repeat="link in vm.unitPerformanceScores.trainUnitPerformancePerLink"
               data-ng-class="vm.getLinkClass(link)">{{link.link.stations}}</option>
             </select>
+
           </div>
         </div>
       </div>
-      
+
       <!-- Nav tabs -->
       <div class="tabscss col-lg-12">
-
         <uib-tabset justified="true" active="active">
           <uib-tab index="0" heading="Unit Performance">
             <div class="tab-container">
               <div class="subtitle row">
                 <div class="col-md-8">
                   <div ng-show="vm.stationToStationLinks.selected" ng-bind-html="vm.stationToStationLinks.selected + ' : ' + vm.performanceMessage"></div>
-                  <div ng-show="!vm.stationToStationLinks.selected">Showing unit performance score for complete journey</div>
+                  <div ng-show="!vm.stationToStationLinks.selected">{{vm.trainUnitPerformancePerJourneyMessage}}</div>
                 </div>
                 <div class="col-md-4">
                   <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.chartSubtitle"></div>
@@ -41,7 +41,7 @@
               <div class="subtitle row">
                 <div class="col-md-8">
                   <div ng-show="vm.stationToStationLinks.selected" ng-bind-html="vm.stationToStationLinks.selected + ' : ' + vm.performanceMessage"></div>
-                  <div ng-show="!vm.stationToStationLinks.selected">Showing energy and lateness summary for complete journey</div>
+                  <div ng-show="!vm.stationToStationLinks.selected">{{vm.trainUnitPerformancePerJourneyMessage}}</div>
                 </div>
                 <div class="col-md-4">
                   <div style="text-align: right; font-size: 0.8em" ng-bind-html="vm.chartSubtitle"></div>

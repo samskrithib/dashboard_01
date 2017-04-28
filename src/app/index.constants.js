@@ -13,7 +13,7 @@
       orange : '#FF7F0E',
       green : '#2ca02c',
       green_actual : '#5FD35F',
-      green_light : '#98df8a'
+      green_light : '#ABFFAB'
     })
   
 })();

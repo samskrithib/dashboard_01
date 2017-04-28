@@ -37,11 +37,11 @@
         vm.response = response;
         vm.trainIdentifiers = vm.response.trainIdentifier
         $log.debug(vm.trainIdentifiers)
-        // vm.chartSubtitle = UrlGenerator.getData().subtitle
-        //   + '<div>' +
-        //   vm.trainIdentifiers.unitNumber
-        //   + '<span ng-show=' + vm.trainIdentifiers.headcode + '> - ' + vm.trainIdentifiers.headcode + ' </span >'
-        //   + ' </div>';
+        vm.chartSubtitle = UrlGenerator.getData().subtitle
+          + '<div>' +
+          vm.trainIdentifiers.unitNumber
+          + '<span ng-show=' + vm.trainIdentifiers.headcode + '> - ' + vm.trainIdentifiers.headcode + ' </span >'
+          + ' </div>';
         _.each(vm.tabs, function (val, key) {
           switch (vm.tabs[key].id) {
             case "0": {
@@ -50,6 +50,7 @@
               vm.stationToStationLinks = _.pluck(vm.unitPerformanceScores.trainUnitPerformancePerLink, 'link')
               vm.unitPerformanceScoreChartLabels = unitPerformanceScoreFactory.getUnitPerformanceScoreChartLabels();
               vm.chartIndicators = [vm.unitPerformanceScores.performanceIndicator]
+              vm.trainUnitPerformancePerJourneyMessage = vm.unitPerformanceScores.message
               unitPerformanceScoreFactory.getUnitPerformanceScoreChart([vm.unitPerformanceScores], vm.chartIndicators, vm.unitPerformanceScoreChartLabels)
               break;
             }
