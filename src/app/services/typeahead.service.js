@@ -37,10 +37,5 @@
       };
     }
     ])
-  .config(['$logProvider', function($logProvider){
-    $logProvider.debugEnabled(false);
-  }])
-
-  
   
 })();

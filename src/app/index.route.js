@@ -55,6 +55,18 @@
         controller: 'testController',
         controllerAs: 'vm'
       })
+      .state('dwellTimesInput',{
+         url: '/dwellTimesInput',
+        templateUrl: 'views/dwellTimes/dwellTimesPerJourneyInput.html',
+        controller: 'dwellTimesInputController',
+        controllerAs: 'vm'
+      })
+      .state('dwellTimes',{
+         url: '/dwellTimes',
+        templateUrl: 'views/dwellTimes/dwellTimesPerJourney.html',
+        controller: 'dwellTimesController',
+        controllerAs: 'vm'
+      })
       .state('comparemyrunsInput', {
         url: '/comparemyrunsInput',
         templateUrl: 'views/compare-my-runs/compare-my-runs-input.html',

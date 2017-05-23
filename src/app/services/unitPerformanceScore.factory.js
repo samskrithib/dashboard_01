@@ -5,33 +5,9 @@
     angular
         .module('dassimFrontendV03')
         .factory('unitPerformanceScoreFactory', unitPerformanceScoreFactory)
-        .factory('chartColors', chartColors)
-    function chartColors(DRIVE_COLORS) {
-
-        return {
-            colors: function (performanceIndicator, d) {
-                var indicator;
-                switch (performanceIndicator[d.x]) {
-                    case 'GOOD_DRIVING': {
-                        indicator = DRIVE_COLORS.green_actual;
-                        break;
-                    }
-                    case 'AVERAGE_DRIVING': {
-                        indicator = DRIVE_COLORS.orange;
-                        break;
-                    }
-                    case 'POOR_DRIVING': {
-                        indicator = DRIVE_COLORS.red;
-                        break;
-                    }
-
-                }
-                return indicator;
-            }
-        }
-    }
     function unitPerformanceScoreFactory($log, $window, $filter, chartColors) {
         var unitPerformanceScoreChart;
+        var indicatorVar = 'performance'
         return {
             //------------------------------Graph Labels --------------------------------------------------//
             getUnitPerformanceScoreChartLabels: function () {
@@ -60,7 +36,7 @@
                         labels: true,
                         colors: {
                             'percentageScore': function (d) {
-                                return chartColors.colors(performanceIndicators, d)
+                                return chartColors.colors(performanceIndicators, d, indicatorVar)
                             }
                         }
                     },
@@ -71,7 +47,13 @@
                         text: chartLabels.chartTitle
                     },
                     axis: {
-
+                        x:{
+                            tick:{
+                             format: function(){ return '' }
+                           },
+                            type: 'category',
+                            height: 50
+                        },
                         y: {
                             //min: 0,
                             label: {
@@ -105,7 +87,7 @@
                     },
                     colors: {
                         'percentageScore': function (d) {
-                            return chartColors.colors(performanceIndicatorsArray, d)
+                            return chartColors.colors(performanceIndicatorsArray, d, indicatorVar)
                         }
                     }
                 })

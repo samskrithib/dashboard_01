@@ -33,8 +33,8 @@
             },
             names: {
               ActualDriving: 'Actual Driving',
-              FlatoutDriving: 'Flatout Driving',
-              EcoDriving: 'Eco Driving',
+              FlatoutDriving: 'Optimal(Flatout) Driving',
+              EcoDriving: 'Optimal(Eco) Driving',
               SpeedLimit: 'Speed Limit'
             },
             columns: [
@@ -59,7 +59,7 @@
             labels: false,
             colors: {
               'ActualDriving': '#1f77b4',
-              'FlatoutDriving': '#f77604',
+              'FlatoutDriving': '#2ca02c',
               'EcoDriving': '#2ca02c',
               'SpeedLimit': 'black',
               'Elevation': '#8c564b'

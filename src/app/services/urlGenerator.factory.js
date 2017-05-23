@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
-      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains;
+      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl;
       var modifiedData = {};
       return {
         generateTrainTimesUrl: function (a, b, c) {
@@ -21,6 +21,13 @@
           // viewRunsUrl = 'assets/SINGLERUN_JSON_LATEST.json';
           
           // return viewRunsUrl;
+        },
+        generateDwellTimesUrl: function(date, time, from, to){
+          var formatdate = $filter('date')(date, 'dd-MM-yyyy')
+          dwellTimesUrl = 'dwelltimeReports/perJourney?originTiploc='+from.tiploc+'&destinationTiploc='+ to.tiploc+'&scheduledDepDateTime='+ formatdate +' '+ time ;
+        },
+        getDwellTimesUrl: function(){
+          return dwellTimesUrl;
         },
         getData: function () {
           // $log.debug(viewRunsUrl)
