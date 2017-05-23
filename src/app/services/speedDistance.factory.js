@@ -33,8 +33,8 @@
             },
             names: {
               ActualDriving: 'Actual Driving',
-              FlatoutDriving: 'Optimal(Flatout) Driving',
-              EcoDriving: 'Optimal(Eco) Driving',
+              FlatoutDriving: 'Optimal Driving (Flatout)',
+              EcoDriving: 'Optimal Driving (Eco)',
               SpeedLimit: 'Speed Limit'
             },
             columns: [

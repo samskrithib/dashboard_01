@@ -124,7 +124,7 @@
         speedDistanceOnselectLink();
       } else {
         unitPerformanceScoreFactory.setUnitPerformanceScoreChart([vm.unitPerformanceScores], vm.chartIndicators)
-        energySummaryFactory.setEnergySummaryChart(vm.totalEnergySummaries, vm.energyPerformanceIndicator)
+        energySummaryFactory.setEnergySummaryChart(vm.totalEnergySummaries, vm.energyPerformanceIndicators)
         latenessSummaryFactory.setLatenessSummaryChart(vm.totalLatenessSummaries, vm.avglatenessSummaryChartLabels, vm.latenessPerformanceIndicators)
       }
 

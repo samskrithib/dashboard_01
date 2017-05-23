@@ -17,6 +17,7 @@
       .then(function (response) {
         vm.response = response;
         vm.dwellTimes = vm.response.dwellTimes
+        vm.headcode = vm.response.headcode
         $log.debug(vm.response)
        
        

@@ -6,8 +6,6 @@
 
   angular
   .module('dassimFrontendV03')
-  
-
   .controller('PeriodicReportsController', PeriodicReportsController);
 
   /** @ngInject */
@@ -16,7 +14,7 @@
     var vm = this;
     var energySummaryAvg, energySummaryTot, energySummarygraphLabels, nTrains, graphIndicator;
     var rollingStockSubTitle, serviceCodeSubTitle;
-    var decimalPlace = 1;
+    var decimalPlace = 0;
     vm.periodicEnergySummaryError=false;
     vm.periodicOnTimeError=false;
 

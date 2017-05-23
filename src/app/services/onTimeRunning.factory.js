@@ -13,7 +13,7 @@
         var optimalLateness = d3.values([(response.optimalLatenessPercentages)][0]);
         var seriesNames = [
           "Actual Driving Style",
-          "Improved Driving Style"
+          "Optimal Driving Style"
         ];
 
         actualLateness.splice(0, 0, seriesNames[0]);
@@ -31,7 +31,7 @@
           "graphTitle": "Actual vs Achievable On-Time Running",
           "seriesLabels": [
             "Actual Driving Style",
-            "Improved Driving Style"
+            "Optimal Driving Style"
           ]
         };
         return graphLabelsAndTitles;
@@ -52,7 +52,7 @@
             ],
             colors:{
               'Actual Driving Style': '#1f77b4',
-              'Improved Driving Style' : '#2ca02c'
+              'Optimal Driving Style' : '#2ca02c'
 
             },
             type: 'bar',

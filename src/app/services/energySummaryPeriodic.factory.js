@@ -112,9 +112,9 @@
       getGraphLabelsPeriodic: function () {
         var graphLabelsAndTitles = {
           "xAxisLabels": [
-            "Actual Driving & Actual Time ",
-            "Eco Driving & Actual Time (Achievable)",
-            "Eco Driving & On-Time Running (Optimum)"
+            "Actual",
+            "Optimised Achievable",
+            "Optimised With On-Time Departure"
           ],
           "yAxisLabel": "Fuel (litres)",
           "graphTitle": "Actual vs Achievable Fuel Consumption (Total)",
