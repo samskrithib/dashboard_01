@@ -16,8 +16,8 @@
       // taken as a factor of highest value in series.. so it scales
       var tooClose = data[0].value / 35;
       // loop, find overlappers and write offset values into them
-      _.each(data, function(val, key){
-        data[key].class = 'grid'+data[key].tiploc
+      _.each(data, function (val, key) {
+        data[key].class = 'grid' + data[key].tiploc
       })
       for (var i = 1; i < data.length; i++) {
         var prev = data[i - 1];
@@ -60,12 +60,15 @@
             right: 50
           },
           data: ModifiedData(),
+          color: {
+            pattern: ['#aec7e8', '#1f77b4', '#ffbb78', '#ff7f0e', '#98df8a', '#2ca02c', '#ff9896', '#d62728', '#c5b0d5', '#9467bd', '#c49c94', '#8c564b', '#f7b6d2', '#e377c2', '#c7c7c7', '#7f7f7f', '#dbdb8d', '#bcbd22', '#9edae5', '#17becf']
+          },
           legend: {
             show: false
           },
           axis: {
             y: {
-              label:{
+              label: {
                 text: 'Distance(km)',
                 position: 'outer-middle'
               },
@@ -102,12 +105,15 @@
             }
           },
           tooltip: {
+            grouped: false,
+            
             format: {
               title: function (d) {
                 var x = moment(d).format("MMMM Do YYYY, h:mm:ss a")
                 return x;
               },
               name: function (d) {
+                $log.info(d)
                 var tooltip_name = d.split(".")
                 return tooltip_name[1]
               }
@@ -125,9 +131,10 @@
             var allNames = [];
             var ActualRunSeriesNames = [];
             var scheduledSeriesNames = [];
+            $log.info(data.length)
             _.each(data, function (val, key) {
               var array = data[key].timetableArray;
-
+              
               _.each(array, function (val, index) {
                 var timeDistanceArray = array[index].timeAndDistanceList
                 var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
@@ -152,10 +159,10 @@
               })
             })
 
-            function toggle(id) {
-              timetableAdherenceChart.toggle(id);
-            }
+
             d3.select('#index0')
+              .insert('div')
+              .attr('class', 'container-fluid')
               .insert('div')
               .attr('class', 'legend')
               .insert('ul').attr('class', 'list-group')
@@ -186,6 +193,7 @@
                 var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
                 newArray.push(scheduledSeriesNames[index_of_matchedString])
                 newArray.push(id)
+                $(this).toggleClass("c3-legend-item-hidden")
                 // d3.select(this).style("opacity", 0.2);
                 timetableAdherenceChart.toggle(newArray);
               })
@@ -204,16 +212,16 @@
                 text: station.text,
                 class: station.class
               });
-              var selector = ".c3-ygrid-line."+station.class;
+              var selector = ".c3-ygrid-line." + station.class;
               d3.select(selector).select('text')
                 .attr('dx', function (id) {
                   if (station.offset) {
                     // $log.debug(id)
-                    return -station.offset*4;
+                    return -station.offset * 4;
                   }
                 })
 
-                
+
             });
 
 

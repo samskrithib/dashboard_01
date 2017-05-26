@@ -95,7 +95,7 @@
                                 <label for="startTime" class="col-md-2 control-label mandatory">Start Time</label>
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.startTime.$invalid && !form.startTime.$pristine }">
 
-                                    <div uib-timepicker ng-model="vm.formData.startTime" hour-step="1" minute-step="30" required></div>
+                                    <div uib-timepicker ng-model="vm.formData.startTime" hour-step="1" minute-step="30" show-meridian="false" required></div>
 
                                     <span class="help-block" ng-show="form.$submitted && form.startTime.$error.required">Required</span>
                                 </div>
@@ -103,7 +103,7 @@
                             <div ng-class="{'has-error': form.$submitted && form.endTime.$invalid,'has-success': form.$submitted && form.endTime.$valid}">
                                 <label for="endTime" class="col-md-2 control-label mandatory">End Time</label>
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.endTime.$invalid && !form.endTime.$pristine }">
-                                    <div uib-timepicker ng-model="vm.formData.endTime" hour-step="1" minute-step="30" required></div>
+                                    <div uib-timepicker ng-model="vm.formData.endTime" hour-step="1" minute-step="30" show-meridian="false" required></div>
                                     <span class="help-block" ng-show="form.$submitted && form.endTime.$error.required">Required</span>
                                 </div>
                             </div>

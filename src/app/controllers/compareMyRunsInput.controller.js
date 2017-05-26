@@ -19,7 +19,7 @@
     vm.open = function () {
       vm.datePickerPopup.opened = true
     };
-    vm.runslength = 3;
+    vm.runslength = 1;
     vm.dateOptions = {
       // dateDisabled: disabled, check https://angular-ui.github.io/bootstrap/#!#datepickerPopup
       formatYear: 'yy',
@@ -130,34 +130,9 @@
       getterSetter: true
     };
 
-    vm.itemsList = [
-      { name: 'Energy Summary', id: '0' },
-      { name: 'On-Time Running', id: '1' },
-      { name: 'Speed Distance', id: '2' }];
-    vm.checkedItems = ["0", "1", "2"];
-    vm.formData.selectedItems = [];
-    vm.someSelected = function (object) {
-      return Object.keys(object).some(function (key) {
-        return object[key];
-      });
-    };
+ 
 
-    UtilityService.clearTab();
-    UtilityService.addTab('Energy Summary', '0')
-    UtilityService.addTab('On-Time Running', '1')
-    UtilityService.addTab('Speed Distance', '2')
-    vm.toggleCheck = function (id, name) {
-      if (vm.formData.selectedItems[name] == false) {
-        vm.checkedItems.splice(vm.checkedItems.indexOf(id), 1);
-        UtilityService.removeTab(name);
-      } else if (vm.formData.selectedItems[name] == true) {
-        vm.checkedItems.push(id);
-        UtilityService.addTab(name, id);
-      } else if (vm.formData.selectedItems[name] === undefined) {
-        UtilityService.clearTab();
-        vm.checkedItems = []
-      }
-    };
+  
 
     vm.submit = function (isValid) {
       if (isValid) {
@@ -187,7 +162,9 @@
 
     vm.addRun = function (form) {
       if (form) {
-        vm.allRuns.push({
+        $log.debug(vm.allRuns.length)
+        if(vm.allRuns.length <= vm.runslength){
+          vm.allRuns.push({
           'date': vm.compareRunsFormdata.date,
           'origin': vm.compareRunsFormdata.origin,
           'destination': vm.compareRunsFormdata.destination,
@@ -203,6 +180,8 @@
         form.$setUntouched();
         form.$setPristine();
         // $log.info(vm.allRuns)
+        }
+        
       }
 
     };
