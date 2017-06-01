@@ -13,7 +13,7 @@
                 var OtherIndicatorVariables = ['GOOD', 'AVERAGE', 'POOR'];
                 var IndicatorVariable;
                 if (other === 'performance') {
-                    IndicatorVariable = performanceIndicatorVariables
+                    IndicatorVariable = OtherIndicatorVariables
                 } else {
                     IndicatorVariable = OtherIndicatorVariables;
                 }

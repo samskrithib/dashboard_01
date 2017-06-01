@@ -48,11 +48,31 @@
                         labels: true,
                         colors: {
                             'actualEnergyConsumption': function (d) {
+                               
                                 return chartColors.colors(graphIndicator, d, indicatorVar)
                             },
                             'optimalEnergyConsumption': DRIVE_COLORS.green,
                             'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
-                        }
+                        },
+                        
+                        // color: function (color, d) {
+                        //     // $log.info( chartColors.colors(graphIndicator, d, indicatorVar))
+                        //     var colors = {
+                        //         'actualEnergyConsumption': chartColors.colors(graphIndicator, d, indicatorVar),
+                        //         'optimalEnergyConsumption': DRIVE_COLORS.green,
+                        //         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
+                        //     };
+                        //     if (typeof d === 'object') {
+                        //         // $log.info(colors[d.id])
+                        //         return colors[d.id];
+                        //     } else {
+                        //         $log.info("else" + color[d])
+                        //         if (colors[d] === undefined) {
+                        //             colors[d] = DRIVE_COLORS.green_actual
+                        //         }
+                        //         return colors[d];
+                        //     }
+                        // }
                     },
                     title: {
                         text: graphLabels.graphTitle
@@ -69,9 +89,9 @@
                     legend: c3LegendOnHoverFactory.legend(),
                     axis: {
                         x: {
-                           tick:{
-                             format: function(){ return '' }
-                           },
+                            tick: {
+                                format: function () { return '' }
+                            },
                             type: 'category',
                             //   categories: graphLabels.xAxisLabels,
                             height: 50
@@ -113,11 +133,13 @@
                     },
                     colors: {
                         'actualEnergyConsumption': function (d) {
+                            
                             return chartColors.colors(graphIndicator, d, indicatorVar)
                         },
                         'optimalEnergyConsumption': DRIVE_COLORS.green,
                         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
-                    }
+                    },
+                    
                 });
             },
 
