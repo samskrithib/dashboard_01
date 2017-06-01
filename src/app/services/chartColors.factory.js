@@ -17,9 +17,8 @@
                 } else {
                     IndicatorVariable = OtherIndicatorVariables;
                 }
-                $log.info(performanceIndicator)
                 var indicator;
-                switch (performanceIndicator[d.x]) {
+                switch (performanceIndicator[0]) {
                     case IndicatorVariable[0]: {
                         indicator = DRIVE_COLORS.green_actual;
                         break;
@@ -36,6 +35,7 @@
                 }
                 return indicator;
             },
+
         }
     }
 

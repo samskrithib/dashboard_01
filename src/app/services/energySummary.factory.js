@@ -54,25 +54,7 @@
                             'optimalEnergyConsumption': DRIVE_COLORS.green,
                             'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
                         },
-                        
-                        // color: function (color, d) {
-                        //     // $log.info( chartColors.colors(graphIndicator, d, indicatorVar))
-                        //     var colors = {
-                        //         'actualEnergyConsumption': chartColors.colors(graphIndicator, d, indicatorVar),
-                        //         'optimalEnergyConsumption': DRIVE_COLORS.green,
-                        //         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
-                        //     };
-                        //     if (typeof d === 'object') {
-                        //         // $log.info(colors[d.id])
-                        //         return colors[d.id];
-                        //     } else {
-                        //         $log.info("else" + color[d])
-                        //         if (colors[d] === undefined) {
-                        //             colors[d] = DRIVE_COLORS.green_actual
-                        //         }
-                        //         return colors[d];
-                        //     }
-                        // }
+                            
                     },
                     title: {
                         text: graphLabels.graphTitle
@@ -131,10 +113,11 @@
                     keys: {
                         value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
                     },
+                    
                     colors: {
                         'actualEnergyConsumption': function (d) {
-                            
-                            return chartColors.colors(graphIndicator, d, indicatorVar)
+                            $log.info("d.x : " + d.x)
+                                return chartColors.colors(graphIndicator, d, indicatorVar)
                         },
                         'optimalEnergyConsumption': DRIVE_COLORS.green,
                         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light

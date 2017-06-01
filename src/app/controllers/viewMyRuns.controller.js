@@ -138,14 +138,14 @@
 
     function unitPerformanceMessage() {
       vm.performanceMessage = vm.arrayOfSelectedLinksPerformanceMessage[0]
-      $log.info(vm.performanceMessage)
+      // $log.info(vm.performanceMessage)
     }
     function energySummaryOnSelectLink() {
       vm.arrayOfSelectedLinksEnergySummary = []
       _.each(vm.energySummaryLinks_allRuns, function (val, key) {
         vm.arrayOfSelectedLinksEnergySummary.push(vm.energySummaryLinks_allRuns[key][vm.indexOfSelectedLink].energySummary)
       })
-      $log.info(vm.arrayOfSelectedLinksEnergyPerformanceIndicators)
+      // $log.info(vm.arrayOfSelectedLinksEnergyPerformanceIndicators)
       energySummaryFactory.setEnergySummaryChart(vm.arrayOfSelectedLinksEnergySummary, vm.arrayOfSelectedLinksEnergyPerformanceIndicators)
     }
 
