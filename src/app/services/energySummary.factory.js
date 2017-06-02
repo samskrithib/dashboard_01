@@ -9,7 +9,6 @@
     function energySummaryFactory($log, $window, $filter, chartColors, c3LegendOnHoverFactory, DRIVE_COLORS) {
 
         var EnergySummaryChart;
-        var indicatorVar = 'EnergySummary';
         return {
 
             //------------------------------Graph Labels --------------------------------------------------//
@@ -36,7 +35,7 @@
                 EnergySummaryChart = c3.generate({
                     bindto: '#chart1',
                     size: {
-                        height: 300,
+                        height: 300
                     },
                     data: {
                         json: energySummary,
@@ -47,13 +46,13 @@
                         names: graphLabels.seriesLabels,
                         labels: true,
                         colors: {
-                            'actualEnergyConsumption': function (d) {
+                            'actualEnergyConsumption': function () {
                                
-                                return chartColors.colors(graphIndicator, d, indicatorVar)
+                                return chartColors.colors(graphIndicator)
                             },
                             'optimalEnergyConsumption': DRIVE_COLORS.green,
                             'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
-                        },
+                        }
                             
                     },
                     title: {
@@ -115,13 +114,12 @@
                     },
                     
                     colors: {
-                        'actualEnergyConsumption': function (d) {
-                            $log.info("d.x : " + d.x)
-                                return chartColors.colors(graphIndicator, d, indicatorVar)
+                        'actualEnergyConsumption': function () {
+                                return chartColors.colors(graphIndicator)
                         },
                         'optimalEnergyConsumption': DRIVE_COLORS.green,
                         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
-                    },
+                    }
                     
                 });
             },

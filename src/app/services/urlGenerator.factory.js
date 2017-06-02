@@ -17,8 +17,8 @@
           var formatdate = $filter('date')(date, 'dd-MM-yyyy')
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           subtitle = from.locationName +' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
-          // viewRunsUrl = 'driverRuns/single?scheduledDepDateTime='+formatdate+' '+ time + '&originTiploc='+ from.tiploc + '&destinationTiploc=' +to.tiploc
-          viewRunsUrl = 'assets/UnitPerformance_updated.json';
+          viewRunsUrl = 'driverRuns/single?scheduledDepDateTime='+formatdate+' '+ time + '&originTiploc='+ from.tiploc + '&destinationTiploc=' +to.tiploc
+          // viewRunsUrl = 'assets/UnitPerformance_updated.json';
           
           // return viewRunsUrl;
         },

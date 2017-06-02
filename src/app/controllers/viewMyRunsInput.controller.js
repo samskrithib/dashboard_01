@@ -80,9 +80,8 @@
             vm.tstate = "LOADING";
             vm.timePlaceholder = "Loading.."
             vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
-          // UrlGenerator.get("assets/times.json")
-            // httpCallsService.getByUrl(vm.url)
-            httpCallsService.getByJson("assets/old/times.json")
+            httpCallsService.getByUrl(vm.url)
+            // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.customTimeSelected = '';
