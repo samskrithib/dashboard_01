@@ -29,8 +29,8 @@
     };
 
     vm.getStations = function () {
-      httpCallsService.getByUrl('locationnamesandtiplocs')
-      // httpCallsService.getByJson('assets/locationandTiplocs.json')
+      // httpCallsService.getByUrl('locationnamesandtiplocs')
+      httpCallsService.getByJson('assets/locationandTiplocs.json')
       .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
@@ -71,8 +71,8 @@
           vm.timePlaceholder = "Loading.."
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
-          httpCallsService.getByUrl(vm.url)
-          // httpCallsService.getByJson("assets/times.json")
+          //httpCallsService.getByUrl(vm.url)
+          httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
