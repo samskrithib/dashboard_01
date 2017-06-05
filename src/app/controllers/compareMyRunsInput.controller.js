@@ -29,7 +29,7 @@
     };
 
     vm.getStations = function () {
-      httpCallsService.getByUrl('locationnamesandtiplocs')
+      httpCallsService.getStations()
       // httpCallsService.getByJson('assets/locationandTiplocs.json')
       .then(function (data) {
         if (data.length <= 0) {

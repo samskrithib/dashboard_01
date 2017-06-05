@@ -62,7 +62,7 @@
             return ('b' + obj[key]);
         };
         vm.getStations = function () {
-            httpCallsService.getByUrl('locationnamesandtiplocs').then(function (data) {
+           httpCallsService.getStations().then(function (data) {
                 if (data.length <= 0) {
                     vm.state = "NORESULTS";
                     vm.statusmessage = "No results";

@@ -15,7 +15,7 @@
     energySummaryFactory, latenessSummaryFactory, speedDistanceDataFactory, speedDistanceChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
-    //COlor code for links displayed in dropdown list
+    //Color code for links displayed in dropdown list
     vm.getLinkClass = function (link) {
       if (link.linkPerformanceIndicator == "POOR") {
         return "POOR"
@@ -83,8 +83,6 @@
               vm.latenessSummaryLinks_allRuns = [vm.latenessSummaries.latenessSummaries]
               break;
             }
-
-
             default: {
               break;
             }
