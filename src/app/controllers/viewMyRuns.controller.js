@@ -15,7 +15,17 @@
     energySummaryFactory, latenessSummaryFactory, speedDistanceDataFactory, speedDistanceChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
-   
+    //COlor code for links displayed in dropdown list
+    vm.getLinkClass = function (link) {
+      if (link.linkPerformanceIndicator == "POOR") {
+        return "POOR"
+      } else if (link.linkPerformanceIndicator == "AVERAGE") {
+        return "AVERAGE"
+      } else if (link.linkPerformanceIndicator == "GOOD") {
+        return "GOOD"
+      }
+
+    };
     UtilityService.addTab('Unit Performance', '0')
     UtilityService.addTab('Energy & Lateness Summary', '1')
     UtilityService.addTab('Speed Distance', '2')
