@@ -19,7 +19,7 @@
     vm.open = function () {
       vm.datePickerPopup.opened = true
     };
-    vm.runslength = 1;
+    vm.runslength = 2;
     vm.dateOptions = {
       // dateDisabled: disabled, check https://angular-ui.github.io/bootstrap/#!#datepickerPopup
       formatYear: 'yy',
@@ -72,7 +72,7 @@
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
           httpCallsService.getByUrl(vm.url)
-          // httpCallsService.getByJson("assets/times.json")
+          // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -160,26 +160,56 @@
 
     vm.allRuns = [];
 
+    vm.remove = function(allRuns, index){
+      alert("Deleteing row entry.");
+      vm.allRuns.splice(index, 1);
+    };
+
+    vm.pushDataToArray = function (){
+      vm.allRuns.push({
+              'date': vm.compareRunsFormdata.date,
+              'origin': vm.compareRunsFormdata.origin,
+              'destination': vm.compareRunsFormdata.destination,
+              'departureTime': vm.compareRunsFormdata.departureTime
+            });
+            vm.compareRunsFormdata.date = undefined;
+            // vm.fromStation = undefined;
+            // vm.toStation = undefined;
+            vm.compareRunsFormdata.departureTime = undefined;
+            vm.tstate = "Loading";
+            vm.timePlaceholder = ''
+            //  vm.times = undefined;
+            form.$setUntouched();
+            form.$setPristine();
+            // $log.info(vm.allRuns)
+    };
+
     vm.addRun = function (form) {
       if (form) {
         $log.debug(vm.allRuns.length)
         if(vm.allRuns.length <= vm.runslength){
-          vm.allRuns.push({
-          'date': vm.compareRunsFormdata.date,
-          'origin': vm.compareRunsFormdata.origin,
-          'destination': vm.compareRunsFormdata.destination,
-          'departureTime': vm.compareRunsFormdata.departureTime
-        });
-        vm.compareRunsFormdata.date = undefined;
-        // vm.fromStation = undefined;
-        // vm.toStation = undefined;
-        vm.compareRunsFormdata.departureTime = undefined;
-        vm.tstate = "Loading";
-        vm.timePlaceholder = ''
-        //  vm.times = undefined;
-        form.$setUntouched();
-        form.$setPristine();
-        // $log.info(vm.allRuns)
+          
+          if (vm.allRuns.length == 0) {
+            vm.pushDataToArray();
+          }else{
+            var duplicatedData=false;
+            for (var i=0; i<vm.allRuns.length; i++){
+              if (  vm.allRuns[i].date.getTime() === vm.compareRunsFormdata.date.getTime() &&
+                      vm.allRuns[i].origin === vm.compareRunsFormdata.origin &&
+                        vm.allRuns[i].destination === vm.compareRunsFormdata.destination &&
+                          vm.allRuns[i].departureTime === vm.compareRunsFormdata.departureTime){
+                duplicatedData=true;
+                alert("Duplicate Data please enter another run to compare.")
+                {break}
+              }
+            }
+
+            if (duplicatedData == false) {
+              vm.pushDataToArray();
+            } 
+          }        
+        } else {
+          alert("You can only add 3 input runs.");
         }
         
       }
