@@ -18,7 +18,7 @@
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           subtitle = from.locationName +' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
           viewRunsUrl = 'driverRuns/single?scheduledDepDateTime='+formatdate+' '+ time + '&originTiploc='+ from.tiploc + '&destinationTiploc=' +to.tiploc
-          // viewRunsUrl = 'assets/SINGLERUN_JSON_LATEST.json';
+          // viewRunsUrl = 'assets/UnitPerformance_updated.json';
           
           // return viewRunsUrl;
         },

@@ -7,18 +7,18 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 @import "sass/variables.scss";
 
 
-.GOOD_DRIVING {
+.GOOD {
   color: $c3-green !important;
    
   // color: white;
   // background-color: $c3-green;
 }
-.AVERAGE_DRIVING {
+.AVERAGE {
    color: $c3-orange;
   //  color: white;
   //  background-color: $c3-orange;
 }
-.POOR_DRIVING{
+.POOR{
    color: $c3-red;
   //  color: white;
   // background-color: $c3-red;

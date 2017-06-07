@@ -5,21 +5,12 @@
     angular
         .module('dassimFrontendV03')
         .factory('chartColors', chartColors)
-    function chartColors(DRIVE_COLORS, $log) {
-
+    function chartColors(DRIVE_COLORS) {
         return {
-            colors: function (performanceIndicator, d, other) {
-                var performanceIndicatorVariables = ['GOOD_DRIVING', 'AVERAGE_DRIVING', 'POOR_DRIVING'];
-                var OtherIndicatorVariables = ['GOOD', 'AVERAGE', 'POOR'];
-                var IndicatorVariable;
-                if (other === 'performance') {
-                    IndicatorVariable = performanceIndicatorVariables
-                } else {
-                    IndicatorVariable = OtherIndicatorVariables;
-                }
-                $log.info(performanceIndicator)
+            colors: function (performanceIndicator) {
+                var IndicatorVariable = ['GOOD', 'AVERAGE', 'POOR'];
                 var indicator;
-                switch (performanceIndicator[d.x]) {
+                switch (performanceIndicator[0]) {
                     case IndicatorVariable[0]: {
                         indicator = DRIVE_COLORS.green_actual;
                         break;
@@ -32,12 +23,10 @@
                         indicator = DRIVE_COLORS.red;
                         break;
                     }
-
                 }
                 return indicator;
-            },
+            }
         }
     }
-
 })();
 

@@ -23,7 +23,7 @@
     /** @ngInject */
     function NavbarController(moment) {
       var vm = this;
-
+      vm.loginDate = moment().subtract({'days': 1, 'hours': 1, 'minutes': 39}).calendar();
       // "vm.creationDate" is available by directive option "bindToController: true"
       vm.relativeDate = moment(vm.creationDate).fromNow();
       vm.isCollapsed = true;

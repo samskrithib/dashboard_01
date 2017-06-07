@@ -20,7 +20,9 @@
       vm.dpOpenStatus[id] = true
     };
     vm.getStations = function () {
-      httpCallsService.getByUrl('locationnamesandtiplocs').then(function (data) {
+      httpCallsService.getStations()
+      // httpCallsService.getByJson('assets/locationandTiplocs.json')
+      .then(function (data) {
         if (data.length <= 0 ){
           vm.state = "NORESULTS";
           vm.statusmessage = "No results" ;
@@ -78,9 +80,8 @@
             vm.tstate = "LOADING";
             vm.timePlaceholder = "Loading.."
             vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
-          // UrlGenerator.get("assets/times.json")
             httpCallsService.getByUrl(vm.url)
-            
+            // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.customTimeSelected = '';

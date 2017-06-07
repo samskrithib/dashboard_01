@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('speedDistanceChartFactory', speedDistanceChartFactory);
-  function speedDistanceChartFactory($log, $window, mathUtilsService) {
+  function speedDistanceChartFactory($log, $window, DRIVE_COLORS, mathUtilsService) {
     var SpeedDistanceChart;
     var formatter, distanceUnits,speedUnits,TooltipTitleformatter;
     var gridOnOff = true;
@@ -53,17 +53,15 @@
               Elevation: 'y2'
             },
             xSort: false,
-            // types: {
-            // 'SpeedLimit': 'step',
-            // },
             labels: false,
             colors: {
-              'ActualDriving': '#1f77b4',
-              'FlatoutDriving': '#2ca02c',
-              'EcoDriving': '#2ca02c',
-              'SpeedLimit': 'black',
-              'Elevation': '#8c564b'
+              'ActualDriving': DRIVE_COLORS.blue_dark,
+              'FlatoutDriving': DRIVE_COLORS.green,
+              'EcoDriving': DRIVE_COLORS.green,
+              'SpeedLimit': DRIVE_COLORS.black,
+              'Elevation': DRIVE_COLORS.brown
             }
+            
           },
           zoom: {
             enabled: false
