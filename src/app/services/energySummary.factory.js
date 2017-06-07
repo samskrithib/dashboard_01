@@ -9,7 +9,6 @@
     function energySummaryFactory($log, $window, $filter, chartColors, c3LegendOnHoverFactory, DRIVE_COLORS) {
 
         var EnergySummaryChart;
-        var indicatorVar = 'EnergySummary';
         return {
 
             //------------------------------Graph Labels --------------------------------------------------//
@@ -36,7 +35,7 @@
                 EnergySummaryChart = c3.generate({
                     bindto: '#chart1',
                     size: {
-                        height: 300,
+                        height: 300
                     },
                     data: {
                         json: energySummary,
@@ -47,12 +46,14 @@
                         names: graphLabels.seriesLabels,
                         labels: true,
                         colors: {
-                            'actualEnergyConsumption': function (d) {
-                                return chartColors.colors(graphIndicator, d, indicatorVar)
+                            'actualEnergyConsumption': function () {
+                               
+                                return chartColors.colors(graphIndicator)
                             },
                             'optimalEnergyConsumption': DRIVE_COLORS.green,
                             'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
                         }
+                            
                     },
                     title: {
                         text: graphLabels.graphTitle
@@ -69,9 +70,9 @@
                     legend: c3LegendOnHoverFactory.legend(),
                     axis: {
                         x: {
-                           tick:{
-                             format: function(){ return '' }
-                           },
+                            tick: {
+                                format: function () { return '' }
+                            },
                             type: 'category',
                             //   categories: graphLabels.xAxisLabels,
                             height: 50
@@ -111,13 +112,15 @@
                     keys: {
                         value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
                     },
+                    
                     colors: {
-                        'actualEnergyConsumption': function (d) {
-                            return chartColors.colors(graphIndicator, d, indicatorVar)
+                        'actualEnergyConsumption': function () {
+                                return chartColors.colors(graphIndicator)
                         },
                         'optimalEnergyConsumption': DRIVE_COLORS.green,
                         'onTimeOptimalEnergyConsumption': DRIVE_COLORS.green_light
                     }
+                    
                 });
             },
 

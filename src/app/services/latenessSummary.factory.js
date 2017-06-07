@@ -8,7 +8,6 @@
 
     function latenessSummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
         var LatenessSummaryChart;
-        var indicatorVar = 'latenessSummary'
         return {
             //------------------------------Graph Labels --------------------------------------------------//
             getavgLatenessSummaryChartLabels: function () {
@@ -25,7 +24,7 @@
             },
             getLatenessSummaryChartLabels: function () {
                 var graphLabelsAndTitles = {
-                    "yAxisLabel": "Lateness (s)",
+                    "yAxisLabel": "Lateness (s)"
                 }
                 return graphLabelsAndTitles;
             },
@@ -45,11 +44,11 @@
                         names: graphLabels.seriesLabels,
                         labels: true,
                         colors: {
-                            'actualArrivalLatenessInSeconds': function (d) {
-                                return chartColors.colors(graphIndicator, d, indicatorVar)
+                            'actualArrivalLatenessInSeconds': function () {
+                                return chartColors.colors(graphIndicator)
                             },
-                            'actualArrivalEarlinessInSeconds': function (d) {
-                                return chartColors.colors(graphIndicator, d, indicatorVar)
+                            'actualArrivalEarlinessInSeconds': function () {
+                                return chartColors.colors(graphIndicator)
                             },
                             'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
                         }
@@ -59,7 +58,7 @@
                     },
 
                     legend: {
-                        show: true,
+                        show: true
                     },
                     axis: {
                         x: {
@@ -111,18 +110,18 @@
                         value: [ 'actualArrivalEarlinessInSeconds','actualArrivalLatenessInSeconds', 'achievableArrivalLatenessInSeconds']
                     },
                     colors: {
-                        'actualArrivalLatenessInSeconds': function (d) {
-                            return chartColors.colors(graphIndicator, d, indicatorVar)
+                        'actualArrivalLatenessInSeconds': function () {
+                            return chartColors.colors(graphIndicator)
                         },
-                        'actualArrivalEarlinessInSeconds': function (d) {
-                            return chartColors.colors(graphIndicator, d, indicatorVar)
+                        'actualArrivalEarlinessInSeconds': function () {
+                            return chartColors.colors(graphIndicator)
                         },
                         'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
-                    },
+                    }
                    
                 });
                 
-            },
+            }
 
         }
     }

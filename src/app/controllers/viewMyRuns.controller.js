@@ -15,13 +15,14 @@
     energySummaryFactory, latenessSummaryFactory, speedDistanceDataFactory, speedDistanceChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
+    //Color code for links displayed in dropdown list
     vm.getLinkClass = function (link) {
-      if (link.performanceIndicator == "POOR_DRIVING") {
-        return "POOR_DRIVING"
-      } else if (link.performanceIndicator == "AVERAGE_DRIVING") {
-        return "AVERAGE_DRIVING"
-      } else if (link.performanceIndicator == "GOOD_DRIVING") {
-        return "GOOD_DRIVING"
+      if (link.linkPerformanceIndicator == "POOR") {
+        return "POOR"
+      } else if (link.linkPerformanceIndicator == "AVERAGE") {
+        return "AVERAGE"
+      } else if (link.linkPerformanceIndicator == "GOOD") {
+        return "GOOD"
       }
 
     };
@@ -30,13 +31,13 @@
     UtilityService.addTab('Speed Distance', '2')
     vm.tabs = UtilityService.getTab();
     var viewRunsUrl = UrlGenerator.getData().viewRunsUrl;
-    $log.debug(viewRunsUrl)
+    $log.info("url " + viewRunsUrl)
     vm.promise = httpCallsService.getByUrl(viewRunsUrl)
       // vm.promise = httpCallsService.getByJson(viewRunsUrl)
       .then(function (response) {
         vm.response = response;
         vm.trainIdentifiers = vm.response.trainIdentifier
-        $log.debug(vm.trainIdentifiers)
+        $log.info(vm.response)
         vm.chartSubtitle = UrlGenerator.getData().subtitle
           + '<div>' +
           vm.trainIdentifiers.unitNumber
@@ -49,7 +50,7 @@
               vm.trainUnitPerformancePerLinks_allRuns = [vm.unitPerformanceScores.trainUnitPerformancePerLink]
               vm.stationToStationLinks = _.pluck(vm.unitPerformanceScores.trainUnitPerformancePerLink, 'link')
               vm.unitPerformanceScoreChartLabels = unitPerformanceScoreFactory.getUnitPerformanceScoreChartLabels();
-              vm.chartIndicators = [vm.unitPerformanceScores.performanceIndicator]
+              vm.chartIndicators = [vm.unitPerformanceScores.journeyPerformanceIndicator]
               vm.energyPerformanceIndicators = [vm.unitPerformanceScores.energyPerformanceIndicator]
               vm.latenessPerformanceIndicators = [vm.unitPerformanceScores.runtimePerformanceIndicator]
               vm.trainUnitPerformancePerJourneyMessage = vm.unitPerformanceScores.message
@@ -82,8 +83,6 @@
               vm.latenessSummaryLinks_allRuns = [vm.latenessSummaries.latenessSummaries]
               break;
             }
-
-
             default: {
               break;
             }
@@ -116,7 +115,7 @@
             return vm.indexOfSelectedLink;
           }
         })
-        $log.debug(vm.indexOfSelectedLink)
+        $log.info(vm.indexOfSelectedLink)
         // vm.indexOfSelectedLink = _.indexOf(vm.unitPerformanceScores.trainUnitPerformancePerLink, selectedLink)
         unitPerformanceScoreOnSelectLink();
         energySummaryOnSelectLink();
@@ -136,7 +135,7 @@
 
       _.each(vm.trainUnitPerformancePerLinks_allRuns, function (val, key) {
         vm.arrayOfSelectedLinksUnitPerformanceScore.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink])
-        vm.arrayOfSelectedLinksPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].performanceIndicator)
+        vm.arrayOfSelectedLinksPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].linkPerformanceIndicator)
         vm.arrayOfSelectedLinksEnergyPerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].energyPerformanceIndicator)
         vm.arrayOfSelectedLinksRuntimePerformanceIndicators.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].runtimePerformanceIndicator)
         vm.arrayOfSelectedLinksPerformanceMessage.push(vm.trainUnitPerformancePerLinks_allRuns[key][vm.indexOfSelectedLink].message)
@@ -147,13 +146,14 @@
 
     function unitPerformanceMessage() {
       vm.performanceMessage = vm.arrayOfSelectedLinksPerformanceMessage[0]
-      $log.debug(vm.performanceMessage)
+      // $log.info(vm.performanceMessage)
     }
     function energySummaryOnSelectLink() {
       vm.arrayOfSelectedLinksEnergySummary = []
       _.each(vm.energySummaryLinks_allRuns, function (val, key) {
         vm.arrayOfSelectedLinksEnergySummary.push(vm.energySummaryLinks_allRuns[key][vm.indexOfSelectedLink].energySummary)
       })
+      // $log.info(vm.arrayOfSelectedLinksEnergyPerformanceIndicators)
       energySummaryFactory.setEnergySummaryChart(vm.arrayOfSelectedLinksEnergySummary, vm.arrayOfSelectedLinksEnergyPerformanceIndicators)
     }
 
