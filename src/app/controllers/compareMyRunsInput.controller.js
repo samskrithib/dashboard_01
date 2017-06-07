@@ -29,8 +29,8 @@
     };
 
     vm.getStations = function () {
-      httpCallsService.getByUrl('locationnamesandtiplocs')
-      // httpCallsService.getByJson('assets/locationandTiplocs.json')
+      //httpCallsService.getByUrl('locationnamesandtiplocs')
+      httpCallsService.getByJson('assets/locationandTiplocs.json')
       .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
@@ -71,8 +71,8 @@
           vm.timePlaceholder = "Loading.."
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
-          httpCallsService.getByUrl(vm.url)
-          // httpCallsService.getByJson("assets/old/times.json")
+          //httpCallsService.getByUrl(vm.url)
+          httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -161,11 +161,11 @@
     vm.allRuns = [];
 
     vm.remove = function(allRuns, index){
-      alert("Deleteing row entry.");
+      vm.inputRunsExceeded="";
       vm.allRuns.splice(index, 1);
     };
 
-    vm.pushDataToArray = function (){
+    vm.pushDataToArray = function (form){
       vm.allRuns.push({
               'date': vm.compareRunsFormdata.date,
               'origin': vm.compareRunsFormdata.origin,
@@ -181,16 +181,19 @@
             //  vm.times = undefined;
             form.$setUntouched();
             form.$setPristine();
+           
             // $log.info(vm.allRuns)
     };
 
-    vm.addRun = function (form) {
-      if (form) {
+    vm.addRun = function (form, isValid) {
+      
+      vm.inputRunsExceeded="";
+      if (form.$valid) {
         $log.debug(vm.allRuns.length)
         if(vm.allRuns.length <= vm.runslength){
           
           if (vm.allRuns.length == 0) {
-            vm.pushDataToArray();
+            vm.pushDataToArray(form);
           }else{
             var duplicatedData=false;
             for (var i=0; i<vm.allRuns.length; i++){
@@ -205,15 +208,15 @@
             }
 
             if (duplicatedData == false) {
-              vm.pushDataToArray();
+              vm.pushDataToArray(form);
             } 
           }        
         } else {
-          alert("You can only add 3 input runs.");
+          vm.inputRunsExceeded="You can only add 3 input runs.";
         }
         
       }
-
+      
     };
 
 
