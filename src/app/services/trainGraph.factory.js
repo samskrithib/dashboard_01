@@ -33,7 +33,7 @@
 
     return {
 
-      getTrainGraphChart: function (data) {
+      getTrainGraphChart: function (data, xvalue) {
         ModifiedData = function () {
           var timeDistanceArray;
           var identifier, seriesName;
@@ -44,7 +44,7 @@
           return {
             json: timeDistanceArray,
             keys: {
-              x: 'unixTime',
+              x: xvalue,
               xformat: '%Y-%m-%d %H:%M:%S',
               value: [seriesName]
             },
@@ -81,6 +81,7 @@
               tick: {
                 centered: true,
                 fit: false,
+                rotate:45,
                 culling: {
                   max: 5
                 }
@@ -124,7 +125,7 @@
 
       },
 
-      LoadTrainGraphData: function (data, gridlines) {
+      LoadTrainGraphData: function (data, gridlines, xvalue, stringlength) {
         timetableAdherenceChart.unload({
           done: function () {
             var newnames = {};
@@ -150,7 +151,7 @@
                 timetableAdherenceChart.load({
                   json: timeDistanceArray,
                   keys: {
-                    x: 'unixTime',
+                    x: xvalue,
                     value: [seriesName],
                     xformat: '%Y-%m-%d %H:%M:%S'
                   }
@@ -174,7 +175,7 @@
               .html(function (id) { return newnames[id]; })
               .on('mouseover', function (id) {
                 var fields = id.split(".");
-                var string = fields[1].slice(7)
+                var string = fields[1].slice(stringlength)
                 var newArray = [];
                 var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
                 newArray.push(scheduledSeriesNames[index_of_matchedString])

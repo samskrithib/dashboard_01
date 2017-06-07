@@ -27,11 +27,11 @@
           </uib-tabset>
           <uib-tabset ng-if="vm.getTabs =='TTPercentile'" justified='true' active="active">
             <uib-tab  index="1" >
-              <div class="tab-container" id="index1">
+              <div class="tab-container" id="index0">
                 <div class="subtitle" style="font-size: 0.8em" ng-bind-html="vm.subTitle"></div>
                 <div cg-busy="{promise:vm.promise1, message:'Loading your chart', minDuration:1000}">
                   <div ng-show="!vm.TTadherencePercentileError">
-                    <div id="TTAdherencePercentile"></div>
+                    <div id="trainGraph"></div>
                   </div>
                   <div ng-show="vm.TTadherencePercentileError" ng-bind-html="vm.TTadherencePercentileErrorMessage"></div>
                 </div>

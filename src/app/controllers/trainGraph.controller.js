@@ -6,8 +6,7 @@
     .module('dassimFrontendV03')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService, UrlGenerator, $scope, $log, UtilityService, trainGraphFactory,
-    timetableAdherencePercentilesFactory) {
+  function TrainGraphController(httpCallsService, UrlGenerator, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.TTadherencePercentileError = false;
     vm.TTAdherenceTrackTrainsError = false;
@@ -23,13 +22,16 @@
       vm.promise = httpCallsService.getByUrl(TTAdherenceTrackTrainsUrl)
         .then(function (response) {
           vm.response = response;
+          var keyxValue = 'unixTime';
+          var stinglength = 7;
+           $log.info(vm.response)
           if (!vm.response) {
             vm.TTAdherenceTrackTrainsError = true;
             vm.TTAdherenceTrackTrainsErrorMessage = response + "<h3> Error Message </h3>"
           } else {
             vm.lines = gridlines(vm.response.timetableAdherenceGraphLocationList);
-            trainGraphFactory.getTrainGraphChart(vm.response);
-            trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraphSeriesList, vm.lines)
+            trainGraphFactory.getTrainGraphChart(vm.response, keyxValue);
+            trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
           }
 
         }).catch(function (response) {
@@ -47,15 +49,16 @@
         .then(function (response) {
           vm.response = response;
             $log.info(vm.response)
+            var keyxValue = 'timeInSeconds';
+            var stinglength = 9;
           if (!vm.response) {
             vm.TTadherencePercentileError = true;
             vm.TTadherencePercentileErrorMessage = response + "<h3> Error Message</h3>";
           } 
-             vm.TTadherencePercentileError = false;
+            vm.TTadherencePercentileError = false;
             vm.lines = gridlines(vm.response.timetableAdherenceGraphLocationList);
-            timetableAdherencePercentilesFactory.getTTAdherencePercentileChart(vm.response)
-            timetableAdherencePercentilesFactory.LoadTTAdherencePercentileChartData(vm.response.timetableAdherenceGraphSeriesList, vm.lines)
-          
+            trainGraphFactory.getTrainGraphChart(vm.response, keyxValue);
+            trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
         }).catch(function (response) {
           vm.TTadherencePercentileError = true;
           vm.TTadherencePercentileErrorMessage = response + "<h3> Error Message</h3>";
