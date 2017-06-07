@@ -31,8 +31,6 @@
     vm.getStations = function () {
       //httpCallsService.getByUrl('locationnamesandtiplocs')
       httpCallsService.getByJson('assets/locationandTiplocs.json')
-
-      // httpCallsService.getByJson('assets/locationandTiplocs.json')
       .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
