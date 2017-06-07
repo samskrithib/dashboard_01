@@ -95,22 +95,29 @@
                   <div class="form-group">
                     
                     <div style="padding-left:110px">
-                      <input type="submit" value="Add Run" ng-click="showme=true" class="btn btn-primary" />
+                      <input type="submit" value="Add Run" class="btn btn-primary" />
                       <!--<div ng-show="">-->
                       
-                      <input type="submit" ng-click="vm.submit(compareRunsForm)" class="btn btn-primary" />
+                      <input type="submit" ng-click="vm.submit(compareRunsForm)" class="btn btn-primary" ng-disabled="vm.checkNumberOfRuns()"/>
                       <!--</div>-->
                       <button type="button" class="btn btn-primary" ng-click="vm.reset(compareRunsForm)">Reset</button>
                       <br/>
                     </div>
                   </div>
-                  {{vm.inputRunsExceeded}}
+                  
+                  <div class ="alert alert-danger" ng-hide="vm.checkExceededNumberOfRuns()">
+                    <strong>Warning!</strong> {{vm.inputRunsExceeded}}
+                  </div>
+                  <div class ="alert alert-danger" ng-hide="vm.checkDuplicateRuns()">
+                    <strong>Warning!</strong> {{vm.duplicateRunMessage}}
+                  </div>
+
                 </form>
 
               </td>
               
             </tr>
-            <tr ng-show="showme"  >
+            <tr ng-show="vm.checkThereAreRunsInArray()"  >
               <td style="vertical-align: top">
                 <table class="table">
                   <tr>

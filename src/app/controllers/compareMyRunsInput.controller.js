@@ -130,9 +130,40 @@
       getterSetter: true
     };
 
- 
+    vm.checkNumberOfRuns = function (form) {
+      if ( vm.allRuns.length >= 2){
+        return false;
+      }else {
+        //alert("hello false");
+        return true;
+      }
+    };
 
-  
+    vm.checkExceededNumberOfRuns = function (form) {
+      if (vm.ExceededNumberOfRunsStatus=="true") {
+        vm.inputRunsExceeded="You can only add 3 input runs.";
+        return false;
+      } else {
+        return true;
+      };
+    };
+
+    vm.checkDuplicateRuns = function (form) {
+      if(vm.duplicatedData ==true){
+        vm.duplicateRunMessage="You cannot have any duplicate runs.";
+        return false;
+      }else {
+        return true;
+      };
+    };
+
+    vm.checkThereAreRunsInArray = function (form) {
+      if (vm.allRuns.length == 0){
+        return false;
+      }else {
+        return true;
+      };
+    };
 
     vm.submit = function (isValid) {
       if (isValid) {
@@ -161,6 +192,8 @@
     vm.allRuns = [];
 
     vm.remove = function(allRuns, index){
+      vm.ExceededNumberOfRunsStatus="false";
+     
       vm.inputRunsExceeded="";
       vm.allRuns.splice(index, 1);
     };
@@ -186,8 +219,9 @@
     };
 
     vm.addRun = function (form, isValid) {
-      
-      vm.inputRunsExceeded="";
+      vm.ExceededNumberOfRunsStatus="false";
+
+      vm.duplicatedData = false;
       if (form.$valid) {
         $log.debug(vm.allRuns.length)
         if(vm.allRuns.length <= vm.runslength){
@@ -201,18 +235,17 @@
                       vm.allRuns[i].origin === vm.compareRunsFormdata.origin &&
                         vm.allRuns[i].destination === vm.compareRunsFormdata.destination &&
                           vm.allRuns[i].departureTime === vm.compareRunsFormdata.departureTime){
-                duplicatedData=true;
-                alert("Duplicate Data please enter another run to compare.")
+                vm.duplicatedData=true;
                 {break}
               }
             }
 
-            if (duplicatedData == false) {
+            if (vm.duplicatedData == false) {
               vm.pushDataToArray(form);
             } 
           }        
         } else {
-          vm.inputRunsExceeded="You can only add 3 input runs.";
+          vm.ExceededNumberOfRunsStatus="true";
         }
         
       }
