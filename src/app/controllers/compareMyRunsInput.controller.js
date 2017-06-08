@@ -30,7 +30,7 @@
 
     vm.getStations = function () {
       //httpCallsService.getByUrl('locationnamesandtiplocs')
-      httpCallsService.getByJson('assets/locationandTiplocs.json')
+      httpCallsService.getStations()
       .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
@@ -71,8 +71,8 @@
           vm.timePlaceholder = "Loading.."
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
-          //httpCallsService.getByUrl(vm.url)
-          httpCallsService.getByJson("assets/old/times.json")
+          httpCallsService.getByUrl(vm.url)
+          //httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -130,7 +130,7 @@
       getterSetter: true
     };
 
-    vm.checkNumberOfRuns = function (form) {
+    vm.checkNumberOfRuns = function () {
       if ( vm.allRuns.length >= 2){
         return false;
       }else {
@@ -139,7 +139,7 @@
       }
     };
 
-    vm.checkExceededNumberOfRuns = function (form) {
+    vm.checkExceededNumberOfRuns = function () {
       if (vm.ExceededNumberOfRunsStatus=="true") {
         vm.inputRunsExceeded="You can only add 3 input runs.";
         return false;
@@ -148,7 +148,7 @@
       };
     };
 
-    vm.checkDuplicateRuns = function (form) {
+    vm.checkDuplicateRuns = function () {
       if(vm.duplicatedData ==true){
         vm.duplicateRunMessage="You cannot have any duplicate runs.";
         return false;
@@ -157,7 +157,7 @@
       };
     };
 
-    vm.checkThereAreRunsInArray = function (form) {
+    vm.checkThereAreRunsInArray = function () {
       if (vm.allRuns.length == 0){
         return false;
       }else {
@@ -186,6 +186,8 @@
       vm.timePlaceholder = ''
       form.$setUntouched();
       form.$setPristine();
+      vm.duplicatedData=false;
+      vm.ExceededNumberOfRunsStatus="false";
     }
 
 
@@ -193,7 +195,7 @@
 
     vm.remove = function(allRuns, index){
       vm.ExceededNumberOfRunsStatus="false";
-     
+      vm.duplicatedData=false;
       vm.inputRunsExceeded="";
       vm.allRuns.splice(index, 1);
     };
