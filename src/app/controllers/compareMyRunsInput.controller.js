@@ -29,8 +29,8 @@
     };
 
     vm.getStations = function () {
+      //httpCallsService.getByUrl('locationnamesandtiplocs')
       httpCallsService.getStations()
-      // httpCallsService.getByJson('assets/locationandTiplocs.json')
       .then(function (data) {
         if (data.length <= 0) {
           vm.state = "NORESULTS";
@@ -72,7 +72,7 @@
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
           httpCallsService.getByUrl(vm.url)
-          // httpCallsService.getByJson("assets/old/times.json")
+          //httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -130,9 +130,40 @@
       getterSetter: true
     };
 
- 
+    vm.checkNumberOfRuns = function () {
+      if ( vm.allRuns.length >= 2){
+        return false;
+      }else {
+        //alert("hello false");
+        return true;
+      }
+    };
 
-  
+    vm.checkExceededNumberOfRuns = function () {
+      if (vm.ExceededNumberOfRunsStatus=="true") {
+        vm.inputRunsExceeded="You can only add 3 input runs.";
+        return false;
+      } else {
+        return true;
+      };
+    };
+
+    vm.checkDuplicateRuns = function () {
+      if(vm.duplicatedData ==true){
+        vm.duplicateRunMessage="You cannot have any duplicate runs.";
+        return false;
+      }else {
+        return true;
+      };
+    };
+
+    vm.checkThereAreRunsInArray = function () {
+      if (vm.allRuns.length == 0){
+        return false;
+      }else {
+        return true;
+      };
+    };
 
     vm.submit = function (isValid) {
       if (isValid) {
@@ -155,17 +186,21 @@
       vm.timePlaceholder = ''
       form.$setUntouched();
       form.$setPristine();
+      vm.duplicatedData=false;
+      vm.ExceededNumberOfRunsStatus="false";
     }
 
 
     vm.allRuns = [];
 
     vm.remove = function(allRuns, index){
-      alert("Deleteing row entry.");
+      vm.ExceededNumberOfRunsStatus="false";
+      vm.duplicatedData=false;
+      vm.inputRunsExceeded="";
       vm.allRuns.splice(index, 1);
     };
 
-    vm.pushDataToArray = function (){
+    vm.pushDataToArray = function (form){
       vm.allRuns.push({
               'date': vm.compareRunsFormdata.date,
               'origin': vm.compareRunsFormdata.origin,
@@ -181,16 +216,20 @@
             //  vm.times = undefined;
             form.$setUntouched();
             form.$setPristine();
+           
             // $log.info(vm.allRuns)
     };
 
-    vm.addRun = function (form) {
-      if (form) {
+    vm.addRun = function (form, isValid) {
+      vm.ExceededNumberOfRunsStatus="false";
+
+      vm.duplicatedData = false;
+      if (form.$valid) {
         $log.debug(vm.allRuns.length)
         if(vm.allRuns.length <= vm.runslength){
           
           if (vm.allRuns.length == 0) {
-            vm.pushDataToArray();
+            vm.pushDataToArray(form);
           }else{
             var duplicatedData=false;
             for (var i=0; i<vm.allRuns.length; i++){
@@ -198,22 +237,21 @@
                       vm.allRuns[i].origin === vm.compareRunsFormdata.origin &&
                         vm.allRuns[i].destination === vm.compareRunsFormdata.destination &&
                           vm.allRuns[i].departureTime === vm.compareRunsFormdata.departureTime){
-                duplicatedData=true;
-                alert("Duplicate Data please enter another run to compare.")
+                vm.duplicatedData=true;
                 {break}
               }
             }
 
-            if (duplicatedData == false) {
-              vm.pushDataToArray();
+            if (vm.duplicatedData == false) {
+              vm.pushDataToArray(form);
             } 
           }        
         } else {
-          alert("You can only add 3 input runs.");
+          vm.ExceededNumberOfRunsStatus="true";
         }
         
       }
-
+      
     };
 
 
