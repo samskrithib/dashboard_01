@@ -79,7 +79,7 @@
             vm.timePlaceholder = "Loading.."
             vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
           // UrlGenerator.get("assets/times.json")
-            httpCallsService.getByUrl(vm.url)
+            vm.promise = httpCallsService.getByUrl(vm.url)
             
             .then(function (data) {
               vm.tstate = "SUCCESS";
