@@ -183,6 +183,8 @@
       vm.compareRunsFormdata.date = ''
       vm.allRuns = [];
       vm.tstate = "Loading";
+      vm.tstate="loading";
+      vm.state="success";
       vm.timePlaceholder = ''
       form.$setUntouched();
       form.$setPristine();
@@ -210,6 +212,10 @@
             vm.compareRunsFormdata.date = undefined;
             // vm.fromStation = undefined;
             // vm.toStation = undefined;
+            if(vm.allRuns.length>0){
+              vm.state = "LOADING";
+              $log.debug(vm.state);
+            }
             vm.compareRunsFormdata.departureTime = undefined;
             vm.tstate = "Loading";
             vm.timePlaceholder = ''
