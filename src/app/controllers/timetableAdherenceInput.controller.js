@@ -136,7 +136,7 @@
                 $log.debug(vm.formData)
                 UtilityService.addCheckedItems(vm.RadioButtonModel)
                 UrlGenerator.generateTTAdherenceUrls(vm.formData)
-                $location.path("/timetableAdherence");
+                $location.path("/ttAInput2");
             }
         }
 

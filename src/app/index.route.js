@@ -43,6 +43,12 @@
         controller: 'TimetableAdherenceInputController',
         controllerAs: 'vm'
       })
+      .state('timetableAdherenceInputScreen2', {
+        url: '/ttAInput2',
+        templateUrl: 'views/trainGraph/trainGraphInputScreen2.html',
+        controller: 'TimetableAdherenceInputController',
+        controllerAs: 'vm'
+      })
       .state('timetableAdherence', {
         url: '/timetableAdherence',
         templateUrl: 'views/trainGraph/trainGraph.html',

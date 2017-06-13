@@ -1,0 +1,13 @@
+.clickableRow {
+    cursor: pointer;
+}
+p, textarea {
+    font-variant: small-caps !important;
+    text-rendering: auto;
+}
+td, th {
+    font-size: 8pt;
+}
+table {
+    padding: 0px;
+}
