@@ -178,6 +178,8 @@
       _selectedFrom = ''
       $log.debug("delete this log");
       vm.times = []
+      vm.originTiploc=''
+      vm.destinationTiploc=''
       vm.compareRunsFormdata.origin = ''
       vm.compareRunsFormdata.destination = ''
       vm.compareRunsFormdata.departureTime = ''
