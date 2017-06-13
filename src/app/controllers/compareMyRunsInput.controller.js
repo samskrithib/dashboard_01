@@ -176,7 +176,7 @@
     vm.reset = function (form) {
       _selectedTo = ''
       _selectedFrom = ''
-      $log.debug("delete this log");
+      
       vm.times = []
       vm.originTiploc=''
       vm.destinationTiploc=''
