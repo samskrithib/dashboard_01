@@ -88,7 +88,7 @@
                         <span ng-show="vm.tstate == 'LOADING'"><i class="fa fa-refresh fa-spin fa-fw"></i>Loading</span>
                       </div>
                       <span class="col-md-5 help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.time.$error.required ||compareRunsForm.time.$invalid && !compareRunsForm.time.$pristine">Select Departure Time</span>
-                      <div class="col-md-5 help-block" ng-show='vm.tstate == "NORESULTS"'>No timings available </div>
+                      
                     </div>
                   </div>
 
@@ -110,6 +110,9 @@
                   </div>
                   <div class ="alert alert-danger" ng-hide="vm.checkDuplicateRuns()">
                     <strong>Warning!</strong> {{vm.duplicateRunMessage}}
+                  </div>
+                  <div class ="alert alert-danger" ng-hide="vm.checkDepartureTime()">
+                    <strong>Warning!</strong> {{vm.DepartureTimeNotFoundMsg}}
                   </div>
 
                 </form>

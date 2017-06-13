@@ -77,6 +77,7 @@
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
               vm.timePlaceholder = "Enter scheduled time of train";
+              vm.DepartureTimesFound = "true";
               if (data.length <= 0) {
                 vm.tstate = "NORESULTS";
                 vm.timePlaceholder = "No results";
@@ -87,6 +88,9 @@
             }).catch(function (response) {
               vm.tstate = "NORESULTS";
               vm.timePlaceholder = "No results";
+              vm.DepartureTimesFound = "false";
+              vm.compareRunsFormdata.date = ''
+              vm.DepartureTimeNotFoundMsg ="There are no departure times for the selected date.";
               alert(response.status);
               $log.debug("controller response: " + response.status);
             })
@@ -148,6 +152,14 @@
       };
     };
 
+    vm.checkDepartureTime = function () {
+      if (vm.DepartureTimesFound == "false") {
+        return false;
+      }else {
+        return true;
+      }
+    };
+
     vm.checkDuplicateRuns = function () {
       if(vm.duplicatedData ==true){
         vm.duplicateRunMessage="You cannot have any duplicate runs.";
@@ -193,6 +205,7 @@
       form.$setPristine();
       vm.duplicatedData=false;
       vm.ExceededNumberOfRunsStatus="false";
+      vm.DepartureTimesFound="true";
     }
 
 
@@ -231,7 +244,7 @@
 
     vm.addRun = function (form, isValid) {
       vm.ExceededNumberOfRunsStatus="false";
-
+      vm.DepartureTimesFound="true";
       vm.duplicatedData = false;
       if (form.$valid) {
         $log.debug(vm.allRuns.length)
