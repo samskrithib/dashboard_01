@@ -14,7 +14,6 @@
                 </div>
             </div>
 
-            <!--fjksdhfjdsflj {{vm.timetableRoutes}}-->
             <!-- START TABLE -->
             <form class="form-horizontal" role="form" name="routeId" id="routeId" ng-submit="vm.routeIdSelected($valid)" novalidate>
                 <div class="form-group">
@@ -22,16 +21,13 @@
                         <table class="table table-hover table-condensed table-striped">
                             <thead>
                                 <tr>
-
-
                                 </tr>
                             </thead>
                             <tbody ng-repeat="route in vm.timetableRoutes">
                                 <tr class="clickableRow">
                                     <td> <input type="radio" name="select" ng-model="vm.selectRoute" ng-value="route.routeId"
                                         /> </td>
-                                    <!--<td> {{vm.selectRoute}} </td>-->
-                                    <td ng-repeat="tiploc in route.junctionAndTerminiTiplocs">
+                                    <td ng-repeat="tiploc in route.junctionAndTerminiLocations">
                                         <span ng-show="$index != 0"> <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>{{tiploc}}
                                     </td>
                                     <td> <a href="" ng-click="vm.selectTableRow($index)"> Show calling points </a> </td>
@@ -48,7 +44,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr data-ng-repeat="tiploc in route.tiplocs">
+                                                        <tr data-ng-repeat="tiploc in route.locations">
 
                                                             <td>{{tiploc}}</td>
 

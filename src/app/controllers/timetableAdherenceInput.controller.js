@@ -160,13 +160,13 @@
 
         function getResponse(ttAderenceUrl) {
             var routesFlag= true;
-            // httpCallsService.getByUrl(TTAdherenceTrackTrainsUrl)
+            httpCallsService.getByUrl(ttAderenceUrl)
             // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
-            httpCallsService.getByJson("assets/timetableRoutes.json")
+            // httpCallsService.getByJson("assets/timetableRoutes.json")
                 .then(function (response) {
                     vm.response = response;
                     if (vm.response.timetableRoutes) {
-                        // $log.info("fdjksfjdklsf" + vm.response.timetableRoutes)
+                        $log.info(vm.response.timetableRoutes)
                         routesFlag = true;
                         vm.timetableRoutes = vm.response.timetableRoutes;
                         UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag])
@@ -182,9 +182,6 @@
                 })
         }
     }
-
-
-
 
     function TimetableAdherenceInput_2_Controller(httpCallsService, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
         var vm = this;
