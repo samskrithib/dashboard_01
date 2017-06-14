@@ -1,4 +1,7 @@
-.clickableRow {
+
+
+#routesTable{
+    .clickableRow {
     cursor: pointer;
 }
 p, textarea {
@@ -10,4 +13,5 @@ td, th {
 }
 table {
     padding: 0px;
+}
 }
