@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
-      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl;
+      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl, routeIdUrl;
       var modifiedData = {};
       return {
         generateTrainTimesUrl: function (a, b, c) {
@@ -57,14 +57,22 @@
 
           TTAdherenceTrackTrains = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek
 
-          
+          return{
+            percentile: TTAdherencePercentile,
+            trackTrains: TTAdherenceTrackTrains,
+          }
         },
 
+        generateRouteIdUrl: function(routeId){
+          routeIdUrl = "timetableadherenceSelectedRoute?routeId=" + routeId;
+          return routeIdUrl;
+        },
         getTTAdherenceUrl: function () {
           return {
             percentile: TTAdherencePercentile,
             trackTrains: TTAdherenceTrackTrains,
-            data: modifiedData
+            data: modifiedData,
+            routeIdUrl : routeIdUrl
           }
         }
 

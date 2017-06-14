@@ -19,8 +19,8 @@
           <tr class= "clickableRow">
             <td> <input type="radio" name="select" ng-model="vm.selectRoute"/> </td>
             <!--<td> {{$index}} </td>-->
-            <td ng-repeat= "tiploc in route.tiplocs">
-              <span ng-show="$$index != 0"> <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+            <td ng-repeat= "tiploc in route.tiplocs"> 
+              <span ng-show="$index != 0"> <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
               {{tiploc}}
               </td>
             <td> <a href="" ng-click="vm.selectTableRow($index)"> Show calling points </a> </td>
@@ -38,9 +38,7 @@
                     </thead>
                     <tbody>
                       <tr data-ng-repeat="tiploc in route.tiplocs">
-                       
                         <td>{{tiploc}}</td>
-                        
                       </tr>
                     </tbody>
                   </table>

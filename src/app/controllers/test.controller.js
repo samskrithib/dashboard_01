@@ -66,7 +66,8 @@
             "KEBGNJN",
             "KEBGSJN",
             "NRWDJN",
-            "DNSN"
+            "DNSN",
+            
           ]
         }
       ]

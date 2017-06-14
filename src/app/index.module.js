@@ -3,6 +3,6 @@
 
   angular
     .module('dassimFrontendV03', ['ngAnimate', 'ui.select', 'ngCookies', 'ngTouch', 'ngSanitize', 
-    'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'cgBusy', 'toastr', 'ui.toggle']);
+    'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'cgBusy', 'toastr', 'ui.toggle', 'angular-loading-bar',]);
 
 })();
