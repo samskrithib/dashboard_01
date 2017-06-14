@@ -6,9 +6,9 @@ angular
 .module('dassimFrontendV03')
 .factory('httpCallsService', function httpCallsService($http, $q, $log) {
 
-  // var path = '/dassim/';
+  var path = '/dassim/';
   // var path = 'http://localhost:8080/dassim/';
-  var path = 'http://192.168.1.9:8080/dassim/';
+  // var path = 'http://192.168.1.9:8080/dassim/';
 
   
   return {
