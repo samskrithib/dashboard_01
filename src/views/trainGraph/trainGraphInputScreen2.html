@@ -1,0 +1,74 @@
+<div class="wrapper">
+    <div>
+        <acme-navbar></acme-navbar>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="page-header">
+                        There are different possible routes available from From station and To Staion Selected<br><br> Please
+                        choose any of the routes available</h4>
+                </div>
+            </div>
+
+            <!-- START TABLE -->
+            <form class="form-horizontal" role="form" name="routeId" id="routeId" ng-submit="vm.routeIdSelected($valid)" novalidate>
+                <div class="form-group">
+                    <div class="span12">
+                        <table class="table table-hover table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="route in vm.timetableRoutes">
+                                <tr class="clickableRow">
+                                    <td> <input type="radio" name="select" ng-model="vm.selectRoute" ng-value="route.routeId"
+                                        /> </td>
+                                    <td ng-repeat="tiploc in route.junctionAndTerminiLocations">
+                                        <span ng-show="$index != 0"> <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>{{tiploc}}
+                                    </td>
+                                    <td> <a href="" ng-click="vm.selectTableRow($index)"> Show calling points </a> </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td colspan="4">
+                                        <div uib-collapse="vm.dayDataCollapse[$index]">
+                                            <div class="span12 ">
+                                                <table class="table table-hover table-condensed table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Stations</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr data-ng-repeat="tiploc in route.locations">
+
+                                                            <td>{{tiploc}}</td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END TABLE -->
+                 <div class="form-group">
+                    
+                    <div class="text-center">
+                      <input type="submit" value="Submit" class="btn btn-primary" />
+                      <br/>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

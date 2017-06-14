@@ -37,8 +37,9 @@
         ModifiedData = function () {
           var timeDistanceArray;
           var identifier, seriesName;
-          var array = data.timetableAdherenceGraphSeriesList[0].timetableArray
-          timeDistanceArray = array[0].timeAndDistanceList
+          var array = data.timetableAdherenceGraphSeriesList[0].scheduledAndActualTimetables
+          timeDistanceArray = array[0].timeAndDistanceList;
+          $log.info(timeDistanceArray)
           identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
           seriesName = 'identifierAndDistance.' + identifier;
           return {
@@ -134,7 +135,7 @@
             var scheduledSeriesNames = [];
             $log.info(data.length)
             _.each(data, function (val, key) {
-              var array = data[key].timetableArray;
+              var array = data[key].scheduledAndActualTimetables;
               
               _.each(array, function (val, index) {
                 var timeDistanceArray = array[index].timeAndDistanceList

@@ -29,7 +29,7 @@
                                 <label for="fromDate" class="col-md-2 control-label mandatory">From Date</label>
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.fromDate.$invalid && !form.fromDate.$pristine }">
                                     <p class="input-group">
-                                        <input type="text" name="fromDate" class="form-control" uib-datepicker-popup ng-model="vm.formData.fromDate" is-open="vm.popup1.opened"
+                                        <input type="text" name="fromDate" class="form-control" ng-click="vm.open1()" uib-datepicker-popup ng-model="vm.formData.fromDate" is-open="vm.popup1.opened"
                                             datepicker-options="vm.dateOptions" required close-text="Close" />
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                         <span class="input-group-btn">
@@ -44,7 +44,7 @@
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.toDate.$invalid && !form.toDate.$pristine }">
                                     <span class="help-block" ng-show="form.toDate.$invalid && !form.toDate.$pristine">Required</span>
                                     <p class="input-group">
-                                        <input type="text" name="toDate" class="form-control" uib-datepicker-popup ng-model="vm.formData.toDate" is-open="vm.popup2.opened"
+                                        <input type="text" name="toDate" class="form-control" ng-click="vm.open2()" uib-datepicker-popup ng-model="vm.formData.toDate" is-open="vm.popup2.opened"
                                             datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" min="vm.form.fromdate"
                                         />
                                         <span class="input-group-btn">
