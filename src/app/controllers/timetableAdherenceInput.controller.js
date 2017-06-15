@@ -169,7 +169,7 @@
                         $log.info(vm.response.timetableRoutes)
                         routesFlag = true;
                         vm.timetableRoutes = vm.response.timetableRoutes;
-                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag])
+                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response])
                         $location.path("/ttAInput2");
                     } else {
                         $log.info(response)
@@ -188,6 +188,7 @@
         vm.timetableRoutes = UtilityService.getCheckedItems()[0];
         vm.getTabs = UtilityService.getCheckedItems()[1]
         vm.routesFlag = UtilityService.getCheckedItems()[2]
+        vm.inputValues = UtilityService.getCheckedItems()[3].timetableAdherenceInputs
         $log.info(vm.getTabs)
         vm.tableRowExpanded = false;
         vm.tableRowIndexCurrExpanded = "";
