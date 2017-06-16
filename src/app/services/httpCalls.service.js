@@ -6,9 +6,9 @@ angular
 .module('dassimFrontendV03')
 .factory('httpCallsService', function httpCallsService($http, $q, $log) {
 
-  var path = '/dassim/';
-  // var path = 'http://localhost:8080/dassim/';
-  var path = 'http://192.168.1.9:8080/dassim/';
+  // var path = '/dassim/';
+  var path = 'http://localhost:8080/dassim/';
+  // var path = 'http://192.168.1.9:8080/dassim/';
 
   
   return {
@@ -57,6 +57,19 @@ angular
         method: "GET",
       }).then(function (response) {
           deferred.resolve(response.data);
+      }).catch(function (response) {
+          deferred.reject(response);
+      });
+      return deferred.promise;
+    },
+
+    getHeaders: function(url){
+      var deferred = $q.defer();
+      $http({
+        url: path+url,
+        method: "GET",
+      }).then(function (data, status, headers, config) {
+          deferred.resolve(data, status, headers, config);
       }).catch(function (response) {
           deferred.reject(response);
       });

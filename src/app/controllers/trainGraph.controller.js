@@ -30,10 +30,10 @@
         $log.debug(TTAdherenceTrackTrainsUrl)
         // var routeIdUrl = UrlGenerator.getTTAdherenceUrl().routeIdUrl;
       }
-      vm.promise = httpCallsService.getByUrl(TTAdherenceTrackTrainsUrl)
+      vm.promise = httpCallsService.getHeaders(TTAdherenceTrackTrainsUrl)
         // vm.promise = httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
         .then(function (response) {
-          vm.response = response;
+          vm.response = response.data;
           $log.info(vm.response)
           if (!vm.response) {
             vm.TTAdherenceTrackTrainsError = true;

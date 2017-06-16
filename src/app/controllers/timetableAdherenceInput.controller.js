@@ -7,7 +7,7 @@
         .controller('TimetableAdherenceInputController', TimetableAdherenceInputController)
         .controller('TimetableAdherenceInput_2_Controller', TimetableAdherenceInput_2_Controller);
 
-    function TimetableAdherenceInputController(httpCallsService, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService) {
+    function TimetableAdherenceInputController(httpCallsService, $cookies, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService) {
         var vm = this;
         var defaultStartTime = function () {
             var d = new Date()
@@ -30,7 +30,7 @@
         vm.RadioButtonModel = vm.templates[0].name;
         vm.template = vm.templates[0]
         $scope.$watch('vm.RadioButtonModel', function (newVal, oldVal) {
-            $log.debug(" " + newVal)
+            $log.info(" " + newVal)
             if (newVal != oldVal) {
                 vm.RadioButtonModel = newVal;
                 var index = _.findLastIndex(vm.templates, { name: newVal })
@@ -76,7 +76,7 @@
             }).catch(function (response) {
                 vm.state = "NORESULTS";
                 vm.statusmessage = "No Results";
-                $log.debug(/*"controller response: " +*/response);
+                $log.info(/*"controller response: " +*/response);
             });
         };
 
@@ -105,7 +105,14 @@
         };
 
         vm.formData = {};
+        /* Defaults */
+        vm.formData.fromStation = { "locationName": "Newcastle", "tiploc": "NWCSTLE" };
+        vm.formData.toStation = { "locationName": "Dunston-on-Tyne", "tiploc": "DNSN" };
+        vm.formData.fromDate = new Date(2017, 1, 28);
+        vm.formData.toDate = new Date(2017, 6, 12);
+        vm.formData.percentileSelected = '50%';
 
+        /* End Defaults */
 
         vm.formData.startTime = defaultStartTime();
         vm.formData.endTime = defaultEndTime();
@@ -113,16 +120,15 @@
         vm.formData.weekends = vm.weekends;
         vm.rollingStockChoices = [];
         vm.serviceCodeChoices = [];
-        vm.daysRangeOptionSelected = '';
+        vm.daysRangeOptionSelected = 'Weekdays';
+        vm.formData.daysRange = vm.formData.weekdays;
         $scope.$watchGroup(['vm.daysRangeOptionSelected', 'vm.formData.weekdays', 'vm.formData.weekends'], function (newVal, oldVal) {
-            // $log.debug(vm.daysRangeOptionSelected)
             if (newVal != oldVal) {
                 if (vm.daysRangeOptionSelected == 'Weekdays') {
                     vm.formData.daysRange = vm.formData.weekdays
                 } else if (vm.daysRangeOptionSelected == 'Weekends') {
                     vm.formData.daysRange = vm.formData.weekends
                 }
-                // $log.debug(vm.formData)
             }
         })
 
@@ -134,7 +140,7 @@
 
         vm.timetableAdherenceSubmit = function (isValid) {
             if (isValid) {
-                $log.debug(vm.formData)
+                $log.info(vm.formData)
                 UtilityService.addCheckedItems(vm.RadioButtonModel)
                 var ttAderenceUrl = getTtAderenceUrl();
                 // $log.info(ttAderenceUrl)
@@ -145,7 +151,7 @@
 
         function getTtAderenceUrl() {
             var ttAdherenceUrl, keyxValue, stinglength;
-           
+
             if (vm.RadioButtonModel === 'TTTrackTrains') {
                 ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData).trackTrains;
                 keyxValue = 'unixTime';
@@ -159,20 +165,21 @@
         }
 
         function getResponse(ttAderenceUrl) {
-            var routesFlag= true;
-            httpCallsService.getByUrl(ttAderenceUrl)
-            // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
-            // httpCallsService.getByJson("assets/timetableRoutes.json")
+            var routesFlag = true;
+            httpCallsService.getHeaders(ttAderenceUrl)
+                // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
+                // httpCallsService.getByJson("assets/timetableRoutes.json")
                 .then(function (response) {
                     vm.response = response;
-                    if (vm.response.timetableRoutes) {
-                        $log.info(vm.response.timetableRoutes)
+                        $log.info(vm.response)
+                    if (vm.response.data.timetableRoutes) {
                         routesFlag = true;
-                        vm.timetableRoutes = vm.response.timetableRoutes;
+                        vm.timetableRoutes = vm.response.data.timetableRoutes;
                         UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response])
+                        vm.value = $cookies.get('JSESSIONID')
+                        $log.info("session :" + vm.value)
                         $location.path("/ttAInput2");
                     } else {
-                        $log.info(response)
                         routesFlag = false;
                         UtilityService.addCheckedItems([vm.RadioButtonModel, ttAderenceUrl, routesFlag])
                         $location.path("timetableAdherence")
@@ -183,13 +190,19 @@
         }
     }
 
-    function TimetableAdherenceInput_2_Controller(httpCallsService, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
+    function TimetableAdherenceInput_2_Controller(httpCallsService, $cookies, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
         var vm = this;
+        function session($cookies, $scope) {
+            $scope.value = $cookies.get('JSESSIONID')
+            $log.info($scope.value)
+        }
+        session($cookies, $scope)
+        $log.info($cookies)
         vm.timetableRoutes = UtilityService.getCheckedItems()[0];
         vm.getTabs = UtilityService.getCheckedItems()[1]
         vm.routesFlag = UtilityService.getCheckedItems()[2]
         vm.inputValues = UtilityService.getCheckedItems()[3].timetableAdherenceInputs
-        $log.info(vm.getTabs)
+        $log.info(vm.inputValues)
         vm.tableRowExpanded = false;
         vm.tableRowIndexCurrExpanded = "";
         vm.tableRowIndexPrevExpanded = "";
