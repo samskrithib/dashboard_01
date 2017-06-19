@@ -33,7 +33,7 @@
 
     return {
 
-      getTrainGraphChart: function (data, xvalue) {
+      getTrainGraphChart: function (data, xvalue, tickFormat, tooltipFormat) {
         ModifiedData = function () {
           var timeDistanceArray;
           var identifier, seriesName;
@@ -80,9 +80,10 @@
             x: {
               type: "timeseries",
               tick: {
+                format: tickFormat,
                 centered: true,
                 fit: false,
-                rotate:45,
+                rotate: 45,
                 culling: {
                   max: 5
                 }
@@ -108,14 +109,11 @@
           },
           tooltip: {
             grouped: false,
-            
+
             format: {
-              title: function (d) {
-                var x = moment(d).format("MMMM Do YYYY, h:mm:ss a")
-                return x;
-              },
+              title: tooltipFormat,
               name: function (d) {
-                $log.info(d)
+                // $log.info(d)
                 var tooltip_name = d.split(".")
                 return tooltip_name[1]
               }
@@ -136,7 +134,7 @@
             $log.info(data.length)
             _.each(data, function (val, key) {
               var array = data[key].scheduledAndActualTimetables;
-              
+
               _.each(array, function (val, index) {
                 var timeDistanceArray = array[index].timeAndDistanceList
                 var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
@@ -161,9 +159,21 @@
               })
             })
 
+            function togglePressed(){
+              $log.info("fhdjkfhdksfjlkj")
+            }
+
+            d3.select('#index0')
+            .append('input').attr('type', 'button')
+              .attr("name", "toggle")
+              .attr("value", "Toggle")
+              .on("click", function(d){
+                $log.info("fhdjkfhdksfjlkj")
+              });
 
             d3.select('#index0')
               .insert('div')
+              .attr('id', 'legendItems')
               .attr('class', 'container-fluid')
               .insert('div')
               .attr('class', 'legend')
@@ -226,6 +236,8 @@
 
             });
 
+
+            
 
           }
         })

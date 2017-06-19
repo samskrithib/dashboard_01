@@ -13,21 +13,27 @@
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
-    $log.debug(vm.getTabs)
+    // $log.debug(vm.getTabs)
     vm.subTitle = subtitle.fromStation.locationName + " - " + subtitle.toStation.locationName +
-      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<p> DaysRange : " + subtitle.daysOfTheWeek + "</p>"
+      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<p> Days : " + subtitle.daysOfTheWeek + "</p>"
+      + "<p> Time : " + subtitle.fromTime + " - " + subtitle.toTime + "</p>"
 
     // $log.debug(vm.getTabs)
     if (vm.getTabs == 'TTTrackTrains') {
       var keyxValue = 'unixTime';
       var stinglength = 7;
+      var tickFormat = null;
+      var tooltipFormat = function (d) {
+        var x = moment(d).format("MMMM Do YYYY, h:mm:ss a")
+        return x;
+      }
       var TTAdherenceTrackTrainsUrl
       if (vm.routesFlag) {
         TTAdherenceTrackTrainsUrl = UtilityService.getCheckedItems()[1]
       }
       else {
         TTAdherenceTrackTrainsUrl = UrlGenerator.getTTAdherenceUrl().trackTrains;
-        $log.debug(TTAdherenceTrackTrainsUrl)
+        // $log.debug(TTAdherenceTrackTrainsUrl)
         // var routeIdUrl = UrlGenerator.getTTAdherenceUrl().routeIdUrl;
       }
       vm.promise = httpCallsService.getHeaders(TTAdherenceTrackTrainsUrl)
@@ -40,7 +46,7 @@
             vm.TTAdherenceTrackTrainsErrorMessage = response + "<h3> Error Message </h3>"
           } else {
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
-            trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue);
+            trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat);
             trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
 
           }
@@ -54,6 +60,11 @@
     if (vm.getTabs == 'TTPercentile') {
       var keyxValue = 'timeInSeconds';
       var stinglength = 9;
+      var tickFormat = function (x) { return moment().startOf('day').seconds(x).format('h:mm:ss a') };
+      var tooltipFormat = function (d) {
+        var x = moment().startOf('day').seconds(d).format('h:mm:ss a')
+        return x;
+      }
       var percentileUrl;
       if (vm.routesFlag) {
         percentileUrl = UtilityService.getCheckedItems()[1]
@@ -75,7 +86,7 @@
           }
           vm.TTadherencePercentileError = false;
           vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
-          trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue);
+          trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat);
           trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
 
         }).catch(function (response) {
@@ -97,8 +108,9 @@
       })
       return lines;
     }
-    var time = moment().startOf('day').seconds(72270).format('H:mm:ss')
-    // $log.debug(time)
+    
+    var time = moment().startOf('day').seconds(35040).format('H:mm:ss')
+    // $log.info("time: " + time)
     // $log.debug(moment({seconds:'58'}).format("HH:mm:ss"))
     // $log.debug(moment.unix(1318781876).format("h:mm:ss A"))
     // $log.debug(moment([2010, 0, 31, 0, 0, 0]).add(76920).format("h:mm:ss A"))

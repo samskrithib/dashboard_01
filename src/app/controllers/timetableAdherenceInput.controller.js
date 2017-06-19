@@ -108,8 +108,8 @@
         /* Defaults */
         vm.formData.fromStation = { "locationName": "Newcastle", "tiploc": "NWCSTLE" };
         vm.formData.toStation = { "locationName": "Dunston-on-Tyne", "tiploc": "DNSN" };
-        vm.formData.fromDate = new Date(2017, 1, 28);
-        vm.formData.toDate = new Date(2017, 6, 12);
+        vm.formData.fromDate = new Date(2017, 5, 12);
+        vm.formData.toDate = new Date(2017, 5, 14);
         vm.formData.percentileSelected = '50%';
 
         /* End Defaults */
@@ -161,6 +161,7 @@
                 keyxValue = 'timeInSeconds';
                 stinglength = 9;
             }
+            $log.info(ttAdherenceUrl)
             return ttAdherenceUrl;
         }
 

@@ -44,17 +44,16 @@
           modifiedData.toStation = data.toStation;
           modifiedData.fromDate = $filter('date')(data.fromDate, 'yyyy-MM-dd')
           modifiedData.toDate = $filter('date')(data.toDate, 'yyyy-MM-dd')
-          modifiedData.fromTime = $filter('date')(data.startTime, 'hh:mm:ss')
-          modifiedData.toTime = $filter('date')(data.endTime, 'hh:mm:ss')
+          modifiedData.fromTime = $filter('date')(data.startTime, 'HH:mm:ss')
+          modifiedData.toTime = $filter('date')(data.endTime, 'HH:mm:ss')
           modifiedData.serviceCodes = data.serviceCode.join();
-          modifiedData.daysOfTheWeek = data.daysRange.join();
+          modifiedData.daysOfTheWeek = data.daysRange.join(', ');
           if (getTab == 'TTPercentile') {
            modifiedData.percentile = data.percentileSelected.split("%")
            modifiedData.percentileSingle = modifiedData.percentile[0];
             // percentile=80
             TTAdherencePercentile = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&percentile=" + modifiedData.percentile[0]
           }
-
           TTAdherenceTrackTrains = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek
 
           return{

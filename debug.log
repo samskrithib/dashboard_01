@@ -2,3 +2,6 @@
 [0427/175336.204:ERROR:process_info.cc(625)] range at 0xd5c2285c00000000, size 0x288 fully unreadable
 [0427/175336.204:ERROR:process_info.cc(625)] range at 0x0, size 0x288 fully unreadable
 [0616/163425.960:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
+[0619/112159.523:ERROR:process_info.cc(631)] range at 0xc18837d800000000, size 0x1a0 fully unreadable
+[0619/112159.524:ERROR:process_info.cc(631)] range at 0xc188383c00000000, size 0x1a0 fully unreadable
+[0619/112159.524:ERROR:process_info.cc(631)] range at 0x0, size 0x1a0 fully unreadable
