@@ -208,7 +208,7 @@
             },
             y: {
               lines: [
-                { value: energySummary[3], text: 'Energy Target ' + energySummary[3], position: 'end' }
+                // { value: energySummary[3], text: 'Energy Target ' + energySummary[3], position: 'end' }
               ]
             }
           }
@@ -245,7 +245,7 @@
             .style('font-size', '1.4em')
             .text('No: of Trains: ' + nTrains);
         }
-        EnergySummaryChart.ygrids([{ value: dataColumns[3], text: 'Energy Target ' + dataColumns[3], position: 'end' }]);
+        // EnergySummaryChart.ygrids([{ value: dataColumns[3], text: 'Energy Target ' + dataColumns[3], position: 'end' }]);
       },
 
       toggleEnergyTarget: function (isOn) {

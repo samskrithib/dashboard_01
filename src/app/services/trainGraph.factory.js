@@ -159,18 +159,19 @@
               })
             })
 
-            function togglePressed(){
-              $log.info("fhdjkfhdksfjlkj")
-            }
 
             d3.select('#index0')
-            .append('input').attr('type', 'button')
+              .append('input').attr('type', 'button')
               .attr("name", "toggle")
               .attr("value", "Toggle")
-              .on("click", function(d){
-                $log.info("fhdjkfhdksfjlkj")
-              });
+              .on("click", function (d) {
+                var active   = legendItems.active ? false : true,
+                    visibility = active ? 'hidden' : 'visible'
 
+                d3.select('#legendItems').style("visibility", visibility)
+                $log.info(active)
+                legendItems.active = active;
+              });
             d3.select('#index0')
               .insert('div')
               .attr('id', 'legendItems')
@@ -229,7 +230,7 @@
                 .attr('dx', function (id) {
                   if (station.offset) {
                     // $log.debug(id)
-                    return -station.offset * 4;
+                    return -station.offset * 4.5;
                   }
                 })
 
@@ -237,7 +238,7 @@
             });
 
 
-            
+
 
           }
         })

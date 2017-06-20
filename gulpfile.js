@@ -8,6 +8,10 @@
 
 var fs = require('fs');
 var gulp = require('gulp');
+var pkg = require('./package.json')
+var devBuild = ((process.NODE_ENV || 'dev').toLocaleLowerCase().trim() !== 'prod')
+// show build type and package version
+console.log(pkg.name + ' ' + pkg.version + ', ' + (devBuild ? 'dev' : 'prod') + ' build');
 
 /**
  *  This will load all js or coffee files in the gulp directory

@@ -13,10 +13,10 @@
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
-    // $log.debug(vm.getTabs)
+    $log.debug(vm.getTabs)
     vm.subTitle = subtitle.fromStation.locationName + " - " + subtitle.toStation.locationName +
-      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<p> Days : " + subtitle.daysOfTheWeek + "</p>"
-      + "<p> Time : " + subtitle.fromTime + " - " + subtitle.toTime + "</p>"
+      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysOfTheWeek
+      + " <strong>| Time :  </strong>" + subtitle.fromTime + " - " + subtitle.toTime
 
     // $log.debug(vm.getTabs)
     if (vm.getTabs == 'TTTrackTrains') {
@@ -60,17 +60,18 @@
     if (vm.getTabs == 'TTPercentile') {
       var keyxValue = 'timeInSeconds';
       var stinglength = 9;
-      var tickFormat = function (x) { return moment().startOf('day').seconds(x).format('h:mm:ss a') };
+      var tickFormat = function (x) { return moment().startOf('day').seconds(x).format('LT') };
       var tooltipFormat = function (d) {
         var x = moment().startOf('day').seconds(d).format('h:mm:ss a')
         return x;
       }
+      vm.subTitle += "<p> Percentile Selected : " + subtitle.percentileSingle + "% </p>"
       var percentileUrl;
       if (vm.routesFlag) {
         percentileUrl = UtilityService.getCheckedItems()[1]
       }
       else {
-        //  vm.subTitle += "<p> Percentile Selected : " + subtitle.percentileSingle + "% </p>"
+
         percentileUrl = UrlGenerator.getTTAdherenceUrl().percentile;
         // $log.debug(percentileUrl)
       }
@@ -101,14 +102,14 @@
       var lines = [];
       _.each(data, function (val, key) {
         var obj = {};
-        obj.value = data[key].distance;
+        obj.value = data[key].distanceFromFromLocationInKms;
         obj.text = data[key].locationName;
         obj.tiploc = data[key].tiploc;
         lines[lines.length] = obj;
       })
       return lines;
     }
-    
+
     var time = moment().startOf('day').seconds(35040).format('H:mm:ss')
     // $log.info("time: " + time)
     // $log.debug(moment({seconds:'58'}).format("HH:mm:ss"))

@@ -110,7 +110,7 @@
         vm.formData.toStation = { "locationName": "Dunston-on-Tyne", "tiploc": "DNSN" };
         vm.formData.fromDate = new Date(2017, 5, 12);
         vm.formData.toDate = new Date(2017, 5, 14);
-        vm.formData.percentileSelected = '50%';
+        vm.formData.percentileSelected = '80%';
 
         /* End Defaults */
 
