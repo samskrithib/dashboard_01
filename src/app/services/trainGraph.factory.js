@@ -161,24 +161,29 @@
 
 
             d3.select('#index0')
-              .append('input').attr('type', 'button')
-              .attr("name", "toggle")
-              .attr("value", "Toggle")
+              .insert('div')
+              .attr('class', 'container-fluid text-center')
+              .append('button').attr('type', 'button')
+              .attr("id", "toggle")
+              .attr("class", "btn btn-primary ")
+              .text("Hide Trains")
               .on("click", function (d) {
-                var active   = legendItems.active ? false : true,
-                    visibility = active ? 'hidden' : 'visible'
-
+                var active = legendItems.active ? false : true,
+                  visibility = active ? 'hidden' : 'visible',
+                  text = active ? 'Show Trains' : 'Hide Trains'
                 d3.select('#legendItems').style("visibility", visibility)
+                d3.select('#toggle').text(text)
                 $log.info(active)
                 legendItems.active = active;
               });
+
             d3.select('#index0')
               .insert('div')
               .attr('id', 'legendItems')
               .attr('class', 'container-fluid')
               .insert('div')
               .attr('class', 'legend')
-              .insert('ul').attr('class', 'list-group')
+              .insert('ul').attr('class', 'list-group list-group-horizontal')
               .selectAll('span')
               .data(ActualRunSeriesNames)
               .enter().append('li').attr('class', 'list-group-item')

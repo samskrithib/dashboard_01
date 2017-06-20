@@ -8,18 +8,22 @@
 
   function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
+    vm.totalItems = 7;
+    vm.currentpage = 1;
+    $log.info(vm.currentpage)
     vm.TTadherencePercentileError = false;
     vm.TTAdherenceTrackTrainsError = false;
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
-    $log.debug(vm.getTabs)
+    $log.info(vm.getTabs)
     vm.subTitle = subtitle.fromStation.locationName + " - " + subtitle.toStation.locationName +
       "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysOfTheWeek
       + " <strong>| Time :  </strong>" + subtitle.fromTime + " - " + subtitle.toTime
 
     // $log.debug(vm.getTabs)
     if (vm.getTabs == 'TTTrackTrains') {
+      vm.pageHeader = 'Timetable Adherence Track Trains';
       var keyxValue = 'unixTime';
       var stinglength = 7;
       var tickFormat = null;
@@ -58,6 +62,7 @@
 
     }
     if (vm.getTabs == 'TTPercentile') {
+      vm.pageHeader = 'Timetable Adherence Percentiles';
       var keyxValue = 'timeInSeconds';
       var stinglength = 9;
       var tickFormat = function (x) { return moment().startOf('day').seconds(x).format('LT') };

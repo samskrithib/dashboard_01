@@ -191,14 +191,9 @@
         }
     }
 
-    function TimetableAdherenceInput_2_Controller(httpCallsService, $cookies, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
+    function TimetableAdherenceInput_2_Controller(httpCallsService,UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
         var vm = this;
-        function session($cookies, $scope) {
-            $scope.value = $cookies.get('JSESSIONID')
-            $log.info($scope.value)
-        }
-        session($cookies, $scope)
-        $log.info($cookies)
+        
         vm.timetableRoutes = UtilityService.getCheckedItems()[0];
         vm.getTabs = UtilityService.getCheckedItems()[1]
         vm.routesFlag = UtilityService.getCheckedItems()[2]
