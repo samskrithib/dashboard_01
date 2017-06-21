@@ -97,7 +97,7 @@
             extent: [1, 5000]
           },
           point: {
-            r: 2
+            r: 1
           },
           subchart: {
             show: true

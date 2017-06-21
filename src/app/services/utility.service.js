@@ -16,7 +16,10 @@
         getCheckedItems: function () {
           return checkedItems;
         },
-
+        clean:function(){
+          checkedItems = '';
+          return checkedItems;
+        },
         addTab: function (tab, id) {
           tabsList.push({
             title: tab,

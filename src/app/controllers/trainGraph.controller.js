@@ -8,9 +8,7 @@
 
   function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
-    vm.totalItems = 7;
-    vm.currentpage = 1;
-    $log.info(vm.currentpage)
+
     vm.TTadherencePercentileError = false;
     vm.TTAdherenceTrackTrainsError = false;
     vm.getTabs = UtilityService.getCheckedItems()[0];
@@ -24,6 +22,7 @@
     // $log.debug(vm.getTabs)
     if (vm.getTabs == 'TTTrackTrains') {
       vm.pageHeader = 'Timetable Adherence Track Trains';
+      var TTAdherenceTrackTrainsUrl;
       var keyxValue = 'unixTime';
       var stinglength = 7;
       var tickFormat = null;
@@ -31,36 +30,17 @@
         var x = moment(d).format("MMMM Do YYYY, h:mm:ss a")
         return x;
       }
-      var TTAdherenceTrackTrainsUrl
       if (vm.routesFlag) {
         TTAdherenceTrackTrainsUrl = UtilityService.getCheckedItems()[1]
       }
       else {
         TTAdherenceTrackTrainsUrl = UrlGenerator.getTTAdherenceUrl().trackTrains;
-        // $log.debug(TTAdherenceTrackTrainsUrl)
-        // var routeIdUrl = UrlGenerator.getTTAdherenceUrl().routeIdUrl;
       }
-      vm.promise = httpCallsService.getHeaders(TTAdherenceTrackTrainsUrl)
-        // vm.promise = httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
-        .then(function (response) {
-          vm.response = response.data;
-          $log.info(vm.response)
-          if (!vm.response) {
-            vm.TTAdherenceTrackTrainsError = true;
-            vm.TTAdherenceTrackTrainsErrorMessage = response + "<h3> Error Message </h3>"
-          } else {
-            vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
-            trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat);
-            trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
-
-          }
-        }).catch(function (response) {
-          vm.TTAdherenceTrackTrainsError = true;
-          vm.TTAdherenceTrackTrainsErrorMessage = response + "<h3> Error Message </h3>"
-        })
-
-
+      vm.TTUrl = TTAdherenceTrackTrainsUrl;
+      vm.totalItems = 7;
+      $log.info(vm.currentpage)
     }
+
     if (vm.getTabs == 'TTPercentile') {
       vm.pageHeader = 'Timetable Adherence Percentiles';
       var keyxValue = 'timeInSeconds';
@@ -76,32 +56,51 @@
         percentileUrl = UtilityService.getCheckedItems()[1]
       }
       else {
-
         percentileUrl = UrlGenerator.getTTAdherenceUrl().percentile;
-        // $log.debug(percentileUrl)
       }
-      vm.promise1 = httpCallsService.getByUrl(percentileUrl)
-        // vm.promise1 = httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
-        .then(function (response) {
-          vm.response = response;
-          $log.info(vm.response)
 
-          if (!vm.response) {
-            vm.TTadherencePercentileError = true;
-            vm.TTadherencePercentileErrorMessage = response + "<h3> Error Message</h3>";
-          }
-          vm.TTadherencePercentileError = false;
+      vm.TTUrl = percentileUrl;
+    }
+
+    vm.promise = httpCallsService.getHeaders(vm.TTUrl)
+      // vm.promise = httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
+      .then(function (response) {
+        vm.response = response.data;
+        vm.formData = vm.response.timetableAdherenceInputs;
+        
+        if (!vm.response) {
+          vm.TTAdherenceTrackTrainsError = true;
+          vm.TTAdherenceTrackTrainsErrorMessage = response.data + "<h3> Error Message </h3>"
+        } else {
           vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
           trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat);
           trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
 
-        }).catch(function (response) {
-          vm.TTadherencePercentileError = true;
-          vm.TTadherencePercentileErrorMessage = response + "<h3> Error Message</h3>";
+        }
+      }).catch(function (response) {
+        vm.TTAdherenceTrackTrainsError = true;
+        vm.TTAdherenceTrackTrainsErrorMessage = response.data + "<h3> Error Message </h3>"
+      })
 
-        })
+    vm.pageOnclick = function (currentpage) {
 
+      vm.routesFlag= false;
+      $log.info(currentpage)
+      vm.formData.fromStation = {"locationName": vm.formData.fromLocation, "tiploc": vm.formData.fromTiploc}
+      vm.formData.toStation = {"locationName": vm.formData.toLocation, "tiploc": vm.formData.toTiploc}
+      $log.info(vm.formData)
+      UtilityService.clean();
+      UtilityService.addCheckedItems(vm.getTabs);
+      vm.newUrl= UrlGenerator.generateTTAdherenceUrls(vm.formData, currentpage).trackTrains
+      $log.info(vm.newUrl)
+
+      httpCallsService.getHeaders(vm.newUrl)
+      .then(function(response){
+        $log.info(response)
+      })
     }
+
+
 
     function gridlines(data) {
       var lines = [];
@@ -115,11 +114,7 @@
       return lines;
     }
 
-    var time = moment().startOf('day').seconds(35040).format('H:mm:ss')
-    // $log.info("time: " + time)
-    // $log.debug(moment({seconds:'58'}).format("HH:mm:ss"))
-    // $log.debug(moment.unix(1318781876).format("h:mm:ss A"))
-    // $log.debug(moment([2010, 0, 31, 0, 0, 0]).add(76920).format("h:mm:ss A"))
+
   }
 })();
 

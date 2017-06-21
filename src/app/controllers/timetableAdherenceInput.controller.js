@@ -108,9 +108,14 @@
         /* Defaults */
         vm.formData.fromStation = { "locationName": "Newcastle", "tiploc": "NWCSTLE" };
         vm.formData.toStation = { "locationName": "Dunston-on-Tyne", "tiploc": "DNSN" };
+        vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
+        vm.formData.toTiploc = vm.formData.toStation.tiploc;
         vm.formData.fromDate = new Date(2017, 5, 12);
         vm.formData.toDate = new Date(2017, 5, 14);
         vm.formData.percentileSelected = '80%';
+        vm.formData.fromRecord = 0;
+        vm.formData.pageSize = 10;
+
 
         /* End Defaults */
 
@@ -151,13 +156,13 @@
 
         function getTtAderenceUrl() {
             var ttAdherenceUrl, keyxValue, stinglength;
-
+            var currentPage = 0;
             if (vm.RadioButtonModel === 'TTTrackTrains') {
-                ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData).trackTrains;
+                ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData, currentPage).trackTrains;
                 keyxValue = 'unixTime';
                 stinglength = 7;
             } else {
-                ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData).percentile;
+                ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData, currentPage).percentile;
                 keyxValue = 'timeInSeconds';
                 stinglength = 9;
             }
@@ -172,13 +177,10 @@
                 // httpCallsService.getByJson("assets/timetableRoutes.json")
                 .then(function (response) {
                     vm.response = response;
-                        $log.info(vm.response)
                     if (vm.response.data.timetableRoutes) {
                         routesFlag = true;
                         vm.timetableRoutes = vm.response.data.timetableRoutes;
-                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response])
-                        vm.value = $cookies.get('JSESSIONID')
-                        $log.info("session :" + vm.value)
+                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response.data])
                         $location.path("/ttAInput2");
                     } else {
                         routesFlag = false;

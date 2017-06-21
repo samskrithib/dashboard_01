@@ -37,25 +37,45 @@
           }
         },
 
-        generateTTAdherenceUrls: function (data) {
+        generateTTAdherenceUrls: function (data, currentPage) {
           
           var getTab = UtilityService.getCheckedItems();
+          $log.info("in url"+ getTab)
           modifiedData.fromStation = data.fromStation;
           modifiedData.toStation = data.toStation;
           modifiedData.fromDate = $filter('date')(data.fromDate, 'yyyy-MM-dd')
           modifiedData.toDate = $filter('date')(data.toDate, 'yyyy-MM-dd')
-          modifiedData.fromTime = $filter('date')(data.startTime, 'HH:mm:ss')
+          if(data.startTime){
+             modifiedData.fromTime = $filter('date')(data.startTime, 'HH:mm:ss')
+          }else{
+            modifiedData.fromTime = $filter('date')(data.fromTime, 'HH:mm:ss')
+          }
+         if(data.endTime){
           modifiedData.toTime = $filter('date')(data.endTime, 'HH:mm:ss')
-          modifiedData.serviceCodes = data.serviceCode.join();
-          modifiedData.daysOfTheWeek = data.daysRange.join(', ');
+         }else{
+            modifiedData.toTime = $filter('date')(data.toTime, 'HH:mm:ss')
+         }
+          
+          modifiedData.fromRecord = data.fromRecord;
+          if(data.serviceCode){
+             modifiedData.serviceCodes = data.serviceCode.join();
+          }else{
+             modifiedData.serviceCodes = data.serviceCodes.join();
+          }
+          if(data.daysRange){
+            modifiedData.daysOfTheWeek = data.daysRange.join(', ');
+          }else{
+            modifiedData.daysOfTheWeek = data.daysOfTheWeek.join(',');
+          }
+          
           if (getTab == 'TTPercentile') {
            modifiedData.percentile = data.percentileSelected.split("%")
            modifiedData.percentileSingle = modifiedData.percentile[0];
             // percentile=80
-            TTAdherencePercentile = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&percentile=" + modifiedData.percentile[0]
+            TTAdherencePercentile = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&percentile=" + modifiedData.percentile[0] + "&fromRecord="+ modifiedData.fromRecord
+          }else{
+            TTAdherenceTrackTrains = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&fromRecord="+ (modifiedData.fromRecord + currentPage)*data.pageSize;
           }
-          TTAdherenceTrackTrains = "timetableadherence?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek
-
           return{
             percentile: TTAdherencePercentile,
             trackTrains: TTAdherenceTrackTrains,
