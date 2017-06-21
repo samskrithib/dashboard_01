@@ -112,7 +112,7 @@
                                 <label for="selectPercentile" class="control-label mandatory col-md-2">Select Percentile</label>
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.selectPercentile.$invalid && !form.selectPercentile.$pristine }">
                                     <ui-select ng-model="vm.formData.percentileSelected" theme="bootstrap">
-                                        <ui-select-match placeholder="Select percentile...">{{::$select.selected}}</ui-select-match>
+                                        <ui-select-match placeholder="Select percentile...">{{$select.selected}}</ui-select-match>
                                         <ui-select-choices repeat="percentile in vm.percentilesList | filter: $select.search">
                                             <div ng-bind-html="percentile | highlight: $select.search"></div>
                                         </ui-select-choices>
