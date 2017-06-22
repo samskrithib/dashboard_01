@@ -5,7 +5,7 @@
   angular
     .module('dassimFrontendV03')
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
-      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl, routeIdUrl;
+      var url,viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl, routeIdUrl, trainGraphPageIdUrl;
       var modifiedData = {};
       return {
         generateTrainTimesUrl: function (a, b, c) {
@@ -85,6 +85,10 @@
         generateRouteIdUrl: function(routeId){
           routeIdUrl = "traingraphs-route?routeId=" + routeId;
           return routeIdUrl;
+        },
+        generatePageIdUrl: function(pageId){
+          trainGraphPageIdUrl = "traingraphs-paging?pageId="+pageId
+          return trainGraphPageIdUrl;
         },
         getTTAdherenceUrl: function () {
           return {

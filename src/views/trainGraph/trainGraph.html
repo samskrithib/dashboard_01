@@ -22,8 +22,10 @@
                   <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
                     <div id="trainGraph"></div>
                   </div>
-                  <!--<pre>You are currently on page {{vm.currentPage}}</pre>-->
-                  <!--<ul uib-pager items-per-page=2 total-items="vm.totalItems" ng-model="vm.currentPage" ng-change="vm.pageOnclick(vm.currentPage)"></ul>-->
+                  <div ng-show="vm.totalItems > 10" class="text-center"> 
+                      <ul uib-pagination total-items="vm.totalItems" ng-model="vm.currentPage" ng-change="vm.pageChanged(vm.currentPage)"></ul>
+                      <!--<pre>You are cuurently on page {{vm.currentPage}}-->
+                    </div>
                 </div>
 
                 <div ng-show="vm.TTAdherenceTrackTrainsError" ng-bind-html="vm.TTAdherenceTrackTrainsErrorMessage"></div>
@@ -35,7 +37,9 @@
                 <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
                   <div ng-show="!vm.TTAdherenceTrackTrainsError">
                     <div id="trainGraph"></div>
+                    
                   </div>
+                  
                   <div ng-show="vm.TTAdherenceTrackTrainsError" ng-bind-html="vm.TTAdherenceTrackTrainsErrorMessage"></div>
                 </div>
               </div>

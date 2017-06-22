@@ -33,7 +33,7 @@
 
     return {
 
-      getTrainGraphChart: function (data, xvalue, tickFormat, tooltipFormat) {
+      getTrainGraphChart: function (data, xvalue, tickFormat, tooltipFormat, gridlines) {
         ModifiedData = function () {
           var timeDistanceArray;
           var identifier, seriesName;
@@ -121,6 +121,24 @@
           }
 
         })
+        // draw plotlines/gridlines
+            fixOverlaps(gridlines).forEach(function (station) {
+              timetableAdherenceChart.ygrids.add({
+                value: station.value,
+                text: station.text,
+                class: station.class
+              });
+              var selector = ".c3-ygrid-line." + station.class;
+              d3.select(selector).select('text')
+                .attr('dx', function (id) {
+                  if (station.offset) {
+                    // $log.debug(id)
+                    return -station.offset * 4.5;
+                  }
+                })
+
+
+            });
 
       },
 
@@ -158,11 +176,12 @@
 
               })
             })
-
+            d3.select('#legendItems').remove();
+            d3.select('#toggle').remove();
 
             d3.select('#index0')
               .insert('div')
-              .attr('class', 'container-fluid text-center')
+              .attr('class', 'container-fluid')
               .append('button').attr('type', 'button')
               .attr("id", "toggle")
               .attr("class", "btn btn-primary ")
@@ -175,7 +194,7 @@
                 d3.select('#toggle').text(text)
                 $log.info(active)
                 legendItems.active = active;
-              });
+              })
 
             d3.select('#index0')
               .insert('div')
@@ -223,24 +242,7 @@
                 return '&nbsp&nbsp&nbsp&nbsp&nbsp'
               })
 
-            // draw plotlines/gridlines
-            fixOverlaps(gridlines).forEach(function (station) {
-              timetableAdherenceChart.ygrids.add({
-                value: station.value,
-                text: station.text,
-                class: station.class
-              });
-              var selector = ".c3-ygrid-line." + station.class;
-              d3.select(selector).select('text')
-                .attr('dx', function (id) {
-                  if (station.offset) {
-                    // $log.debug(id)
-                    return -station.offset * 4.5;
-                  }
-                })
-
-
-            });
+            
 
 
 
