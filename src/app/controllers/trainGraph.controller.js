@@ -17,7 +17,7 @@
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
     $log.info(vm.getTabs)
-    vm.subTitle = subtitle.fromStation.locationName + " - " + subtitle.toStation.locationName +
+    vm.subTitle = subtitle.fromStation.locationName + "  to  " + subtitle.toStation.locationName +
       "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysOfTheWeek
       + " <strong>| Time :  </strong>" + subtitle.fromTime + " - " + subtitle.toTime
 
@@ -75,7 +75,7 @@
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
             trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
             trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
-            vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
+             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
           }
 
         }).catch(function (error) {
@@ -83,7 +83,7 @@
           vm.TTAdherenceTrackTrainsError = true;
           vm.TTAdherenceTrackTrainsErrorMessage = error.statusText + "<h3> Error Message </h3>"
         })
-
+        
     }
     vm.pageChanged = function (currentpage) {
       var pageId = currentpage - 1;

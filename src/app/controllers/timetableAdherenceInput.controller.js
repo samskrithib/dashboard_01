@@ -18,7 +18,7 @@
         }
         var defaultEndTime = function () {
             var d = new Date()
-            d.setHours(12);
+            d.setHours(23);
             d.setMinutes(0);
             d.setSeconds(0)
             return d;
@@ -107,11 +107,11 @@
         vm.formData = {};
         /* Defaults */
         vm.formData.fromStation = { "locationName": "Newcastle", "tiploc": "NWCSTLE" };
-        vm.formData.toStation = { "locationName": "Dunston-on-Tyne", "tiploc": "DNSN" };
+        vm.formData.toStation = {"locationName":"Carlisle","tiploc":"CARLILE"};
         vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
         vm.formData.toTiploc = vm.formData.toStation.tiploc;
         vm.formData.fromDate = new Date(2017, 5, 12);
-        vm.formData.toDate = new Date(2017, 5, 14);
+        vm.formData.toDate = new Date(2017, 5, 21);
         vm.formData.percentileSelected = '80%';
         vm.formData.fromRecord = 0;
         vm.formData.pageSize = 10;
@@ -176,11 +176,12 @@
                 // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
                 // httpCallsService.getByJson("assets/timetableRoutes.json")
                 .then(function (response) {
-                    vm.response = response;
-                    if (vm.response.data.timetableRoutes) {
+                    vm.response = response.data;
+                    $log.info(vm.response)
+                    if (vm.response.timetableRoutes) {
                         routesFlag = true;
-                        vm.timetableRoutes = vm.response.data.timetableRoutes;
-                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response.data])
+                        vm.timetableRoutes = vm.response.timetableRoutes;
+                        UtilityService.addCheckedItems([vm.timetableRoutes, vm.RadioButtonModel, routesFlag, vm.response])
                         $location.path("/ttAInput2");
                     } else {
                         routesFlag = false;

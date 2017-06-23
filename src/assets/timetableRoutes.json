@@ -1,77 +1,106 @@
 {
-    "timetableAdherenceGraph": null,
-    "timetableAdherenceInputs": {
-        "daysOfTheWeek": [
-            "MONDAY",
-            "TUESDAY",
-            "WEDNESDAY",
-            "THURSDAY",
-            "FRIDAY"
-        ],
-        "fromDate": [
-            2017,
-            1,
-            1
-        ],
-        "fromTime": [
-            0,
-            0
-        ],
-        "fromTiploc": "NWCSTLE",
-        "percentile": 0.0,
-        "serviceCodes": [
-            "21796000",
-            "21793000"
-        ],
-        "toDate": [
-            2017,
-            5,
-            12
-        ],
-        "toTime": [
-            23,
-            59
-        ],
-        "toTiploc": "DNSN"
+  "timetableAdherenceInputs": {
+    "pageId": 0,
+    "fromTiploc": "NWCSTLE",
+    "toTiploc": "CARLILE",
+    "fromLocation": "Newcastle",
+    "toLocation": "Carlisle",
+    "fromDate": [
+      2017,
+      6,
+      12
+    ],
+    "toDate": [
+      2017,
+      6,
+      21
+    ],
+    "fromTime": [
+      6,
+      0
+    ],
+    "toTime": [
+      23,
+      0
+    ],
+    "serviceCodes": [
+      "21793000",
+      "21796000"
+    ],
+    "daysOfTheWeek": [
+      "MONDAY",
+      " TUESDAY",
+      " WEDNESDAY",
+      " THURSDAY",
+      " FRIDAY"
+    ],
+    "percentile": 80
+  },
+  "timetableAdherenceGraph": null,
+  "timetableRoutes": [
+    {
+      "routeId": 0,
+      "distinctLocations": "Newcastle >> King Edward Bridge North Junction >> Carlisle",
+      "allLocations": [
+        "Newcastle",
+        "King Edward Bridge North Junction",
+        "King Edward Bridge South Junction",
+        "Norwood Junction",
+        "Dunston-on-Tyne",
+        "Metrocentre",
+        "Blaydon",
+        "Wylam",
+        "Prudhoe",
+        "Stocksfield",
+        "Riding Mill",
+        "Corbridge",
+        "Hexham",
+        "Haydon Bridge",
+        "Bardon Mill",
+        "Haltwhistle",
+        "Low Row Signal Box",
+        "Brampton",
+        "Brampton Fell Signal Box",
+        "Wetheral Corby Gates Signal Box",
+        "Wetheral",
+        "Petteril Bridge Junction",
+        "Carlisle London Road Junction",
+        "Carlisle"
+      ],
+      "$$hashKey": "object:216"
     },
-    "timetableRoutes": [
-        {
-            "junctionAndTerminiTiplocs": [
-                "NWCSTLE",
-                "HLBDGJN",
-                "GRNSFDJ",
-                "KEBGEJN",
-                "KEBGSJN",
-                "NRWDJN",
-                "DNSN"
-            ],
-            "routeId": 0,
-            "tiplocs": [
-                "NWCSTLE",
-                "HLBDGJN",
-                "GRNSFDJ",
-                "KEBGEJN",
-                "KEBGSJN",
-                "NRWDJN",
-                "DNSN"
-            ]
-        },
-        {
-            "junctionAndTerminiTiplocs": [
-                "NWCSTLE",
-                "KEBGNJN",
-                "KEBGSJN",
-                "NRWDJN",
-                "DNSN"
-            ],
-            "routeId": 1,
-            "tiplocs": [
-                "NWCSTLE",
-                "KEBGNJN",
-                "KEBGSJN",
-                "NRWDJN",
-                "DNSN"
-            ]
-        }
-    ]
+    {
+      "routeId": 1,
+      "distinctLocations": "Newcastle >> High Level Bridge Junction >> Greensfield Junction >> King Edward Bridge East Junction >> Carlisle",
+      "allLocations": [
+        "Newcastle",
+        "High Level Bridge Junction",
+        "Greensfield Junction",
+        "King Edward Bridge East Junction",
+        "King Edward Bridge South Junction",
+        "Norwood Junction",
+        "Dunston-on-Tyne",
+        "Metrocentre",
+        "Blaydon",
+        "Wylam",
+        "Prudhoe",
+        "Stocksfield",
+        "Riding Mill",
+        "Corbridge",
+        "Hexham",
+        "Haydon Bridge",
+        "Bardon Mill",
+        "Haltwhistle",
+        "Low Row Signal Box",
+        "Brampton",
+        "Brampton Fell Signal Box",
+        "Wetheral Corby Gates Signal Box",
+        "Wetheral",
+        "Petteril Bridge Junction",
+        "Carlisle London Road Junction",
+        "Carlisle"
+      ],
+      "$$hashKey": "object:217"
+    }
+  ]
 }

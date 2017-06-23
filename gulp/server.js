@@ -6,7 +6,7 @@ var conf = require('./conf');
 
 var browserSync = require('browser-sync');
 var browserSyncSpa = require('browser-sync-spa');
-
+var PORT = 8080;
 var util = require('util');
 
 var proxyMiddleware = require('http-proxy-middleware');
@@ -35,12 +35,19 @@ function browserSyncInit(baseDir, browser) {
    *
    * For more details and option, https://github.com/chimurai/http-proxy-middleware/blob/v0.9.0/README.md
    */
-  server.middleware = proxyMiddleware('/dassim', {target: 'http://localhost:8080', changeOrigin: true});
+  // server.middleware = proxyMiddleware('/dassim', {target: 'http://localhost:8080/WORKSPACE/dassim-frontend-v03/dist', changeOrigin: true});
 
   browserSync.instance = browserSync.init({
-    startPath: '/',
-    server: server,
-    browser: browser
+    // startPath: '/',
+    port: PORT,
+    ui: {
+      port: 8080
+    },
+    proxy: 'http://localhost:8080/WORKSPACE/dassim-frontend-v03/dist/index.html',
+    host: 'localhost',
+    // open: false
+    // server: server,
+    // browser: browser
   });
 }
 
@@ -52,7 +59,7 @@ gulp.task('serve', ['watch'], function () {
   browserSyncInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);
 });
 
-gulp.task('serve:dist', ['build'], function () {
+gulp.task('serve:dist', ['build', 'watch'], function () {
   browserSyncInit(conf.paths.dist);
 });
 
