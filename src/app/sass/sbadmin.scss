@@ -88,6 +88,14 @@ body {
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
+        margin: 0 0 0 200px;
+        padding: 0 30px;
+        border-left: 1px solid darken($gray-lightest, 6.5%);
+    }
+}
+@media(min-width:1280px) {
+    #page-wrapper {
+        position: inherit;
         margin: 0 0 0 250px;
         padding: 0 30px;
         border-left: 1px solid darken($gray-lightest, 6.5%);
@@ -204,6 +212,20 @@ body {
 }
 
 @media(min-width:768px) {
+    .sidebar {
+        z-index: 1;
+        position: absolute;
+        width: 200px;
+        margin-top: 51px;
+    }
+
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+}
+@media(min-width:1280px) {
     .sidebar {
         z-index: 1;
         position: absolute;

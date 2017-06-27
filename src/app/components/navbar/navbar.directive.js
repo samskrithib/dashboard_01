@@ -28,11 +28,11 @@
       vm.relativeDate = moment(vm.creationDate).fromNow();
       vm.isCollapsed = true;
       angular.element(document).ready(function() {
-        $("#menu-toggle").click(function(e) {
+        angular.element("#menu-toggle").click(function(e) {
           $log.info("clciked")
             e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-            $("#wrapper.toggled").find("#sidebar-wrapper").find(".collapse").collapse("hide");
+            angular.element("#wrapper").toggleClass("toggled");
+            angular.element("#wrapper.toggled").find("#sidebar-wrapper").find(".collapse").collapse("hide");
         });
     });
     }

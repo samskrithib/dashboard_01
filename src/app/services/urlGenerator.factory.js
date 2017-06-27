@@ -37,7 +37,7 @@
           }
         },
 
-        generateTTAdherenceUrls: function (data, currentPage) {
+        generateTTAdherenceUrls: function (data) {
           
           var getTab = UtilityService.getCheckedItems();
           $log.info("in url"+ getTab)
@@ -78,7 +78,7 @@
           }
           return{
             percentile: TTAdherencePercentile,
-            trackTrains: TTAdherenceTrackTrains,
+            trackTrains: TTAdherenceTrackTrains
           }
         },
 

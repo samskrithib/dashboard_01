@@ -49,7 +49,7 @@
 
         vm.percentilesList = [
             '10%', '20%', '30%', '40%', '50%',
-            '60%', '70%', '80%', '90%', '100%',
+            '60%', '70%','75%', '80%','85%', '90%','95%', '100%',
         ]
 
         //order station names with leading character on higher rank
@@ -110,8 +110,8 @@
         vm.formData.toStation = {"locationName":"Carlisle","tiploc":"CARLILE"};
         vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
         vm.formData.toTiploc = vm.formData.toStation.tiploc;
-        vm.formData.fromDate = new Date(2017, 5, 12);
-        vm.formData.toDate = new Date(2017, 5, 21);
+        vm.formData.fromDate = new Date(2017, 5, 1);
+        vm.formData.toDate = new Date(2017, 5, 27);
         vm.formData.percentileSelected = '80%';
         vm.formData.fromRecord = 0;
         vm.formData.pageSize = 10;
