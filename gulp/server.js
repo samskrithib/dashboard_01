@@ -38,16 +38,16 @@ function browserSyncInit(baseDir, browser) {
   // server.middleware = proxyMiddleware('/dassim', {target: 'http://localhost:8080/WORKSPACE/dassim-frontend-v03/dist', changeOrigin: true});
 
   browserSync.instance = browserSync.init({
-    // startPath: '/',
-    port: PORT,
-    ui: {
-      port: 8080
-    },
-    proxy: 'http://localhost:8080/WORKSPACE/dassim-frontend-v03/dist/index.html',
-    host: 'localhost',
+    startPath: '/',
+    // port: PORT,
+    // ui: {
+    //   port: 8080
+    // },
+    // proxy: 'http://localhost:8080/WORKSPACE/dassim-frontend-v03/dist/index.html',
+    // host: 'localhost',
     // open: false
-    // server: server,
-    // browser: browser
+    server: server,
+    browser: browser
   });
 }
 

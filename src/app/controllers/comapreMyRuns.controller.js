@@ -8,7 +8,7 @@
     .controller('CompareMyRunsController', CompareMyRunsController);
 
   function CompareMyRunsController(UrlGenerator, httpCallsService, 
-    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory, UtilityService) {
+    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, UtilityService) {
     var vm = this;
     vm.tabs = [
       { id: "0", title: 'Energy Summary' },
@@ -48,7 +48,10 @@
               break;
             }
             case "2": {
-
+              vm.speedDistances = vm.response.speedDistanceResponses;
+              speedDistanceDataCompare_All(vm.speedDistances)
+              vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
+              
             }
             default: {
             }
@@ -58,6 +61,16 @@
       }).catch(function (error) {
 
       })
+
+    function speedDistanceDataCompare_All(speedDistanceData) {
+      speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)
+      speedDistanceCompareDataFactory.getActualSpeedDistance(speedDistanceData);
+      //speedDistanceCompareDataFactory.getFlatoutSpeedDistance(speedDistanceData);
+      //speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
+      //speedDistanceCompareDataFactory.getElevation(speedDistanceData)
+      //speedDistanceCompareDataFactory.getSpeedLimits(speedDistanceData)
+      //vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
+    };
 
     vm.getInclude = function (x) {
       if (x == 0) {
