@@ -8,7 +8,12 @@
 
   function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
-
+    vm.isCollapsed = false;
+    vm.percentilesList = [
+      '10%', '20%', '30%', '40%', '50%',
+      '60%', '70%', '75%', '80%', '85%', '90%', '95%', '100%',
+    ]
+    // floating_Label();
     vm.currentPage = '1';
     $log.info(vm.currentpage)
     vm.TTadherencePercentileError = false;
@@ -75,7 +80,7 @@
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
             trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
             trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
-             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
+            vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
           }
 
         }).catch(function (error) {
@@ -83,7 +88,7 @@
           vm.TTAdherenceTrackTrainsError = true;
           vm.TTAdherenceTrackTrainsErrorMessage = error.statusText + "<h3> Error Message </h3>"
         })
-        
+
     }
     vm.pageChanged = function (currentpage) {
       var pageId = currentpage - 1;
@@ -116,7 +121,6 @@
       })
       return lines;
     }
-
 
   }
 })();
