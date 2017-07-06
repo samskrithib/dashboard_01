@@ -19,7 +19,7 @@
                   <div id="trainGraph"></div>
                 </div>
                 <div ng-show="vm.totalItems > 10" class="text-center">
-                  <ul uib-pagination total-items="vm.totalItems" ng-model="vm.currentPage" ng-change="vm.pageChanged(vm.currentPage)"></ul>
+                  <ul uib-pagination total-items="vm.totalItems" items-per-page="15" boundary-links="true" force-ellipses="true" max-size="5" ng-model="vm.currentPage" ng-change="vm.pageChanged(vm.currentPage)"></ul>
                 </div>
               </div>
 
