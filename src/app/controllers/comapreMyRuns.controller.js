@@ -49,9 +49,12 @@
             }
             case "2": {
               vm.speedDistances = vm.response.speedDistanceResponses;
+              vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
               speedDistanceDataCompare_All(vm.speedDistances)
-              vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
-              
+              //vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
+              vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+              vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+              break;
             }
             default: {
             }
@@ -65,11 +68,11 @@
     function speedDistanceDataCompare_All(speedDistanceData) {
       speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)
       speedDistanceCompareDataFactory.getActualSpeedDistance(speedDistanceData);
-      //speedDistanceCompareDataFactory.getFlatoutSpeedDistance(speedDistanceData);
-      //speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
-      //speedDistanceCompareDataFactory.getElevation(speedDistanceData)
-      //speedDistanceCompareDataFactory.getSpeedLimits(speedDistanceData)
-      //vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
+      speedDistanceCompareDataFactory.getFlatoutSpeedDistance(speedDistanceData);
+      speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
+      speedDistanceCompareDataFactory.getSpeedRestrictions(speedDistanceData);
+      speedDistanceCompareDataFactory.getElevation(speedDistanceData);
+      vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
     };
 
     vm.getInclude = function (x) {
