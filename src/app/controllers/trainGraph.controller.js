@@ -6,7 +6,7 @@
     .module('dassimFrontendV03')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
+  function TrainGraphController(httpCallsService, testFactory, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.isCollapsed = false;
     vm.percentilesList = [
@@ -69,17 +69,27 @@
 
     if (vm.TTUrl) {
       vm.promise = httpCallsService.getHeaders(vm.TTUrl)
-        // vm.promise = httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
+        // vm.promise = httpCallsService.getByJson("assets/trainGraph_PerfomranceTest.json")
         .then(function (response) {
           vm.response = response.data;
-          $log.info(response)
+          // $log.info(response)
           if (!vm.response) {
             vm.TTAdherenceTrackTrainsError = true;
             vm.TTAdherenceTrackTrainsErrorMessage = response.statusText + "<h3> Error Message </h3>"
           } else {
+            $log.info(keyxValue)
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
-            trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
-            trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
+            /* Performance Test */
+            var modData = testFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
+            testFactory.getTrainGraphChart(modData, tickFormat, tooltipFormat, vm.lines)
+
+
+            /*End */
+            
+            // trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
+            // trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
+            
+            
             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
           }
 
@@ -99,7 +109,8 @@
         .then(function (response) {
           vm.pageResponse = response.data;
           $log.info(vm.pageResponse)
-          trainGraphFactory.LoadTrainGraphData(vm.pageResponse.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
+          var data = vm.pageResponse.timetableAdherenceGraph.timetableAdherenceGraphSeriesList
+          testFactory.LoadTrainGraphData(data, vm.lines, keyxValue)
         }).catch(function (error) {
           $log.info(error)
           vm.TTAdherenceTrackTrainsError = true;
