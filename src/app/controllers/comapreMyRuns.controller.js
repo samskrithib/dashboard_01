@@ -8,7 +8,7 @@
     .controller('CompareMyRunsController', CompareMyRunsController);
 
   function CompareMyRunsController(UrlGenerator, httpCallsService, 
-    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, UtilityService) {
+    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [
       { id: "0", title: 'Energy Summary' },
@@ -48,12 +48,12 @@
               break;
             }
             case "2": {
-              vm.speedDistances = vm.response.speedDistanceResponses;
+              vm.speedDistances = vm.response.speedDistanceReports;
               vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
               speedDistanceDataCompare_All(vm.speedDistances)
               //vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
-              vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
-              vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+              // vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+              // vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
               break;
             }
             default: {
@@ -74,6 +74,12 @@
       speedDistanceCompareDataFactory.getElevation(speedDistanceData);
       vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
     };
+
+    function speedDistanceOnselectLink() {
+      
+      speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
+      
+    }
 
     vm.getInclude = function (x) {
       if (x == 0) {
