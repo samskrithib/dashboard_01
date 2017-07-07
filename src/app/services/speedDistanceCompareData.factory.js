@@ -14,35 +14,72 @@
             "scaledPosition", "Elevation"
         ];
 
-        var link;
-        var headcode;
-        var actualSpeed;
-        var actualSpeedPosition;
-        var flatoutSpeed;
-        var flatoutSpeedPosition;
-        var optimalSpeed;
-        var optimalSpeedPosition;
-        var scaledElevation;
-        var scaledElevationPosition;
+        var link;        
         var speedRestrictions;
         var driverAdvice;
 
+        var actualSpeed;
+        var actualSpeedMph;
+        var actualSpeedPosition;
+        var actualSpeedPositionM;
+
+        var flatoutSpeed;
+        var flatoutSpeedMph;
+        var flatoutSpeedPosition;
+        var flatoutSpeedPositionM;
+        
+        var optimalSpeed;
+        var optimalSpeedMph;
+        var optimalSpeedPosition;
+        var optimalSpeedPositionM;
+
+        var speedRestrictionsValue
+        var speedRestrictionsPoint
+        var speedRestrictionsValueMph
+        var speedRestrictionsPointM
+
+        var scaledElevation;
+        var scaledElevationPosition;
+        var scaledElevationPositionM;
+
+
         var link_Array=[];
-        var driverAdvice_Array = [];
+        var driverAdvices_Array = [];
         var actualSpeed_Array = [];
         var actualSpeedMph_Array = [];
         var actualSpeedPosition_Array = [];
-        var actualPositionM_Array = [];
+        var actualSpeedPositionM_Array = [];
         var flatoutSpeed_Array = [];
+        var flatoutSpeedMph_Array
         var flatoutSpeedPosition_Array = [];
+        var flatoutSpeedPositionM_Array
         var optimalSpeed_Array = [];
+        var optimalSpeedMph_Array = [];
+        var optimalSpeedPositionM_Array = [];
         var optimalSpeedPosition_Array = [];
         var scaledElevation_Array = [];
         var scaledElevationPosition_Array = [];
-        var speedRestrictions_Array =[];
+        var scaledElevationPositionM_Array = [];
+        var speedRestrictionsPoints_Array =[];
+        var speedRestrictionsPointsM_Array = [];
+        var speedRestrictionsValues_Array =[];
+        var speedRestrictionsValuesMph_Array =[];
+        var speedRestrictionsPointsM_Array =[];
+        
+
+
         var speedDistanceData={};
 
         return {
+            getSpeedDistanceGraphLabels: function () {
+                var graphLabelsAndTitles = {
+                    "yAxisLabel": "Speed (Kph)",
+                    "graphTitle": "Speed Distance Graph",
+                    "seriesLabels": null
+                }
+                return graphLabelsAndTitles;
+            },
+
             getSpeedDistanceLinks: function (speedDistances) {
                 link_Array=[];
                 _.each(speedDistances, function (val, key){
