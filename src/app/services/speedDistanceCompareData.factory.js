@@ -52,37 +52,6 @@
                 return link_Array;
             },
 
-            getActualSpeedDistance: function (speedDistances){
-                actualSpeed_Array= [];
-                actualSpeedPosition_Array = [];
-                actualSpeedMph_Array = [];
-                actualPositionM_Array = [];
-                _.each(speedDistances, function (val, key){
-                    var speedDistanceReportPerJourney =speedDistances[key].speedDistanceReportPerJourney;
-                    _.each(speedDistanceReportPerJourney, function(val, key2){
-                        actualSpeed = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.actualSpeedAndPositionList,'speed');
-                        actualSpeed_Array[key2].push(actualSpeed);
-
-                        actualSpeedPosition = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.actualSpeedAndPositionList,'position');
-                        actualSpeedPosition_Array[key2].push(actualSpeedPosition);
-
-                        actualSpeedMph[key]=[];
-                        actualPositionM[key] =[];
-
-                        mathUtilsService.convertKphtoMph(actualSpeed_Array[key], actualSpeedMph_Array[key])
-                        mathUtilsService.convertMetersToMiles(actualSpeedPosition_Array[key], actualPositionM_Array[key])
-
-
-                        actualSpeed_Array[key].splice(0,0, seriesNameMatchers[0]);
-                        actualSpeedPosition_Array[key].splice(0,0, seriesNameMatchers[1]);
-                        actualSpeedMph_Array[key].splice(0,0, seriesNameMatchers[0]);
-                        actualPositionM_Array[key].splice(0,0, seriesNameMatchers[1]);
-                    })
-
-                })
-                return driverAdvice_Array;
-            },
-
 
             getSpeedDistanceData: function (speedDistances) {
                 var link_Array=[];
@@ -99,12 +68,6 @@
                 var speedDistanceData={};
                 
                 _.each(speedDistances, function (val, key1){
-                    link = _.pluck(speedDistances[key1].speedDistanceReportPerJourney, 'link');
-                    link_Array.push(link);
-
-                    driverAdvice = _.pluck(speedDistances[key1].speedDistanceReportPerJourney, 'driverAdvice');
-                    driverAdvice_Array.push(driverAdvice);
-
                     var speedDistanceReportPerJourney =speedDistances[key1].speedDistanceReportPerJourney;
                     _.each(speedDistanceReportPerJourney, function(val, key2){
                         actualSpeed = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.actualSpeedAndPositionList,'speed');

@@ -13,7 +13,7 @@
     vm.tabs = [
       { id: "0", title: 'Energy Summary' },
       { id: "1", title: 'Lateness Summary' },
-      { id: "2", title: 'Speed Distance' },
+      { id: "2", title: 'Speed Distance' }
     ];
     vm.key = false;
     var energySummaryGraphLabels, energySummaryData, energySummaryTotals;
@@ -33,8 +33,8 @@
               energySummaryTotals = energySummaryCompareFactory.getEnergySummarySumofLinks(energySummaryData);
               energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
               energySummaryCompareFactory.getEnergySummaryChart(energySummaryTotals, energySummaryGraphLabels, vm.graphIndicators_array);
-              $log.debug(energySummaryTotals)
               vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+              // $log.info(vm.graphLinks)
               break;
             }
 
@@ -44,13 +44,14 @@
               vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
               latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels)
               vm.latenessSummaryChartLinks = latenessSummaryCompareFactory.getLatenessSummaryLinks(vm.latenessSummaries[0].latenessSummaries)
-              $log.debug(vm.latenessSummaryChartLinks)
+              $log.info(vm.latenessSummaryChartLinks)
               break;
             }
             case "2": {
-              vm.speedDistances = vm.response.speedDistanceResponses;
-              speedDistanceDataCompare_All(vm.speedDistances)
-              vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
+              vm.speedDistances = vm.response.speedDistanceReports;
+              $log.info(vm.speedDistances)
+              // speedDistanceDataCompare_All(vm.speedDistances)
+              // vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
               
             }
             default: {
@@ -63,8 +64,8 @@
       })
 
     function speedDistanceDataCompare_All(speedDistanceData) {
-      speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)
-      speedDistanceCompareDataFactory.getActualSpeedDistance(speedDistanceData);
+      // speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)
+      // speedDistanceCompareDataFactory.getActualSpeedDistance(speedDistanceData);
       //speedDistanceCompareDataFactory.getFlatoutSpeedDistance(speedDistanceData);
       //speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
       //speedDistanceCompareDataFactory.getElevation(speedDistanceData)
@@ -72,25 +73,8 @@
       //vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
     };
 
-    vm.getInclude = function (x) {
-      if (x == 0) {
-        return 'views/EnergySummaryChart.tmpl.html'
-      } if (x == 1) {
-        return 'views/LatenessSummaryChart.tmpl.html'
-      } if (x == 2) {
-        return 'views/SpeedDistanceChart.tmpl.html'
-      } else return ''
+    
 
-    };
-
-    vm.checkboxModel = function (key) {
-      if (!$scope[key]) {
-        //do something
-        energySummaryCompareFactory.setEnergySummaryChart(energySummaryTotals)
-        return;
-      }
-      //do nothing
-    };
 
     
     vm.links = {};
