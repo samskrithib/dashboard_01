@@ -83,6 +83,12 @@ body {
     padding: 0 15px;
     min-height:-webkit-calc(100vh - 70px);
     background-color: white;
+    /* Firefox */
+    min-height: -moz-calc(100vh - 70px);
+    /* Opera */
+    min-height: -o-calc(100vh - 70px);
+    /* Standard */
+    min-height: calc(100vh - 70px)
 }
 
 @media(min-width:768px) {

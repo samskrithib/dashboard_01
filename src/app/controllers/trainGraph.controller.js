@@ -82,14 +82,10 @@
             /* Performance Test */
             var modData = testFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
             testFactory.getTrainGraphChart(modData, tickFormat, tooltipFormat, vm.lines)
-
-
             /*End */
             
             // trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
             // trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
-            
-            
             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
           }
 
