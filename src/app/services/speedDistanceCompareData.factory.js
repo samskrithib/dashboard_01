@@ -41,6 +41,7 @@
         var scaledElevation;
         var scaledElevationPosition;
         var scaledElevationPositionM;
+        var dataEntryIterativeCount;
 
 
         var link_Array=[];
@@ -80,14 +81,7 @@
                 return graphLabelsAndTitles;
             },
 
-            getSpeedDistanceLinks: function (speedDistances) {
-                link_Array=[];
-                _.each(speedDistances, function (val, key){
-                    link = _.pluck(speedDistances[key].speedDistanceReportPerJourney, 'link'); 
-                    link_Array.push(link);
-                })
-                return link_Array;
-            },
+            
 
             getDriverAdvice: function(speedDistances){
                 var driverAdvice=[];
@@ -99,14 +93,23 @@
                         driverAdvices_Array.push(driverAdvice);
                     })
                 })
-                return driverAdvice;
+                return driverAdvices_Array;
             },
 
+            getSpeedDistanceLinks: function (speedDistances) {
+                link_Array=[];
+                _.each(speedDistances, function (val, key){
+                    link = _.pluck(speedDistances[key].speedDistanceReportPerJourney, 'link'); 
+                    link_Array.push(link);
+                })
+                return link_Array;
+            },
             getActualSpeedDistance: function (speedDistances){
                 actualSpeed_Array= [];
                 actualSpeedPosition_Array = [];
                 actualSpeedMph_Array = [];
                 actualSpeedPositionM_Array = [];
+                dataEntryIterativeCount=0;
                 _.each(speedDistances, function (val, key){
                     var speedDistanceReportPerJourney =speedDistances[key].speedDistanceReportPerJourney;
                     _.each(speedDistanceReportPerJourney, function(val, key2){
@@ -119,17 +122,19 @@
                         mathUtilsService.convertMetersToMiles(actualSpeedPosition, actualSpeedPositionM);
                         mathUtilsService.convertKphtoMph(actualSpeed, actualSpeedMph);
 
-                        actualSpeed.splice(0,0,seriesNameMatchers[0]);
+                        actualSpeed.splice(0,0,seriesNameMatchers[0] + dataEntryIterativeCount);
                         actualSpeed_Array.push(actualSpeed);
                         
-                        actualSpeedPosition.splice(0,0, seriesNameMatchers[1]);
+                        actualSpeedPosition.splice(0,0, seriesNameMatchers[1] + dataEntryIterativeCount);
                         actualSpeedPosition_Array.push(actualSpeedPosition);
 
-                        actualSpeedMph.splice(0,0, seriesNameMatchers[0]);
+                        actualSpeedMph.splice(0,0, seriesNameMatchers[0] + dataEntryIterativeCount);
                         actualSpeedMph_Array.push(actualSpeedMph);
 
-                        actualSpeedPositionM.splice(0,0, seriesNameMatchers[1]);
+                        actualSpeedPositionM.splice(0,0, seriesNameMatchers[1]+ dataEntryIterativeCount);
                         actualSpeedPositionM_Array.push(actualSpeedPositionM);
+
+                        dataEntryIterativeCount = dataEntryIterativeCount + 1;
                     })
 
                 })
@@ -152,16 +157,16 @@
                         mathUtilsService.convertMetersToMiles(flatoutSpeedPosition, flatoutSpeedPositionM);
                         mathUtilsService.convertKphtoMph(flatoutSpeed, flatoutSpeedMph);
 
-                        flatoutSpeed.splice(0,0,seriesNameMatchers[2]);
+                        flatoutSpeed.splice(0,0,seriesNameMatchers[2] + key2);
                         flatoutSpeed_Array.push(flatoutSpeed);
                         
-                        flatoutSpeedPosition.splice(0,0, seriesNameMatchers[3]);
+                        flatoutSpeedPosition.splice(0,0, seriesNameMatchers[3] + key2);
                         flatoutSpeedPosition_Array.push(flatoutSpeedPosition);
 
-                        flatoutSpeedMph.splice(0,0, seriesNameMatchers[2]);
+                        flatoutSpeedMph.splice(0,0, seriesNameMatchers[2] + key2);
                         flatoutSpeedMph_Array.push(flatoutSpeedMph);
 
-                        flatoutSpeedPositionM.splice(0,0, seriesNameMatchers[3]);
+                        flatoutSpeedPositionM.splice(0,0, seriesNameMatchers[3] + key2);
                         flatoutSpeedPositionM_Array.push(flatoutSpeedPositionM);
                     })
 
@@ -185,16 +190,16 @@
                         mathUtilsService.convertMetersToMiles(optimalSpeedPosition, optimalSpeedPositionM);
                         mathUtilsService.convertKphtoMph(optimalSpeed, optimalSpeedMph);
 
-                        optimalSpeed.splice(0,0,seriesNameMatchers[4]);
+                        optimalSpeed.splice(0,0,seriesNameMatchers[4] + key2);
                         optimalSpeed_Array.push(optimalSpeed);
                         
-                        optimalSpeedPosition.splice(0,0, seriesNameMatchers[5]);
+                        optimalSpeedPosition.splice(0,0, seriesNameMatchers[5] + key2);
                         optimalSpeedPosition_Array.push(optimalSpeedPosition);
 
-                        optimalSpeedMph.splice(0,0, seriesNameMatchers[4]);
+                        optimalSpeedMph.splice(0,0, seriesNameMatchers[4] + key2);
                         optimalSpeedMph_Array.push(optimalSpeedMph);
 
-                        optimalSpeedPositionM.splice(0,0, seriesNameMatchers[5]);
+                        optimalSpeedPositionM.splice(0,0, seriesNameMatchers[5] + key2);
                         optimalSpeedPositionM_Array.push(optimalSpeedPositionM);
                     })
 
@@ -217,16 +222,16 @@
                         mathUtilsService.convertKphtoMph(speedRestrictionsValue, speedRestrictionsValueMph);
                         mathUtilsService.convertMetersToMiles(speedRestrictionsPoint, speedRestrictionsPointM);
 
-                        speedRestrictionsValue.splice(0,0,seriesNameMatchers[6]);
+                        speedRestrictionsValue.splice(0,0,seriesNameMatchers[6] + key2);
                         speedRestrictionsValues_Array.push(speedRestrictionsValue);
                         
-                        speedRestrictionsPoint.splice(0,0, seriesNameMatchers[7]);
+                        speedRestrictionsPoint.splice(0,0, seriesNameMatchers[7] + key2);
                         speedRestrictionsPoints_Array.push(speedRestrictionsPoint);
 
-                        speedRestrictionsValueMph.splice(0,0, seriesNameMatchers[6]);
+                        speedRestrictionsValueMph.splice(0,0, seriesNameMatchers[6] + key2);
                         speedRestrictionsValuesMph_Array.push(speedRestrictionsValueMph);
 
-                        speedRestrictionsPointM.splice(0,0, seriesNameMatchers[7]);
+                        speedRestrictionsPointM.splice(0,0, seriesNameMatchers[7] + key2);
                         speedRestrictionsPointsM_Array.push(speedRestrictionsPointM);
                     })
 
@@ -247,13 +252,13 @@
                         scaledElevationPositionM =[];
                         mathUtilsService.convertMetersToMiles(scaledElevationPosition, scaledElevationPositionM);
 
-                        scaledElevationPosition.splice(0,0, seriesNameMatchers[9]);
+                        scaledElevationPosition.splice(0,0, seriesNameMatchers[9] + key2);
                         scaledElevationPosition_Array.push(scaledElevationPosition);
 
-                        scaledElevation.splice(0,0,seriesNameMatchers[10]);
+                        scaledElevation.splice(0,0,seriesNameMatchers[10] + key2);
                         scaledElevation_Array.push(scaledElevation);
 
-                        scaledElevationPositionM.splice(0,0, seriesNameMatchers[9]);
+                        scaledElevationPositionM.splice(0,0, seriesNameMatchers[9] + key2);
                         scaledElevationPositionM_Array.push(scaledElevationPositionM);
                     })
 
@@ -271,7 +276,7 @@
                     optimalPosition : optimalSpeedPosition_Array,
                     speedLimit :  speedRestrictionsValues_Array,
                     endPoint : speedRestrictionsPoints_Array,
-                    scaledPosition : scaledElevationPosition,
+                    scaledPosition : scaledElevationPosition_Array,
                     Elevation: scaledElevation_Array
                 }
             },
@@ -280,17 +285,18 @@
                 return{
                     links: link_Array,
                     actualDriving : actualSpeedMph_Array,
-                    actualPosition : actualPositionM_Array,
-                    flatoutDriving : flatoutSpeedMph,
-                    flatoutPosition : flatoutPositionM,
-                    ecoDriving : optimalSpeedMph,
-                    optimalPosition : optimalPositionM,
+                    actualPosition : actualSpeedPositionM_Array,
+                    flatoutDriving : flatoutSpeedMph_Array,
+                    flatoutPosition : flatoutSpeedPositionM_Array,
+                    ecoDriving : optimalSpeedMph_Array,
+                    optimalPosition : optimalSpeedPositionM_Array,
                     speedLimit :  speedRestrictionsValuesMph_Array,
                     endPoint : speedRestrictionsPointsM_Array,
-                    scaledPosition : scaledElevationPositionM,
+                    scaledPosition : scaledElevationPositionM_Array,
                     Elevation: scaledElevation_Array
                 }
             },
+
 
             getSpeedDistanceData: function (speedDistances) {
                 var link_Array=[];
@@ -307,12 +313,6 @@
                 var speedDistanceData={};
                 
                 _.each(speedDistances, function (val, key1){
-                    link = _.pluck(speedDistances[key1].speedDistanceReportPerJourney, 'link');
-                    link_Array.push(link);
-
-                    driverAdvice = _.pluck(speedDistances[key1].speedDistanceReportPerJourney, 'driverAdvice');
-                    driverAdvice_Array.push(driverAdvice);
-
                     var speedDistanceReportPerJourney =speedDistances[key1].speedDistanceReportPerJourney;
                     _.each(speedDistanceReportPerJourney, function(val, key2){
                         actualSpeed = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.actualSpeedAndPositionList,'speed');
