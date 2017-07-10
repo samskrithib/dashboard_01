@@ -30,7 +30,45 @@
             return data;
         };
 
-        
+        function dataLoop (data,xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns){
+            _.each(data, function (val, key) {
+                    var array = data[key].scheduledAndActualTimetables;
+
+                    _.each(array, function (val, index) {
+                        var timeDistanceArray = array[index].timeAndDistanceList
+                        var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
+                        var seriesName = identifier;
+                        var splitIdentifier = _.rest(identifier.toString().split(" "), [1]);
+                        newnames[seriesName] = splitIdentifier.join(" ")
+                        // allNames[allNames.length] = seriesName;
+                        if (array[index].timetableType === 'SCHEDULED') {
+                            scheduledSeriesNames[scheduledSeriesNames.length] = seriesName.toString();
+                        } else {
+                            ActualRunSeriesNames.push(seriesName)
+                            // $log.info(ActualRunSeriesNames)
+                        }
+
+                        var distances = _.pluck(_.pluck(timeDistanceArray, 'identifierAndDistance'), identifier)
+                        var distancesArray = _.map(distances, function (num) { return num == -1 ? null : num })
+                        var seriesDistances = identifier.concat(distancesArray)
+                        var timesArray = _.pluck(timeDistanceArray, xvalue)
+                        var seriesTimesArrayName = [];
+                        seriesTimesArrayName.push(identifier + "_time")
+                        var seriesTimes = seriesTimesArrayName.concat(timesArray)
+                        xs[identifier] = seriesTimesArrayName[0]
+                        columns.push(seriesDistances)
+                        columns.push(seriesTimes)
+                    })
+                })
+
+                return{
+                    newnames: newnames,
+                    ActualRunSeriesNames: ActualRunSeriesNames,
+                    scheduledSeriesNames: scheduledSeriesNames,
+                    columns: columns,
+                    xs: xs
+                }
+        }
 
         function customTrainGraphLegend(ActualRunSeriesNames, newnames, scheduledSeriesNames) {
             d3.select('#legendItems').remove();
@@ -66,8 +104,9 @@
                 .append('div', '.legend-label')
                 .html(function (id) { return newnames[id]; })
                 .on('mouseover', function (id) {
-                    var fields = id.toString().split(" ");
-                    var string = fields[1] + ' ' + fields[2] + ' ' + fields[3];
+                    var fields = _.rest(id.toString().split(" "), [1]);
+                    $log.info(fields.join(" "))
+                    var string = fields.join(" ");
                     var newArray = [];
                     var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
                     newArray.push(scheduledSeriesNames[index_of_matchedString])
@@ -81,8 +120,9 @@
                     timetableAdherenceChart.revert();
                 })
                 .on('click', function (id) {
-                    var fields = id.toString().split(" ");
-                    var string = fields[1] + ' ' + fields[2] + ' ' + fields[3];
+                    var fields = _.rest(id.toString().split(" "), [1]);
+                    $log.info(fields.join(" "))
+                    var string = fields.join(" ");
                     var newArray = [];
                     var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
                     newArray.push(scheduledSeriesNames[index_of_matchedString])
@@ -108,44 +148,18 @@
                 var ActualRunSeriesNames = [];
                 var scheduledSeriesNames = [];
                 var modifiedData;
-                _.each(data, function (val, key) {
-                    var array = data[key].scheduledAndActualTimetables;
-
-                    _.each(array, function (val, index) {
-                        var timeDistanceArray = array[index].timeAndDistanceList
-                        var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
-                        var seriesName = identifier;
-                        var splitIdentifier = identifier.toString().split(" ");
-                        newnames[seriesName] = splitIdentifier[1] + ' ' + splitIdentifier[2] + ' ' + splitIdentifier[3];
-                        // allNames[allNames.length] = seriesName;
-                        if (array[index].timetableType === 'SCHEDULED') {
-                            scheduledSeriesNames[scheduledSeriesNames.length] = seriesName.toString();
-                        } else {
-                            ActualRunSeriesNames.push(seriesName)
-                            // $log.info(ActualRunSeriesNames)
-                        }
-
-                        var distances = _.pluck(_.pluck(timeDistanceArray, 'identifierAndDistance'), identifier)
-                        var distancesArray = _.map(distances, function (num) { return num == -1 ? null : num })
-                        $log.info(_.map(distancesArray, function (num) { return num == -1 ? null : num }))
-                        var seriesDistances = identifier.concat(distancesArray)
-                        // $log.info(seriesDistances)
-                        var timesArray = _.pluck(timeDistanceArray, xvalue)
-                        var seriesTimesArrayName = [];
-                        seriesTimesArrayName.push(identifier + "_time")
-                        var seriesTimes = seriesTimesArrayName.concat(timesArray)
-                        xs[identifier] = seriesTimesArrayName[0]
-                        // $log.info(JSON.stringify(xs))
-                        columns.push(seriesDistances)
-                        columns.push(seriesTimes)
-                    })
-                })
+                dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
                 modifiedData = {
                     xs: xs,
                     columns: columns
                 }
                 $log.info(modifiedData)
-                return modifiedData;
+                return {
+                    modifiedData: modifiedData,
+                    newnames: newnames,
+                    ActualRunSeriesNames: ActualRunSeriesNames,
+                    scheduledSeriesNames: scheduledSeriesNames
+                };
 
             },
             getTrainGraphChart: function (modifiedData, tickFormat, tooltipFormat, gridlines) {
@@ -157,7 +171,7 @@
                     padding: {
                         right: 50
                     },
-                    data: modifiedData,
+                    data: modifiedData.modifiedData,
                     color: {
                         pattern: DRIVE_COLORS.twoRunsColorPattern
                     },
@@ -234,7 +248,9 @@
                         })
 
 
-                });
+                })
+                customTrainGraphLegend(modifiedData.ActualRunSeriesNames, modifiedData.newnames,modifiedData.scheduledSeriesNames)
+
 
             },
 
@@ -249,45 +265,12 @@
                 timetableAdherenceChart.unload({
                     done: function () {
                         $log.info(data.length)
-                        _.each(data, function (val, key) {
-                            var array = data[key].scheduledAndActualTimetables;
-
-                            _.each(array, function (val, index) {
-                                var timeDistanceArray = array[index].timeAndDistanceList
-                                var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
-                                var seriesName = identifier;
-                                var splitIdentifier = identifier.toString().split(" ");
-                                newnames[seriesName] = splitIdentifier[1] + ' ' + splitIdentifier[2] + ' ' + splitIdentifier[3];
-                                allNames[allNames.length] = seriesName;
-                                if (array[index].timetableType === 'SCHEDULED') {
-                                    scheduledSeriesNames[scheduledSeriesNames.length] = seriesName.toString();
-                                } else {
-                                    ActualRunSeriesNames.push(seriesName)
-                                    // $log.info(ActualRunSeriesNames)
-                                }
-
-                                var distances = _.pluck(_.pluck(timeDistanceArray, 'identifierAndDistance'), identifier)
-                                var distancesArray = _.map(distances, function (num) { return num == -1 ? null : num })
-                                // $log.info(_.map(distancesArray, function (num) { return num == -1 ? null : num }))
-                                var seriesDistances = identifier.concat(distancesArray)
-                                // $log.info(seriesDistances)
-                                var timesArray = _.pluck(timeDistanceArray, xvalue)
-                                var seriesTimesArrayName = [];
-                                seriesTimesArrayName.push(identifier + "_time")
-                                var seriesTimes = seriesTimesArrayName.concat(timesArray)
-                                xs[identifier] = seriesTimesArrayName[0]
-                                columns.push(seriesDistances)
-                                columns.push(seriesTimes)
-                                $log.info(columns.length)
-
-                            })
-                        })
+                        dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
                         timetableAdherenceChart.load({
                             columns: columns,
                             xs: xs
                         })
                         customTrainGraphLegend(ActualRunSeriesNames, newnames, scheduledSeriesNames)
-
                     }
                 })
 
