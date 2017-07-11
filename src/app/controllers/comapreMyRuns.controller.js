@@ -8,7 +8,7 @@
     .controller('CompareMyRunsController', CompareMyRunsController);
 
   function CompareMyRunsController(UrlGenerator, httpCallsService, 
-    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, UtilityService) {
+    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [
       { id: "0", title: 'Energy Summary' },
@@ -49,8 +49,18 @@
             }
             case "2": {
               vm.speedDistances = vm.response.speedDistanceReports;
+              vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
+              speedDistanceDataCompare_All(vm.speedDistances)
+              vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+              vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+              
               $log.info(vm.speedDistances)
-              // speedDistanceDataCompare_All(vm.speedDistances)
+              
+              //vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
+              // vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+              // vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+              break;
+              
               // vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
               
 
@@ -74,10 +84,47 @@
       vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
     };
 
-    
+    vm.linkOnselect = function (selectedLink){
+      if (selectedLink){
+        _.each(vm.graphLinks, function (val, key){
+          if (vm.graphLinks[key] == selectedLink){
+            vm.indexOfSelectedLink = key
+            return vm.indexOfSelectedLink;
+          }
+        })
+        $log.info("the selcted link is " + vm.indexOfSelectedLink)
+        speedDistanceCompareOnSelectLink();
+        
+      }else{
+        $log.info("You did not select a link.");
+      }
+    };
 
+    function speedDistanceCompareOnSelectLink() {
+      speedDistanceCompareDriverAdviceOfSelectedLink();
+      //speedDistanceCompareChartFactory.getSpeedDistanceCompareChart();
+      //speedDistanceCompareChartFactory.setSpeedDistanceCompareChart();
+      speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
+      
+      if (vm.radioModel === 'Kph') {
+        speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink);
+      }else if (vm.radioModel === 'Mph'){
+        speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink);
+      }
+      
+    }
 
-    
+    function speedDistanceCompareDriverAdviceOfSelectedLink(){
+      vm.runtimeDescription = vm.getDriverAdvice[0].runtimeDescription
+      vm.earlyDepartureAdvice = vm.getDriverAdvice[0].earlyDepartureAdvice
+      vm.earlyArrivalAdvice = vm.getDriverAdvice[0].earlyArrivalAdvice
+      vm.timeSavedAdvice = vm.getDriverAdvice[0].timeSavedAdvice
+      vm.energyAdvice = vm.getDriverAdvice[0].energyAdvice
+      vm.goodDrivingAdvice = vm.getDriverAdvice[0].goodDrivingAdvice
+      vm.spareTimeAdvice = vm.getDriverAdvice[0].spareTimeAdvice
+      vm.speedingAdvice = vm.getDriverAdvice[0].speedingAdvice
+    }
+
     vm.links = {};
     vm.energySummaryLinksOnselect = function () {
       // $log.debug(vm.links.selected);
@@ -106,6 +153,22 @@
 
     }
     
+    vm.radioModel = 'Kph';
+    $scope.$watch('vm.radioModel', function (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        if (newValue == 'Kph') {
+          speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
+        } else {
+          speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)
+        }
+      }
+    })
+
+
+    vm.gridOnOff=true;
+    vm.gridbtnOnChange = function (btn) {
+      speedDistanceCompareChartFactory.setGridOnOff(btn)
+    }
 
   }
 })();
