@@ -104,6 +104,9 @@
       speedDistanceCompareDriverAdviceOfSelectedLink();
       //speedDistanceCompareChartFactory.getSpeedDistanceCompareChart();
       //speedDistanceCompareChartFactory.setSpeedDistanceCompareChart();
+
+      var modData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, vm.speedDistanceData_Mph, vm.indexOfSelectedLink, vm.graphLinks)
+
       speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
       
       if (vm.radioModel === 'Kph') {
