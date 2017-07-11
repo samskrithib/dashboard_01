@@ -5,9 +5,9 @@
   angular
     .module('dassimFrontendV03')
     .factory('trainGraphFactory', trainGraphFactory);
-  function trainGraphFactory($log, UtilityService,DRIVE_COLORS) {
-    var ModifiedData;
+  function trainGraphFactory($log, UtilityService, DRIVE_COLORS) {
     var timetableAdherenceChart;
+
     // OVERLAP FIXING
     var fixOverlaps = function (data) {
       // sort from highest to smallest
@@ -30,28 +30,138 @@
       return data;
     };
 
+    function dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns) {
+      _.each(data, function (val, key) {
+        var array = data[key].scheduledAndActualTimetables;
 
-    return {
-
-      getTrainGraphChart: function (data, xvalue, tickFormat, tooltipFormat, gridlines) {
-        ModifiedData = function () {
-          var timeDistanceArray;
-          var identifier, seriesName;
-          var array = data.timetableAdherenceGraphSeriesList[0].scheduledAndActualTimetables
-          timeDistanceArray = array[0].timeAndDistanceList;
-          $log.info(timeDistanceArray)
-          identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
-          seriesName = 'identifierAndDistance.' + identifier;
-          return {
-            json: timeDistanceArray,
-            keys: {
-              x: xvalue,
-              xformat: '%Y-%m-%d %H:%M:%S',
-              value: [seriesName]
-            },
-            xSort: false
+        _.each(array, function (val, index) {
+          var timeDistanceArray = array[index].timeAndDistanceList
+          var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
+          var seriesName = identifier;
+          var splitIdentifier = _.rest(identifier.toString().split(" "), [1]);
+          newnames[seriesName] = splitIdentifier.join(" ")
+          // allNames[allNames.length] = seriesName;
+          if (array[index].timetableType === 'SCHEDULED') {
+            scheduledSeriesNames[scheduledSeriesNames.length] = seriesName.toString();
+          } else {
+            ActualRunSeriesNames.push(seriesName)
+            // $log.info(ActualRunSeriesNames)
           }
+
+          var distances = _.pluck(_.pluck(timeDistanceArray, 'identifierAndDistance'), identifier)
+          var distancesArray = _.map(distances, function (num) { return num == -1 ? null : num })
+          var seriesDistances = identifier.concat(distancesArray)
+          var timesArray = _.pluck(timeDistanceArray, xvalue)
+          var seriesTimesArrayName = [];
+          seriesTimesArrayName.push(identifier + "_time")
+          var seriesTimes = seriesTimesArrayName.concat(timesArray)
+          xs[identifier] = seriesTimesArrayName[0]
+          columns.push(seriesDistances)
+          columns.push(seriesTimes)
+        })
+      })
+
+      return {
+        newnames: newnames,
+        ActualRunSeriesNames: ActualRunSeriesNames,
+        scheduledSeriesNames: scheduledSeriesNames,
+        columns: columns,
+        xs: xs
+      }
+    }
+
+    function customTrainGraphLegend(ActualRunSeriesNames, newnames, scheduledSeriesNames) {
+      d3.select('#legendItems').remove();
+      d3.select('#toggle').remove();
+      d3.select('#index0')
+        .insert('div')
+        .attr('class', 'container-fluid')
+        .append('button').attr('type', 'button')
+        .attr("id", "toggle")
+        .attr("class", "btn btn-primary ")
+        .text("Hide Trains")
+        .on("click", function (d) {
+          var active = legendItems.active ? false : true,
+            visibility = active ? 'none' : 'block',
+            text = active ? 'Show Trains' : 'Hide Trains'
+          d3.select('#legendItems').style("display", visibility)
+          d3.select('#toggle').text(text)
+          $log.info(active)
+          legendItems.active = active;
+        })
+
+      d3.select('#index0')
+        .insert('div')
+        .attr('id', 'legendItems')
+        .attr('class', 'container-fluid')
+        .insert('div')
+        .attr('class', 'legend')
+        .insert('ul').attr('class', 'list-group list-group-horizontal')
+        .selectAll('span')
+        .data(ActualRunSeriesNames)
+        .enter().append('li').attr('class', 'list-group-item')
+        .attr('data-id', function (id) { return id; })
+        .append('div', '.legend-label')
+        .html(function (id) { return newnames[id]; })
+        .on('mouseover', function (id) {
+          var fields = _.rest(id.toString().split(" "), [1]);
+          $log.info(fields.join(" "))
+          var string = fields.join(" ");
+          var newArray = [];
+          var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
+          newArray.push(scheduledSeriesNames[index_of_matchedString])
+          newArray.push(id)
+          $log.info(index_of_matchedString)
+          d3.select(this).style("cursor", "pointer");
+          timetableAdherenceChart.focus(newArray);
+        })
+        .on('mouseout', function (id) {
+          d3.select(this).style("cursor", "pointer");
+          timetableAdherenceChart.revert();
+        })
+        .on('click', function (id) {
+          var fields = _.rest(id.toString().split(" "), [1]);
+          $log.info(fields.join(" "))
+          var string = fields.join(" ");
+          var newArray = [];
+          var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
+          newArray.push(scheduledSeriesNames[index_of_matchedString])
+          newArray.push(id)
+          $(this).toggleClass("c3-legend-item-hidden")
+          timetableAdherenceChart.toggle(newArray);
+        })
+        .insert('span', '.legend-label').attr('class', 'badge-pill')
+        .each(function (id) {
+          d3.select(this).style('background-color', timetableAdherenceChart.color(id));
+        })
+        .html(function (id) {
+          return '&nbsp&nbsp&nbsp&nbsp&nbsp'
+        })
+    }
+    return {
+      getDataFormat: function (data, xvalue) {
+        var columns = [];
+        var xs = {};
+        var newnames = {};
+        // var allNames = [];
+        var ActualRunSeriesNames = [];
+        var scheduledSeriesNames = [];
+        var modifiedData;
+        dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
+        modifiedData = {
+          xs: xs,
+          columns: columns
         }
+        $log.info(modifiedData)
+        return {
+          modifiedData: modifiedData,
+          newnames: newnames,
+          ActualRunSeriesNames: ActualRunSeriesNames,
+          scheduledSeriesNames: scheduledSeriesNames
+        };
+
+      },
+      getTrainGraphChart: function (modifiedData, tickFormat, tooltipFormat, gridlines) {
         timetableAdherenceChart = c3.generate({
           bindto: '#trainGraph',
           size: {
@@ -60,7 +170,7 @@
           padding: {
             right: 50
           },
-          data: ModifiedData(),
+          data: modifiedData.modifiedData,
           color: {
             pattern: DRIVE_COLORS.twoRunsColorPattern
           },
@@ -75,7 +185,6 @@
               },
               min: 0,
               padding: { bottom: 0 }
-
             },
             x: {
               type: "timeseries",
@@ -89,7 +198,6 @@
                 }
               }
             }
-
           },
           zoom: {
             enabled: true,
@@ -112,13 +220,9 @@
 
             format: {
               title: tooltipFormat,
-              name: function (d) {
-                // $log.info(d)
-                var tooltip_name = d.split(".")
-                return tooltip_name[1]
-              },
-              value: function (d){
-                var obj = _.where(gridlines, {"value": d})
+
+              value: function (d) {
+                var obj = _.where(gridlines, { "value": d })
                 // $log.info(obj[0].text)
                 return obj[0].text + " " + d;
               }
@@ -127,138 +231,45 @@
 
         })
         // draw plotlines/gridlines
-            fixOverlaps(gridlines).forEach(function (station) {
-              timetableAdherenceChart.ygrids.add({
-                value: station.value,
-                text: station.text,
-                class: station.class
-              });
-              var selector = ".c3-ygrid-line." + station.class;
-              d3.select(selector).select('text')
-                .attr('dx', function (id) {
-                  if (station.offset) {
-                    // $log.debug(id)
-                    return -station.offset * 4.5;
-                  }
-                })
-
-
-            });
-
+        fixOverlaps(gridlines).forEach(function (station) {
+          timetableAdherenceChart.ygrids.add({
+            value: station.value,
+            text: station.text,
+            class: station.class
+          });
+          var selector = ".c3-ygrid-line." + station.class;
+          d3.select(selector).select('text')
+            .attr('dx', function (id) {
+              if (station.offset) {
+                // $log.debug(id)
+                return -station.offset * 4.5;
+              }
+            })
+        })
+        customTrainGraphLegend(modifiedData.ActualRunSeriesNames, modifiedData.newnames, modifiedData.scheduledSeriesNames)
       },
 
-      LoadTrainGraphData: function (data, gridlines, xvalue, stringlength) {
+
+      LoadTrainGraphData: function (data, gridlines, xvalue) {
+        var columns = [];
+        var xs = {}
+        var newnames = {};
+        var allNames = [];
+        var ActualRunSeriesNames = [];
+        var scheduledSeriesNames = [];
         timetableAdherenceChart.unload({
           done: function () {
-            var newnames = {};
-            var allNames = [];
-            var ActualRunSeriesNames = [];
-            var scheduledSeriesNames = [];
             $log.info(data.length)
-            _.each(data, function (val, key) {
-              var array = data[key].scheduledAndActualTimetables;
-
-              _.each(array, function (val, index) {
-                var timeDistanceArray = array[index].timeAndDistanceList
-                var identifier = d3.keys(timeDistanceArray[0].identifierAndDistance)
-                var seriesName = 'identifierAndDistance.' + identifier;
-                var splitIdentifier = identifier.toString().split(" ");
-                newnames[seriesName] = splitIdentifier[1] + ' ' + splitIdentifier[2];
-                allNames[allNames.length] = seriesName;
-                if (array[index].timetableType === 'SCHEDULED') {
-                  scheduledSeriesNames[scheduledSeriesNames.length] = seriesName
-                } else {
-                  ActualRunSeriesNames.push(seriesName)
-                }
-                timetableAdherenceChart.load({
-                  json: timeDistanceArray,
-                  keys: {
-                    x: xvalue,
-                    value: [seriesName],
-                    xformat: '%Y-%m-%d %H:%M:%S'
-                  }
-                })
-
-              })
+            dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
+            timetableAdherenceChart.load({
+              columns: columns,
+              xs: xs
             })
-            d3.select('#legendItems').remove();
-            d3.select('#toggle').remove();
-
-            d3.select('#index0')
-              .insert('div')
-              .attr('class', 'container-fluid')
-              .append('button').attr('type', 'button')
-              .attr("id", "toggle")
-              .attr("class", "btn btn-primary ")
-              .text("Hide Trains")
-              .on("click", function (d) {
-                var active = legendItems.active ? false : true,
-                  visibility = active ? 'none' : 'block',
-                  text = active ? 'Show Trains' : 'Hide Trains'
-                d3.select('#legendItems').style("display", visibility)
-                d3.select('#toggle').text(text)
-                $log.info(active)
-                legendItems.active = active;
-              })
-
-            d3.select('#index0')
-              .insert('div')
-              .attr('id', 'legendItems')
-              .attr('class', 'container-fluid')
-              .insert('div')
-              .attr('class', 'legend')
-              .insert('ul').attr('class', 'list-group list-group-horizontal')
-              .selectAll('span')
-              .data(ActualRunSeriesNames)
-              .enter().append('li').attr('class', 'list-group-item')
-              .attr('data-id', function (id) { return id; })
-              .append('div', '.legend-label')
-              .html(function (id) { return newnames[id]; })
-              .on('mouseover', function (id) {
-                var fields = id.split(".");
-                var string = fields[1].slice(stringlength)
-                var newArray = [];
-                var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
-                newArray.push(scheduledSeriesNames[index_of_matchedString])
-                newArray.push(id)
-                d3.select(this).style("cursor", "pointer");
-                timetableAdherenceChart.focus(newArray);
-              })
-              .on('mouseout', function (id) {
-                d3.select(this).style("cursor", "pointer");
-                timetableAdherenceChart.revert();
-              })
-              .on('click', function (id) {
-                var fields = id.split(".");
-                var string = fields[1].slice(7)
-                var newArray = [];
-                var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
-                newArray.push(scheduledSeriesNames[index_of_matchedString])
-                newArray.push(id)
-                $(this).toggleClass("c3-legend-item-hidden")
-                // d3.select(this).style("opacity", 0.2);
-                timetableAdherenceChart.toggle(newArray);
-              })
-              .insert('span', '.legend-label').attr('class', 'badge-pill')
-              .each(function (id) {
-                d3.select(this).style('background-color', timetableAdherenceChart.color(id));
-              })
-              .html(function (id) {
-                return '&nbsp&nbsp&nbsp&nbsp&nbsp'
-              })
-
-            
-
-
-
-
+            customTrainGraphLegend(ActualRunSeriesNames, newnames, scheduledSeriesNames)
           }
         })
 
       }
-
-
-
     }
   }
 })();
