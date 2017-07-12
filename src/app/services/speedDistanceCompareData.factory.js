@@ -69,6 +69,7 @@
        
         var columnData_Array =[];
         var namesObject ={};
+        var xsObject={};
         var speedDistanceData={};
         
 
@@ -82,14 +83,14 @@
                 return graphLabelsAndTitles;
             },
 
-            getDataFormat:function(speedDistance_Kph, speedDistance_Mph, linkIndex, graphLinks){
+            getDataFormat:function(speedDistance, linkIndex, graphLinks){
                 var modDataForGraph={};
-                var sizeOfActualDrivingArray = speedDistance_Kph.actualDriving.length;
+                var sizeOfActualDrivingArray = speedDistance.actualDriving.length;
                 var sizeOfLinksArray = graphLinks.length;
                 var numberOfRuns = sizeOfActualDrivingArray/ sizeOfLinksArray;
                 var i;
                 var linkIndexNo;
-                var newLinkIndexArray = [];
+                var indexOfLinksWithSameName_Array = [];
                 var actualDriving_formatted_Array=[];
                 var actualPosition_formatted_Array = [];
                 var flatoutDriving_formatted_Array = [];
@@ -101,75 +102,86 @@
                 var scaledPosition_formatted_Array = [];
                 var elevation_formatted_Array = [];
                 var link_formatted_Array =[];
-                var speedDistance_Kph_Array = speedDistance_Kph;
-                var actualDrivingArray = speedDistance_Kph.actualDriving;
-                var columnData_Array=[];
-                var namesObject={};
-                var xsObject={};
+                var speedDistance_Array = speedDistance;
+                
+                var columns=[];
+                var names={};
+                var xs={};
 
                 $log.info("the size of Actual Driving Array: " + sizeOfActualDrivingArray);
                 $log.info("the number of runs are: " + numberOfRuns);
                 $log.info("size of array is " + sizeOfLinksArray);
 
-                //workOutNewLinkIndexes
+                //work out index of links with the same name
                 for (i=0; i<numberOfRuns; i++){
-                    var linkIndexNo = i*(sizeOfLinksArray)+ linkIndex;
-                    newLinkIndexArray.push((i*(sizeOfLinksArray)+ linkIndex));
+                    indexOfLinksWithSameName_Array.push((i*(sizeOfLinksArray)+ linkIndex));
                 }
                 
-                for (i=0; i<newLinkIndexArray.length; i++){
-                    linkIndexNo = newLinkIndexArray[i];
+                for (i=0; i<indexOfLinksWithSameName_Array.length; i++){
+                    linkIndexNo = indexOfLinksWithSameName_Array[i];
                     
-                    var actualDriving = actualDrivingArray[linkIndexNo];
-                    columnData_Array.push(actualDriving);
+                    var actualDriving = speedDistance_Array.actualDriving[linkIndexNo];
+                    var actualPosition = speedDistance_Array.actualPosition[linkIndexNo];
+                    var flatoutDriving = speedDistance_Array.flatoutDriving[linkIndexNo];
+                    var flatoutPosition = speedDistance_Array.flatoutPosition[linkIndexNo];
+                    var ecoDriving = speedDistance_Array.ecoDriving[linkIndexNo];
+                    var optimalPosition = speedDistance_Array.optimalPosition[linkIndexNo];
+                    
+                    columns.push(actualDriving);
+                    columns.push(actualPosition);
+                    columns.push(flatoutDriving);
+                    columns.push(flatoutPosition);
+                    columns.push(ecoDriving);
+                    columns.push(optimalPosition);
+
                     actualDriving_formatted_Array.push(actualDriving);
-                    namesObject[actualDriving_formatted_Array[i][0]] = 'Actual Driving';
-
-                    var actualPosition = speedDistance_Kph_Array.actualPosition[linkIndexNo];
-                    columnData_Array.push(actualPosition);
                     actualPosition_formatted_Array.push(actualPosition);
-
-                    var flatoutDriving = speedDistance_Kph_Array.flatoutDriving[linkIndexNo];
-                    columnData_Array.push(flatoutDriving);
                     flatoutDriving_formatted_Array.push(flatoutDriving);
-                    namesObject[flatoutDriving_formatted_Array[i][0]] = 'Optimal Driving (Flatout)';
-
-                    var flatoutPosition = speedDistance_Kph_Array.flatoutPosition[linkIndexNo];
-                    columnData_Array.push(flatoutPosition);
                     flatoutPosition_formatted_Array.push(flatoutPosition);
-
-                    var ecoDriving = speedDistance_Kph_Array.ecoDriving[linkIndexNo];
-                    columnData_Array.push(ecoDriving);
                     ecoDriving_formatted_Array.push(ecoDriving);
-                    namesObject[ecoDriving_formatted_Array[i][0]] = 'Optimal Driving (Eco)';
-
-                    var optimalPosition = speedDistance_Kph_Array.optimalPosition[linkIndexNo];
-                    columnData_Array.push(optimalPosition);
                     optimalPosition_formatted_Array.push(optimalPosition);
+
+                    names[actualDriving_formatted_Array[i][0]] = 'Actual Driving';
+                    names[flatoutDriving_formatted_Array[i][0]] = 'Optimal Driving (Flatout)';
+                    names[ecoDriving_formatted_Array[i][0]] = 'Optimal Driving (Eco)';
+
+                    xs[actualDriving_formatted_Array[i][0]] =  actualPosition_formatted_Array[i][0];
+                    xs[flatoutDriving_formatted_Array[i][0]] =  flatoutPosition_formatted_Array[i][0];
+                    xs[ecoDriving_formatted_Array[i][0]] =  optimalPosition_formatted_Array[i][0];
                 }
-                var link = speedDistance_Kph_Array.links[newLinkIndexArray[0]];
+                var link = speedDistance_Array.links[indexOfLinksWithSameName_Array[0]];
+                var speedLimit = speedDistance_Array.speedLimit[indexOfLinksWithSameName_Array[0]];
+                var endpoint = speedDistance_Array.endPoint[indexOfLinksWithSameName_Array[0]];
+                var scaledPosition = speedDistance_Array.scaledPosition[indexOfLinksWithSameName_Array[0]];
+                var elevation = speedDistance_Array.Elevation[indexOfLinksWithSameName_Array[0]];
+
                 link_formatted_Array.push(link);
-
-                var speedLimit = speedDistance_Kph_Array.speedLimit[newLinkIndexArray[0]];
-                columnData_Array.push(speedLimit);
                 speedLimit_formatted_Array.push(speedLimit);
-                namesObject[speedLimit_formatted_Array[0][0]] = 'Optimal Driving (Eco)';
-                
-
-                var endpoint = speedDistance_Kph_Array.endPoint[newLinkIndexArray[0]];
-                columnData_Array.push(endpoint);
                 endpoint_formatted_Array.push(endpoint);
-
-                var scaledPosition = speedDistance_Kph_Array.scaledPosition[newLinkIndexArray[0]];
-                columnData_Array.push(scaledPosition);
                 scaledPosition_formatted_Array.push(scaledPosition);
-
-                var elevation = speedDistance_Kph_Array.Elevation[newLinkIndexArray[0]];
-                columnData_Array.push(elevation);
                 elevation_formatted_Array.push(elevation);
-
-                return modDataForGraph;
                 
+                columns.push(speedLimit);
+                columns.push(endpoint);
+                columns.push(scaledPosition);
+                columns.push(elevation);
+
+                names[speedLimit_formatted_Array[0][0]] = 'Speed Limit';
+                names[elevation_formatted_Array[0][0]] = 'Elevation';
+
+                xs[speedLimit_formatted_Array[0][0]] =  endpoint_formatted_Array[0][0];
+                xs[elevation_formatted_Array[0][0]] =  scaledPosition_formatted_Array[0][0];
+
+                return {
+                    xs: xs,
+                    //names: names,
+                    columns: columns,
+                    axes: {
+                        Elevation: 'y2'
+                    },
+                    xSort: false,
+                    labels: false
+                }
             },
             
 
