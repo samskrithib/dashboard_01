@@ -6,7 +6,7 @@
     .module('dassimFrontendV03')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService, testFactory, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
+  function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.isCollapsed = false;
     vm.percentilesList = [
@@ -80,12 +80,9 @@
             $log.info(keyxValue)
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
             /* Performance Test */
-            var modData = testFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
-            testFactory.getTrainGraphChart(modData, tickFormat, tooltipFormat, vm.lines)
+            var modData = trainGraphFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
+            trainGraphFactory.getTrainGraphChart(modData, tickFormat, tooltipFormat, vm.lines)
             /*End */
-            
-            // trainGraphFactory.getTrainGraphChart(vm.response.timetableAdherenceGraph, keyxValue, tickFormat, tooltipFormat, vm.lines);
-            // trainGraphFactory.LoadTrainGraphData(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, vm.lines, keyxValue, stinglength)
             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;
           }
 
@@ -106,7 +103,7 @@
           vm.pageResponse = response.data;
           $log.info(vm.pageResponse)
           var data = vm.pageResponse.timetableAdherenceGraph.timetableAdherenceGraphSeriesList
-          testFactory.LoadTrainGraphData(data, vm.lines, keyxValue)
+          trainGraphFactory.LoadTrainGraphData(data, vm.lines, keyxValue)
         }).catch(function (error) {
           $log.info(error)
           vm.TTAdherenceTrackTrainsError = true;
@@ -114,8 +111,6 @@
         })
 
     }
-
-
 
     function gridlines(data) {
       var lines = [];

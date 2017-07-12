@@ -137,16 +137,19 @@
             }
         })
 
-        httpCallsService.getByUrl('servicecodes')
+        httpCallsService.getByUrl('train-graph/service-codes')
             .then(function (response) {
                 vm.serviceCodeChoices = response;
-                vm.formData.serviceCode = vm.serviceCodeChoices;
+                
             })
 
         vm.timetableAdherenceSubmit = function (isValid) {
             if (isValid) {
                 $log.info(vm.formData)
                 UtilityService.addCheckedItems(vm.RadioButtonModel)
+                if(!vm.formData.serviceCode){
+                    vm.formData.serviceCode = vm.serviceCodeChoices;
+                }
                 var ttAderenceUrl = getTtAderenceUrl();
                 // $log.info(ttAderenceUrl)
                 getResponse(ttAderenceUrl)
