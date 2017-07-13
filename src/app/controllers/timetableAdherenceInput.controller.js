@@ -24,8 +24,8 @@
             return d;
         }
         vm.templates = [
-            { name: 'TTPercentile', url: 'views/trainGraph/ttadherencePercentileInput.tmpl.html' },
-            { name: 'TTTrackTrains', url: 'views/trainGraph/ttadherenceTrackTrainsInput.tmpl.html' }
+            { name: 'TTPercentile' },
+            { name: 'TTTrackTrains' }
         ];
         vm.RadioButtonModel = vm.templates[0].name;
         vm.template = vm.templates[0]
@@ -49,7 +49,7 @@
 
         vm.percentilesList = [
             '10%', '20%', '30%', '40%', '50%',
-            '60%', '70%','75%', '80%','85%', '90%','95%', '100%',
+            '60%', '70%', '75%', '80%', '85%', '90%', '95%', '100%',
         ]
 
         //order station names with leading character on higher rank
@@ -107,7 +107,7 @@
         vm.formData = {};
         /* Defaults */
         vm.formData.fromStation = { "locationName": "Newcastle", "tiploc": "NWCSTLE" };
-        vm.formData.toStation = {"locationName":"Carlisle","tiploc":"CARLILE"};
+        vm.formData.toStation = { "locationName": "Carlisle", "tiploc": "CARLILE" };
         vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
         vm.formData.toTiploc = vm.formData.toStation.tiploc;
         vm.formData.fromDate = new Date(2017, 5, 1);
@@ -129,6 +129,7 @@
         vm.formData.daysRange = vm.formData.weekdays;
         $scope.$watchGroup(['vm.daysRangeOptionSelected', 'vm.formData.weekdays', 'vm.formData.weekends'], function (newVal, oldVal) {
             if (newVal != oldVal) {
+                $log.info(vm.daysRangeOptionSelected)
                 if (vm.daysRangeOptionSelected == 'Weekdays') {
                     vm.formData.daysRange = vm.formData.weekdays
                 } else if (vm.daysRangeOptionSelected == 'Weekends') {
@@ -140,14 +141,13 @@
         httpCallsService.getByUrl('train-graph/service-codes')
             .then(function (response) {
                 vm.serviceCodeChoices = response;
-                
             })
 
         vm.timetableAdherenceSubmit = function (isValid) {
             if (isValid) {
                 $log.info(vm.formData)
                 UtilityService.addCheckedItems(vm.RadioButtonModel)
-                if(!vm.formData.serviceCode){
+                if (!vm.formData.serviceCode) {
                     vm.formData.serviceCode = vm.serviceCodeChoices;
                 }
                 var ttAderenceUrl = getTtAderenceUrl();
@@ -197,9 +197,9 @@
         }
     }
 
-    function TimetableAdherenceInput_2_Controller(httpCallsService,UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
+    function TimetableAdherenceInput_2_Controller(httpCallsService, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
         var vm = this;
-        
+
         vm.timetableRoutes = UtilityService.getCheckedItems()[0];
         vm.getTabs = UtilityService.getCheckedItems()[1]
         vm.routesFlag = UtilityService.getCheckedItems()[2]
