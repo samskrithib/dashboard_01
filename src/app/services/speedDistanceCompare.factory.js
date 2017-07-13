@@ -25,65 +25,46 @@
                     size: {
                         height: 400
                     },
-                    data:{
-                        xs: {
-                            'ActualDriving0': 'actualPosition0',
-                            'FlatoutDriving0': 'flatoutPosition0',
-                            'EcoDriving0': 'optimalPosition0',
-                            'SpeedLimit0': 'endPoint0',
-                            'Elevation0': 'scaledPosition0',
-                            'ActualDriving1': 'actualPosition1',
-                            'FlatoutDriving1': 'flatoutPosition1',
-                            'EcoDriving1': 'optimalPosition1',
-                            'SpeedLimit1': 'endPoint1',
-                            'Elevation1': 'scaledPosition1',
-                        },
-                        names:{
-                            ActualDriving0: 'Actual Driving',
-                            FlatoutDriving0: 'Optimal Driving (Flatout)',
-                            EcoDriving0: 'Optimal Driving (Eco)',
-                            SpeedLimit0: 'Speed Limit',
-                            ActualDriving1: 'Actual Driving 1',
-                            FlatoutDriving1: 'Optimal Driving (Flatout) 1',
-                            EcoDriving1: 'Optimal Driving (Eco) 1',
-                            SpeedLimit1: 'Speed Limit 1',
-                        },
-                        columns: [
-                            speedDistanceData.actualPosition[0],
-                            speedDistanceData.actualDriving[0],
-                            speedDistanceData.flatoutDriving[0],
-                            speedDistanceData.flatoutPosition[0],
-                            speedDistanceData.ecoDriving[0],
-                            speedDistanceData.optimalPosition[0],
-                            speedDistanceData.speedLimit[0],
-                            speedDistanceData.endPoint[0],
-                            speedDistanceData.Elevation[0],
-                            speedDistanceData.scaledPosition[0],
-                            speedDistanceData.actualPosition[1],
-                            speedDistanceData.actualDriving[1],
-                            speedDistanceData.flatoutDriving[1],
-                            speedDistanceData.flatoutPosition[1],
-                            speedDistanceData.ecoDriving[1],
-                            speedDistanceData.optimalPosition[1],
-                            speedDistanceData.speedLimit[1],
-                            speedDistanceData.endPoint[1],
-                            speedDistanceData.Elevation[1],
-                            speedDistanceData.scaledPosition[1]
-                        ],
-                        axes: {
-                            Elevation: 'y2'
-                        },
-                        xSort: false,
-                        labels: false,
-                        colors: {
-                            'ActualDriving': DRIVE_COLORS.blue_dark,
-                            'FlatoutDriving': DRIVE_COLORS.green,
-                            'EcoDriving': DRIVE_COLORS.green,
-                            'SpeedLimit': DRIVE_COLORS.black,
-                            'Elevation': DRIVE_COLORS.brown,
-                            'ActualDriving1': DRIVE_COLORS.blue_dark
-                        }
-                    },
+                    data: speedDistanceData
+                        //  xs: {
+                        //      'ActualDriving0': 'actualPosition0',
+                        //      'FlatoutDriving0': 'flatoutPosition0',
+                        //      'EcoDriving0': 'optimalPosition0',
+                        //      'SpeedLimit0': 'endPoint0',
+                        //      'Elevation0': 'scaledPosition0'
+                        //  },
+                        //  names:{
+                        //      ActualDriving0: 'Actual Driving',
+                        //      FlatoutDriving0: 'Optimal Driving (Flatout)',
+                        //      EcoDriving0: 'Optimal Driving (Eco)',
+                        //      SpeedLimit0: 'Speed Limit'
+                        //  },
+                        //  columns: [
+                        //      speedDistanceData.actualPosition[0],
+                        //      speedDistanceData.actualDriving[0],
+                        //      speedDistanceData.flatoutDriving[0],
+                        //      speedDistanceData.flatoutPosition[0],
+                        //      speedDistanceData.ecoDriving[0],
+                        //      speedDistanceData.optimalPosition[0],
+                        //      speedDistanceData.speedLimit[0],
+                        //      speedDistanceData.endPoint[0],
+                        //      speedDistanceData.Elevation[0],
+                        //      speedDistanceData.scaledPosition[0]
+                        //  ],
+                        //  axes: {
+                        //      Elevation: 'y2'
+                        //  },
+                        //  xSort: false,
+                        //  labels: false,
+                         //colors: {
+                         //    'ActualDriving': DRIVE_COLORS.blue_dark,
+                         //    'FlatoutDriving': DRIVE_COLORS.green,
+                         //    'EcoDriving': DRIVE_COLORS.green,
+                         //    'SpeedLimit': DRIVE_COLORS.black,
+                         //    'Elevation': DRIVE_COLORS.brown,
+                         //   'ActualDriving1': DRIVE_COLORS.blue_dark
+                         //}
+                    ,
                     zoom: {
                         enabled: false
                     },
@@ -163,6 +144,7 @@
                 SpeedDistanceCompareChart.unload({
                     done: function () {
                         SpeedDistanceCompareChart.load({
+                            
                             columns: [
                                 speedDistanceData.actualPosition[0],
                                 speedDistanceData.actualDriving[0],
@@ -198,53 +180,58 @@
                 // SpeedDistanceChart.axis.range({max: {y2: 150}, min: { y2: -150}})
                 SpeedDistanceCompareChart.unload({
                     done: function () {
-                        SpeedDistanceCompareChart.load({
-                            columns: [
-                                speedDistanceData.actualPosition[0],
-                                speedDistanceData.actualDriving[0],
-                                speedDistanceData.flatoutDriving[0],
-                                speedDistanceData.flatoutPosition[0],
-                                speedDistanceData.ecoDriving[0],
-                                speedDistanceData.optimalPosition[0],
-                                speedDistanceData.speedLimit[0],
-                                speedDistanceData.endPoint[0],
-                                speedDistanceData.Elevation[0],
-                                speedDistanceData.scaledPosition[0],
-                                speedDistanceData.actualPosition[1],
-                                speedDistanceData.actualDriving[1],
-                                speedDistanceData.flatoutDriving[1],
-                                speedDistanceData.flatoutPosition[1],
-                                speedDistanceData.ecoDriving[1],
-                                speedDistanceData.optimalPosition[1],
-                                speedDistanceData.speedLimit[1],
-                                speedDistanceData.endPoint[1],
-                                speedDistanceData.Elevation[1],
-                                speedDistanceData.scaledPosition[1]
-                            ]
-                        })
+                        SpeedDistanceCompareChart.load(
+                            speedDistanceData
+                        //    {
+                            //columns: [
+                            //    speedDistanceData.actualPosition[0],
+                            //    speedDistanceData.actualDriving[0],
+                            //    speedDistanceData.flatoutDriving[0],
+                            //    speedDistanceData.flatoutPosition[0],
+                            //    speedDistanceData.ecoDriving[0],
+                            //    speedDistanceData.optimalPosition[0],
+                            //    speedDistanceData.speedLimit[0],
+                            //    speedDistanceData.endPoint[0],
+                            //    speedDistanceData.Elevation[0],
+                            //    speedDistanceData.scaledPosition[0],
+                            //    speedDistanceData.actualPosition[1],
+                            //    speedDistanceData.actualDriving[1],
+                            //    speedDistanceData.flatoutDriving[1],
+                            //    speedDistanceData.flatoutPosition[1],
+                            //    speedDistanceData.ecoDriving[1],
+                            //    speedDistanceData.optimalPosition[1],
+                            //    speedDistanceData.speedLimit[1],
+                            //    speedDistanceData.endPoint[1],
+                            //    speedDistanceData.Elevation[1],
+                            //    speedDistanceData.scaledPosition[1]
+                            //]
+                        //}
+                        )
                     }
                 })
-                // $log.debug("length" + data.ecoDriving[selected].length)
             },
             setSpeedDistanceCompareMph: function (speedDistanceData, selected) {
                 SpeedDistanceCompareChart.unload({
                     done: function () {
-                        SpeedDistanceCompareChart.load({
-                        columns: [
-                            speedDistanceData.actualPosition[0],
-                            speedDistanceData.flatoutPosition[0],
-                            speedDistanceData.optimalPosition[0],
-                            speedDistanceData.endPoint[0],
-                            speedDistanceData.actualDriving[0],
-                            speedDistanceData.flatoutDriving[0],
-                            speedDistanceData.ecoDriving[0],
-                            speedDistanceData.speedLimit[0],
-                            speedDistanceData.Elevation[0],
-                            speedDistanceData.scaledPosition[0],
-                            speedDistanceData.actualPosition[1],
-                            speedDistanceData.actualDriving[1]
-                        ]
-                        })
+                        SpeedDistanceCompareChart.load(
+                            speedDistanceData
+                    //    {
+                    //    columns: [
+                    //        speedDistanceData.actualPosition[0],
+                    //        speedDistanceData.flatoutPosition[0],
+                    //        speedDistanceData.optimalPosition[0],
+                    //        speedDistanceData.endPoint[0],
+                    //        speedDistanceData.actualDriving[0],
+                    //        speedDistanceData.flatoutDriving[0],
+                    //        speedDistanceData.ecoDriving[0],
+                    //        speedDistanceData.speedLimit[0],
+                    //        speedDistanceData.Elevation[0],
+                    //        speedDistanceData.scaledPosition[0],
+                    //        speedDistanceData.actualPosition[1],
+                    //        speedDistanceData.actualDriving[1]
+                    //    ]
+                    //}
+                    )
                     }
                 })
                 updatexaxisTickFormatter(true)

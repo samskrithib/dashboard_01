@@ -53,17 +53,8 @@
               speedDistanceDataCompare_All(vm.speedDistances)
               vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
               vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
-              
               $log.info(vm.speedDistances)
-              
-              //vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
-              // vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
-              // vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
               break;
-              
-              // vm.speedDistanceData = speedDistanceCompareDataFactory.getSpeedDistanceData(vm.speedDistances)
-              
-
             }
             default: {
             }
@@ -102,14 +93,17 @@
 
     function speedDistanceCompareOnSelectLink() {
       speedDistanceCompareDriverAdviceOfSelectedLink();
-      //speedDistanceCompareChartFactory.getSpeedDistanceCompareChart();
-      //speedDistanceCompareChartFactory.setSpeedDistanceCompareChart();
-      speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
+      
+      vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, vm.indexOfSelectedLink, vm.graphLinks)
+      vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, vm.indexOfSelectedLink, vm.graphLinks)
+      speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.modData_Kph, vm.speedDistanceChartLabels);
+      //speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
       
       if (vm.radioModel === 'Kph') {
-        speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink);
+        speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, vm.indexOfSelectedLink);
+      //  speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink);
       }else if (vm.radioModel === 'Mph'){
-        speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink);
+        speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, vm.indexOfSelectedLink);
       }
       
     }
@@ -157,9 +151,11 @@
     $scope.$watch('vm.radioModel', function (newValue, oldValue) {
       if (newValue !== oldValue) {
         if (newValue == 'Kph') {
-          speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
+          speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, vm.indexOfSelectedLink);
+          //speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
         } else {
-          speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)
+          speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, vm.indexOfSelectedLink);
+          //speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)
         }
       }
     })
