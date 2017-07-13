@@ -261,7 +261,7 @@
           done: function () {
             $log.info(data.length)
             dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
-            timetableAdherenceChart.flow({
+            timetableAdherenceChart.load({
               columns: columns,
               xs: xs
             })
