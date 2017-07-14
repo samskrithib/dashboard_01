@@ -21,9 +21,28 @@
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
-    $log.info(vm.getTabs)
+    //  $log.info(subtitle.daysOfTheWeek)
+    var daysRange;
+    var numOfDays = UtilityService.numberOfDaysBetweenDates(subtitle.toDate, subtitle.fromDate)
+    if (numOfDays < subtitle.daysOfTheWeek.length) {
+      var currentDate = subtitle.fromDate;
+      var array = [];
+      while (currentDate <= subtitle.toDate) {
+        var day = moment(currentDate).format('dddd');
+        if (_.contains(subtitle.daysOfTheWeek, day)) {
+          array.push(day)
+        }
+        $log.info(day)
+        currentDate = moment(currentDate).add(1, 'days');
+      }
+      var newAray = _.intersection(subtitle.daysOfTheWeek, array)
+      daysRange = newAray.toString();
+    } else {
+      daysRange = subtitle.daysOfTheWeek.toString();
+    }
+    $log.info(daysRange)
     vm.subTitle = subtitle.fromStation.locationName + "  to  " + subtitle.toStation.locationName +
-      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysOfTheWeek
+      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + daysRange
       + " <strong>| Time :  </strong>" + subtitle.fromTime + " - " + subtitle.toTime
 
     if (vm.getTabs == 'TTTrackTrains') {

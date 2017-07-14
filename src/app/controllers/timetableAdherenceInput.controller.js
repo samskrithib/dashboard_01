@@ -110,8 +110,8 @@
         vm.formData.toStation = { "locationName": "Carlisle", "tiploc": "CARLILE" };
         vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
         vm.formData.toTiploc = vm.formData.toStation.tiploc;
-        vm.formData.fromDate = new Date(2017, 5, 1);
-        vm.formData.toDate = new Date(2017, 5, 27);
+        vm.formData.fromDate = new Date(2017, 4, 28);
+        vm.formData.toDate = new Date(2017, 4, 31);
         vm.formData.percentileSelected = '80%';
         vm.formData.fromRecord = 0;
         vm.formData.pageSize = 10;

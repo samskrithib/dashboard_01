@@ -71,6 +71,13 @@
             return ('a' + obj[key]);
           }
           return ('b' + obj[key]);
+        },
+
+        numberOfDaysBetweenDates: function(date1, date2){
+          var a = moment(date1)
+          var b = moment(date2)
+          var numOfdays = a.diff(b, 'days')+1
+          return numOfdays;
         }
 
       }

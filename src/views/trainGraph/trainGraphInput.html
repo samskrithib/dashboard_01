@@ -83,26 +83,28 @@
                             <label for="daysRange" class="control-label mandatory col-md-2">Days Range</label>
                             <div class="col-lg-6 col-md-6">
                                 <div class="btn-group" ng-repeat="days in vm.selectWeekdayOrWeekend">
-                                    <label class="btn btn-default" ng-model="vm.daysRangeOptionSelected" uib-btn-radio="'{{days.name}}'" >
+                                    <label class="btn btn-default" ng-model="vm.daysRangeOptionSelected" uib-btn-radio="'{{days.name}}'">
                                       {{days.name}} 
                                     </label>
                                 </div>
                             </div>
-
                             <div class="col-lg-offset-2 col-lg-6 col-md-6" ng-show="vm.daysRangeOptionSelected === 'Weekdays'">
-                                <ui-select multiple close-on-select="false" ng-model="vm.formData.weekdays" theme="bootstrap">
-                                    <ui-select-match placeholder="Select weekdays...">{{::$item}}</ui-select-match>
-                                    <ui-select-choices repeat="weekday in vm.weekdays| filter: $select.search">
-                                        {{::weekday}}
-                                    </ui-select-choices>
-                                </ui-select>
-
+                                <label for="weekdays" hidden></label>
+                                <!-- <div ng-class="{'has-error': form.$submitted && form.weekdays.$invalid,'has-success': form.$submitted && form.weekdays.$valid}"> -->
+                                    <ui-select name="weekdays" multiple close-on-select="false" ng-model="vm.formData.weekdays" theme="bootstrap">
+                                        <ui-select-match placeholder="Select weekdays...">{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="weekday in vm.weekdays| filter: $select.search">
+                                            {{weekday}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!-- <span class="help-block" ng-show="form.weekdays.$invalid && !form.weekdays.$pristine">Required</span> -->
+                                <!-- </div> -->
                             </div>
                             <div class="col-lg-offset-2 col-lg-6 col-md-6" ng-show="vm.daysRangeOptionSelected === 'Weekends'">
                                 <ui-select multiple close-on-select="false" ng-model="vm.formData.weekends" theme="bootstrap">
-                                    <ui-select-match placeholder="Select weekends...">{{::$item}}</ui-select-match>
+                                    <ui-select-match placeholder="Select weekends...">{{$item}}</ui-select-match>
                                     <ui-select-choices repeat="weekend in vm.weekends| filter: $select.search">
-                                        {{::weekend}}
+                                        {{weekend}}
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
@@ -143,9 +145,9 @@
                             <label for="servicecode" class="control-label col-md-2">Service code <small>(optional)</small></label>
                             <div class="col-md-3">
                                 <ui-select multiple ng-model="vm.formData.serviceCode" theme="bootstrap">
-                                    <ui-select-match placeholder="Select serviceCode...">{{::$item}}</ui-select-match>
+                                    <ui-select-match placeholder="Select serviceCode...">{{$item}}</ui-select-match>
                                     <ui-select-choices repeat="serviceCode in vm.serviceCodeChoices| filter: $select.search">
-                                        {{::serviceCode}}
+                                        {{serviceCode}}
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
