@@ -5,7 +5,7 @@
   .module('dassimFrontendV03')
   .factory('speedDistanceCompareDataFactory', speedDistanceCompareDataFactory);
 
-  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService) {
+  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService, DRIVE_COLORS) {
         var seriesNameMatchers = [
             "ActualDriving", "actualPosition",  
             "FlatoutDriving", "flatoutPosition", 
@@ -84,10 +84,6 @@
             },
 
             getDataFormat:function(speedDistance, linkIndex, graphLinks){
-                var modDataForGraph={};
-                var sizeOfActualDrivingArray = speedDistance.actualDriving.length;
-                var sizeOfLinksArray = graphLinks.length;
-                var numberOfRuns = sizeOfActualDrivingArray/ sizeOfLinksArray;
                 var i;
                 var linkIndexNo;
                 var indexOfLinksWithSameName_Array = [];
@@ -103,10 +99,15 @@
                 var elevation_formatted_Array = [];
                 var link_formatted_Array =[];
                 var speedDistance_Array = speedDistance;
-                
+
                 var columns=[];
                 var names={};
+                var colors={};
                 var xs={};
+
+                var sizeOfActualDrivingArray = speedDistance.actualDriving.length;
+                var sizeOfLinksArray = graphLinks.length;
+                var numberOfRuns = sizeOfActualDrivingArray/ sizeOfLinksArray;
 
                 $log.info("the size of Actual Driving Array: " + sizeOfActualDrivingArray);
                 $log.info("the number of runs are: " + numberOfRuns);
@@ -141,6 +142,10 @@
                     ecoDriving_formatted_Array.push(ecoDriving);
                     optimalPosition_formatted_Array.push(optimalPosition);
 
+                    colors[actualDriving_formatted_Array[i][0]] = DRIVE_COLORS.blue_dark;
+                    colors[flatoutDriving_formatted_Array[i][0]] = DRIVE_COLORS.green;
+                    colors[ecoDriving_formatted_Array[i][0]] = DRIVE_COLORS.green;
+
                     names[actualDriving_formatted_Array[i][0]] = 'Actual Driving';
                     names[flatoutDriving_formatted_Array[i][0]] = 'Optimal Driving (Flatout)';
                     names[ecoDriving_formatted_Array[i][0]] = 'Optimal Driving (Eco)';
@@ -160,11 +165,14 @@
                 endpoint_formatted_Array.push(endpoint);
                 scaledPosition_formatted_Array.push(scaledPosition);
                 elevation_formatted_Array.push(elevation);
-                
+
                 columns.push(speedLimit);
                 columns.push(endpoint);
                 columns.push(scaledPosition);
                 columns.push(elevation);
+
+                colors[speedLimit_formatted_Array[0][0]] = DRIVE_COLORS.black;
+                colors[elevation_formatted_Array[0][0]] = DRIVE_COLORS.brown;
 
                 names[speedLimit_formatted_Array[0][0]] = 'Speed Limit';
                 names[elevation_formatted_Array[0][0]] = 'Elevation';
@@ -175,6 +183,7 @@
                 return {
                     xs: xs,
                     //names: names,
+                    colors: colors,
                     columns: columns,
                     axes: {
                         Elevation: 'y2'
