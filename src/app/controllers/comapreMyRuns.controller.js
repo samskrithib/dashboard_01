@@ -93,11 +93,9 @@
 
     function speedDistanceCompareOnSelectLink() {
       speedDistanceCompareDriverAdviceOfSelectedLink();
-      
       vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, vm.indexOfSelectedLink, vm.graphLinks)
       vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, vm.indexOfSelectedLink, vm.graphLinks)
       speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.modData_Kph, vm.speedDistanceChartLabels);
-      //speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.speedDistanceData_Kph, vm.speedDistanceChartLabels);
       
       if (vm.radioModel === 'Kph') {
         speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, vm.indexOfSelectedLink);
@@ -109,14 +107,14 @@
     }
 
     function speedDistanceCompareDriverAdviceOfSelectedLink(){
-      vm.runtimeDescription = vm.getDriverAdvice[0].runtimeDescription
-      vm.earlyDepartureAdvice = vm.getDriverAdvice[0].earlyDepartureAdvice
-      vm.earlyArrivalAdvice = vm.getDriverAdvice[0].earlyArrivalAdvice
-      vm.timeSavedAdvice = vm.getDriverAdvice[0].timeSavedAdvice
-      vm.energyAdvice = vm.getDriverAdvice[0].energyAdvice
-      vm.goodDrivingAdvice = vm.getDriverAdvice[0].goodDrivingAdvice
-      vm.spareTimeAdvice = vm.getDriverAdvice[0].spareTimeAdvice
-      vm.speedingAdvice = vm.getDriverAdvice[0].speedingAdvice
+      vm.runtimeDescription = vm.getDriverAdvice[vm.indexOfSelectedLink].runtimeDescription
+      vm.earlyDepartureAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyDepartureAdvice
+      vm.earlyArrivalAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyArrivalAdvice
+      vm.timeSavedAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].timeSavedAdvice
+      vm.energyAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].energyAdvice
+      vm.goodDrivingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].goodDrivingAdvice
+      vm.spareTimeAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].spareTimeAdvice
+      vm.speedingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].speedingAdvice
     }
 
     vm.links = {};
@@ -155,7 +153,6 @@
           //speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
         } else {
           speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, vm.indexOfSelectedLink);
-          //speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)
         }
       }
     })

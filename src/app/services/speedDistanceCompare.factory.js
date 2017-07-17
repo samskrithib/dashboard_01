@@ -140,37 +140,26 @@
                         .style('visibility', 'hidden')
                 }
             },
-            setSpeedDistanceCompareChart: function (speedDistanceData, selected) {
-                SpeedDistanceCompareChart.unload({
-                    done: function () {
-                        SpeedDistanceCompareChart.load({
-                            
-                            columns: [
-                                speedDistanceData.actualPosition[0],
-                                speedDistanceData.actualDriving[0],
-                                speedDistanceData.flatoutDriving[0],
-                                speedDistanceData.flatoutPosition[0],
-                                speedDistanceData.ecoDriving[0],
-                                speedDistanceData.optimalPosition[0],
-                                speedDistanceData.speedLimit[0],
-                                speedDistanceData.endPoint[0],
-                                speedDistanceData.Elevation[0],
-                                speedDistanceData.scaledPosition[0],
-                                speedDistanceData.actualPosition[1],
-                                speedDistanceData.actualDriving[1],
-                                speedDistanceData.flatoutDriving[1],
-                                speedDistanceData.flatoutPosition[1],
-                                speedDistanceData.ecoDriving[1],
-                                speedDistanceData.optimalPosition[1],
-                                speedDistanceData.speedLimit[1],
-                                speedDistanceData.endPoint[1],
-                                speedDistanceData.Elevation[1],
-                                speedDistanceData.scaledPosition[1]
-                            ]
-                        })
-                    }
-                })
-            },
+            // setSpeedDistanceCompareChart: function (speedDistanceData, selected) {
+            //     SpeedDistanceCompareChart.unload({
+            //         done: function () {
+            //             SpeedDistanceCompareChart.load({
+            //                 columns: [
+            //                     speedDistanceData.actualPosition[0],
+            //                     speedDistanceData.actualDriving[0],
+            //                     speedDistanceData.flatoutDriving[0],
+            //                     speedDistanceData.flatoutPosition[0],
+            //                     speedDistanceData.ecoDriving[0],
+            //                     speedDistanceData.optimalPosition[0],
+            //                     speedDistanceData.speedLimit[0],
+            //                     speedDistanceData.endPoint[0],
+            //                     speedDistanceData.Elevation[0],
+            //                     speedDistanceData.scaledPosition[0]
+            //                 ]
+            //             })
+            //         }
+            //     })
+            // },
             setSpeedDistanceCompareKph: function (speedDistanceData, selected) {
                 SpeedDistanceCompareChart.axis.labels({
                     y: 'Speed (Kph)',
@@ -182,33 +171,10 @@
                     done: function () {
                         SpeedDistanceCompareChart.load(
                             speedDistanceData
-                        //    {
-                            //columns: [
-                            //    speedDistanceData.actualPosition[0],
-                            //    speedDistanceData.actualDriving[0],
-                            //    speedDistanceData.flatoutDriving[0],
-                            //    speedDistanceData.flatoutPosition[0],
-                            //    speedDistanceData.ecoDriving[0],
-                            //    speedDistanceData.optimalPosition[0],
-                            //    speedDistanceData.speedLimit[0],
-                            //    speedDistanceData.endPoint[0],
-                            //    speedDistanceData.Elevation[0],
-                            //    speedDistanceData.scaledPosition[0],
-                            //    speedDistanceData.actualPosition[1],
-                            //    speedDistanceData.actualDriving[1],
-                            //    speedDistanceData.flatoutDriving[1],
-                            //    speedDistanceData.flatoutPosition[1],
-                            //    speedDistanceData.ecoDriving[1],
-                            //    speedDistanceData.optimalPosition[1],
-                            //    speedDistanceData.speedLimit[1],
-                            //    speedDistanceData.endPoint[1],
-                            //    speedDistanceData.Elevation[1],
-                            //    speedDistanceData.scaledPosition[1]
-                            //]
-                        //}
                         )
                     }
                 })
+
             },
             setSpeedDistanceCompareMph: function (speedDistanceData, selected) {
                 SpeedDistanceCompareChart.unload({
