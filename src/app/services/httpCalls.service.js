@@ -63,11 +63,14 @@ angular
       return deferred.promise;
     },
 
-    getHeaders: function(url){
+    getHeaders: function(url, serviceCodes){
       var deferred = $q.defer();
       $http({
         url: path+url,
         method: "GET",
+        params: {
+          serviceCodes: serviceCodes
+        }
       }).then(function (data, status, headers, config) {
           deferred.resolve(data, status, headers, config);
       }).catch(function (response) {

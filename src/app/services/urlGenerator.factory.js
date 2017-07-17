@@ -38,9 +38,8 @@
         },
 
         generateTTAdherenceUrls: function (data) {
-
           var getTab = UtilityService.getCheckedItems();
-          $log.info("in url" + getTab)
+          // $log.info("in url" + getTab)
           modifiedData.fromStation = data.fromStation;
           modifiedData.toStation = data.toStation;
           modifiedData.fromDate = $filter('date')(data.fromDate, 'yyyy-MM-dd')
@@ -57,24 +56,37 @@
           }
 
           modifiedData.fromRecord = data.fromRecord;
-          if (data.serviceCode) {
-            modifiedData.serviceCodes = data.serviceCode.join();
-          } else {
-            modifiedData.serviceCodes = data.serviceCodes.join();
-          }
+          
           if (data.daysRange) {
-            modifiedData.daysOfTheWeek = data.daysRange;
+            var numOfDays = UtilityService.numberOfDaysBetweenDates(data.toDate, data.fromDate)
+            if (numOfDays < 8) {
+              if (numOfDays <= data.daysRange.length) {
+                var array = UtilityService.daysOfDatesSelected(data.fromDate, data.toDate, data.daysRange)
+                var newAray = _.intersection(data.daysRange, array)
+                // $log.info(newAray)
+                modifiedData.daysRange = newAray.toString();
+              } else if (data.daysRange.length == 2) {
+                var array = UtilityService.daysOfDatesSelected(data.fromDate, data.toDate, data.daysRange)
+                var newAray = _.intersection(data.daysRange, array)
+                // $log.info(newAray)
+                modifiedData.daysRange = newAray.toString();
+              }
+              else {
+                modifiedData.daysRange = data.daysRange.toString();
+              }
+            }
+            modifiedData.daysOfTheWeek = data.daysRange.toString();
           } else {
-            modifiedData.daysOfTheWeek = data.daysOfTheWeek;
+            modifiedData.daysOfTheWeek = data.daysOfTheWeek.toString();
           }
 
           if (getTab == 'TTPercentile') {
             modifiedData.percentile = data.percentileSelected.split("%")
             modifiedData.percentileSingle = modifiedData.percentile[0];
             // percentile=80
-            TTAdherencePercentile = "traingraphs-main?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&percentile=" + modifiedData.percentile[0] + "&pageId=0";
+            TTAdherencePercentile = "traingraphs-main?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&percentile=" + modifiedData.percentile[0] + "&pageId=0";
           } else {
-            TTAdherenceTrackTrains = "traingraphs-main?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&serviceCodes=" + modifiedData.serviceCodes + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&pageId=0";
+            TTAdherenceTrackTrains = "traingraphs-main?fromTiploc=" + data.fromStation.tiploc + "&toTiploc=" + data.toStation.tiploc + "&fromDate=" + modifiedData.fromDate + "&toDate=" + modifiedData.toDate + "&fromTime=" + modifiedData.fromTime + "&toTime=" + modifiedData.toTime + "&daysOfTheWeek=" + modifiedData.daysOfTheWeek + "&pageId=0";
           }
           return {
             percentile: TTAdherencePercentile,

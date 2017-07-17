@@ -144,7 +144,7 @@
                             </div>
                             <label for="servicecode" class="control-label col-md-2">Service code <small>(optional)</small></label>
                             <div class="col-md-3">
-                                <ui-select multiple ng-model="vm.formData.serviceCode" theme="bootstrap">
+                                <ui-select multiple ng-model="vm.formData.serviceCodes" theme="bootstrap">
                                     <ui-select-match placeholder="Select serviceCode...">{{$item}}</ui-select-match>
                                     <ui-select-choices repeat="serviceCode in vm.serviceCodeChoices| filter: $select.search">
                                         {{serviceCode}}

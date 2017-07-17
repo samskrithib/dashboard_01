@@ -16,7 +16,7 @@
         getCheckedItems: function () {
           return checkedItems;
         },
-        clean:function(){
+        clean: function () {
           checkedItems = '';
           return checkedItems;
         },
@@ -73,11 +73,24 @@
           return ('b' + obj[key]);
         },
 
-        numberOfDaysBetweenDates: function(date1, date2){
+        numberOfDaysBetweenDates: function (date1, date2) {
           var a = moment(date1)
           var b = moment(date2)
-          var numOfdays = a.diff(b, 'days')+1
+          var numOfdays = a.diff(b, 'days') + 1
           return numOfdays;
+        },
+
+        daysOfDatesSelected: function (fromDate, toDate, daysRange) {
+          var currentDate = fromDate.getTime();
+          var array = [];
+          while (currentDate <= toDate.getTime()) {
+            var day = moment(currentDate).format('dddd');
+            if (_.contains(daysRange, day)) {
+              array.push(day)
+            }
+            currentDate = moment(currentDate).add(1, 'days');
+          }
+          return array;
         }
 
       }

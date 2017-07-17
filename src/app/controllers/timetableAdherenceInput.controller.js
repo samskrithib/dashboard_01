@@ -147,11 +147,7 @@
             if (isValid) {
                 $log.info(vm.formData)
                 UtilityService.addCheckedItems(vm.RadioButtonModel)
-                if (!vm.formData.serviceCode) {
-                    vm.formData.serviceCode = vm.serviceCodeChoices;
-                }
                 var ttAderenceUrl = getTtAderenceUrl();
-                // $log.info(ttAderenceUrl)
                 getResponse(ttAderenceUrl)
                 // getResponse()
             }
@@ -175,7 +171,11 @@
 
         function getResponse(ttAderenceUrl) {
             var routesFlag = true;
-            httpCallsService.getHeaders(ttAderenceUrl)
+            var serviceCodes;
+            if(vm.formData.serviceCodes){
+                serviceCodes = vm.formData.serviceCodes.toString()
+            }
+            httpCallsService.getHeaders(ttAderenceUrl, serviceCodes)
                 // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
                 // httpCallsService.getByJson("assets/timetableRoutes.json")
                 .then(function (response) {

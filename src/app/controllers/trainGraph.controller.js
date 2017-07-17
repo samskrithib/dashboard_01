@@ -15,34 +15,15 @@
     ]
     // floating_Label();
     vm.currentPage = '1';
-    $log.info(vm.currentpage)
+    // $log.info(vm.currentpage)
     vm.TTadherencePercentileError = false;
     vm.TTAdherenceTrackTrainsError = false;
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
     var subtitle = UrlGenerator.getTTAdherenceUrl().data;
-    //  $log.info(subtitle.daysOfTheWeek)
-    var daysRange;
-    var numOfDays = UtilityService.numberOfDaysBetweenDates(subtitle.toDate, subtitle.fromDate)
-    if (numOfDays < subtitle.daysOfTheWeek.length) {
-      var currentDate = subtitle.fromDate;
-      var array = [];
-      while (currentDate <= subtitle.toDate) {
-        var day = moment(currentDate).format('dddd');
-        if (_.contains(subtitle.daysOfTheWeek, day)) {
-          array.push(day)
-        }
-        $log.info(day)
-        currentDate = moment(currentDate).add(1, 'days');
-      }
-      var newAray = _.intersection(subtitle.daysOfTheWeek, array)
-      daysRange = newAray.toString();
-    } else {
-      daysRange = subtitle.daysOfTheWeek.toString();
-    }
-    $log.info(daysRange)
+    // $log.info(vm.getTabs)
     vm.subTitle = subtitle.fromStation.locationName + "  to  " + subtitle.toStation.locationName +
-      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + daysRange
+      "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysRange
       + " <strong>| Time :  </strong>" + subtitle.fromTime + " - " + subtitle.toTime
 
     if (vm.getTabs == 'TTTrackTrains') {
@@ -96,7 +77,7 @@
             vm.TTAdherenceTrackTrainsError = true;
             vm.TTAdherenceTrackTrainsErrorMessage = response.statusText + "<h3> Error Message </h3>"
           } else {
-            $log.info(keyxValue)
+            // $log.info(keyxValue)
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
             /* Performance Test */
             var modData = trainGraphFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
@@ -116,11 +97,11 @@
       var pageId = currentpage - 1;
       vm.routesFlag = false;
       var trainGraphPageIdUrl = UrlGenerator.generatePageIdUrl(pageId);
-      $log.info(trainGraphPageIdUrl)
+      // $log.info(trainGraphPageIdUrl)
       httpCallsService.getHeaders(trainGraphPageIdUrl)
         .then(function (response) {
           vm.pageResponse = response.data;
-          $log.info(vm.pageResponse)
+          // $log.info(vm.pageResponse)
           var data = vm.pageResponse.timetableAdherenceGraph.timetableAdherenceGraphSeriesList
           trainGraphFactory.LoadTrainGraphData(data, vm.lines, keyxValue)
         }).catch(function (error) {
