@@ -126,7 +126,7 @@
           var newArray = [];
           var index_of_matchedString = UtilityService._findStringinArray(string, scheduledSeriesNames)
           newArray.push(scheduledSeriesNames[index_of_matchedString])
-          newArray.push(id)
+          newArray.push(id.toString())
           $(this).toggleClass("c3-legend-item-hidden")
           timetableAdherenceChart.toggle(newArray);
         })

@@ -6,7 +6,7 @@
         .module('dassimFrontendV03')
         .factory('testFactory', testFactory);
     function testFactory($log, DRIVE_COLORS, UtilityService) {
-        
+        return null;
     }
 })();
 
