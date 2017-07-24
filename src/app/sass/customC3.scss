@@ -1,6 +1,10 @@
 @import 'variables';
 @import 'mixins';
 
+.c3-ygrid-line{
+      stroke-dasharray: 1,4;
+  }
+
 .c3-legend-tooltip-container {
   position: absolute;
   pointer-events: none;

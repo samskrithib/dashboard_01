@@ -23,6 +23,18 @@
             d.setSeconds(0)
             return d;
         }
+        vm.dateOptions = {
+            // dateDisabled: disabled,
+            // formatYear: 'yy',
+            maxDate: new Date(),
+            // minDate: new Date(),
+            startingDay: 1
+        }
+        vm.todateOptions = {
+            // minDate: vm.formData.fromDate,
+            maxDate: new Date(),
+            startingDay: 1
+        }
         vm.templates = [
             { name: 'TTPercentile' },
             { name: 'TTTrackTrains' }
@@ -110,8 +122,8 @@
         vm.formData.toStation = { "locationName": "Carlisle", "tiploc": "CARLILE" };
         vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
         vm.formData.toTiploc = vm.formData.toStation.tiploc;
-        vm.formData.fromDate = new Date(2017, 4, 28);
-        vm.formData.toDate = new Date(2017, 4, 31);
+        vm.formData.fromDate = new Date();
+        vm.formData.toDate = new Date();
         vm.formData.percentileSelected = '80%';
         vm.formData.fromRecord = 0;
         vm.formData.pageSize = 10;
@@ -135,6 +147,14 @@
                 } else if (vm.daysRangeOptionSelected == 'Weekends') {
                     vm.formData.daysRange = vm.formData.weekends
                 }
+            }
+        })
+        $scope.$watchGroup(['vm.formData.fromDate', 'vm.formData.toDate'], function(newValue, oldValue){
+            if(newValue != oldValue){
+               if(Date.parse(vm.formData.toDate) < Date.parse(vm.formData.fromDate)){
+                   vm.formData.toDate = vm.formData.fromDate;
+                   alert("todate is less than from date")
+               }
             }
         })
 
@@ -172,7 +192,7 @@
         function getResponse(ttAderenceUrl) {
             var routesFlag = true;
             var serviceCodes;
-            if(vm.formData.serviceCodes){
+            if (vm.formData.serviceCodes) {
                 serviceCodes = vm.formData.serviceCodes.toString()
             }
             httpCallsService.getHeaders(ttAderenceUrl, serviceCodes)

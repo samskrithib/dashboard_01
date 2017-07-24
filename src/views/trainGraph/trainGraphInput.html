@@ -61,13 +61,14 @@
                                     <span class="help-block" ng-show="form.$submitted && form.fromDate.$error.required">Required</span>
                                 </div>
                             </div>
+                           
                             <div ng-class="{'has-error': form.$submitted && form.toDate.$invalid,'has-success': form.$submitted && form.toDate.$valid}">
                                 <label for="toDate" class="col-md-2 control-label mandatory">To Date</label>
                                 <div class="col-md-3" ng-class="{ 'has-error' : form.toDate.$invalid && !form.toDate.$pristine }">
                                     <span class="help-block" ng-show="form.toDate.$invalid && !form.toDate.$pristine">Required</span>
                                     <p class="input-group">
                                         <input type="text" name="toDate" class="form-control" uib-datepicker-popup ng-model="vm.formData.toDate" is-open="vm.popup2.opened"
-                                            datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" min="vm.form.fromdate"
+                                            datepicker-options="vm.todateOptions" ng-required="true" close-text="Close"
                                         />
                                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="vm.open2()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
