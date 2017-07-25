@@ -47,7 +47,6 @@
             ActualRunSeriesNames.push(seriesName)
             // $log.info(ActualRunSeriesNames)
           }
-
           var distances = _.pluck(_.pluck(timeDistanceArray, 'identifierAndDistance'), identifier)
           var distancesArray = _.map(distances, function (num) { return num == -1 ? null : num })
           var seriesDistances = identifier.concat(distancesArray)
@@ -150,7 +149,8 @@
         dataLoop(data, xvalue, newnames, scheduledSeriesNames, ActualRunSeriesNames, xs, columns)
         modifiedData = {
           xs: xs,
-          columns: columns
+          columns: columns,
+          xSort: false
         }
         $log.info(modifiedData)
         return {
@@ -171,6 +171,9 @@
             right: 50
           },
           data: modifiedData.modifiedData,
+          line: {
+            connectNull: false
+          },
           color: {
             pattern: DRIVE_COLORS.twoRunsColorPattern
           },
