@@ -5,49 +5,47 @@
   angular
     .module('dassimFrontendV03')
     .service('latenessSummaryCompareFactory', latenessSummaryCompareFactory);
+
   function latenessSummaryCompareFactory($log, $window, DRIVE_COLORS) {
-    var acheivableArrivalLatenessInSeconds, actualArrivalEarlinessInSeconds, actualArrivalLatenessInSeconds;
+    var achievableArrivalLatenessInSeconds, actualArrivalEarlinessInSeconds, actualArrivalLatenessInSeconds;
     var latenessSummary_allLinks;
     var latenessSummaryChart;
     return {
       getLatenessSummaryData: function (latenessSummaries) {
-        var acheivableArrivalLatenessInSeconds_array = [],
+        var achievableArrivalLatenessInSeconds_array = [],
           actualArrivalEarlinessInSeconds_array = [],
           actualArrivalLatenessInSeconds_array = [],
           latenessSummaryData = {};
-        _.each(latenessSummaries, function (val, key) {
-          acheivableArrivalLatenessInSeconds = latenessSummaries[key].acheivableArrivalLatenessInSeconds
-          actualArrivalEarlinessInSeconds = latenessSummaries[key].actualArrivalEarlinessInSeconds
-          actualArrivalLatenessInSeconds = latenessSummaries[key].actualArrivalLatenessInSeconds
-          
-          acheivableArrivalLatenessInSeconds_array.push(acheivableArrivalLatenessInSeconds)
-          actualArrivalEarlinessInSeconds_array.push(actualArrivalEarlinessInSeconds)
-          actualArrivalLatenessInSeconds_array.push(actualArrivalLatenessInSeconds)
-        })
-        latenessSummaryData = {
-          'actualArrivalLatenessInSeconds': actualArrivalLatenessInSeconds_array,
-          'actualArrivalEarlinessInSeconds': actualArrivalEarlinessInSeconds_array,
-          'acheivableArrivalLatenessInSeconds': acheivableArrivalLatenessInSeconds_array,
-        }
-        return latenessSummaryData;
+          $log.info(latenessSummaries)
+        // _.each(latenessSummaries, function (val, key) {
+        //   var LSPJ = latenessSummaries[key]
+        //   $log.info(LSPJ)
+          //   achievableArrivalLatenessInSeconds = latenessSummaries[key].achievableArrivalLatenessInSeconds
+          //   actualArrivalEarlinessInSeconds = latenessSummaries[key].actualArrivalEarlinessInSeconds
+          //   actualArrivalLatenessInSeconds = latenessSummaries[key].actualArrivalLatenessInSeconds
+
+          //   achievableArrivalLatenessInSeconds_array.push(achievableArrivalLatenessInSeconds)
+          //   actualArrivalEarlinessInSeconds_array.push(actualArrivalEarlinessInSeconds)
+          //   actualArrivalLatenessInSeconds_array.push(actualArrivalLatenessInSeconds)
+        // })
+        // latenessSummaryData = {
+        //   'actualArrivalLatenessInSeconds': actualArrivalLatenessInSeconds_array,
+        //   'actualArrivalEarlinessInSeconds': actualArrivalEarlinessInSeconds_array,
+        //   'achievableArrivalLatenessInSeconds': achievableArrivalLatenessInSeconds_array,
+        // }
+        // $log.info(latenessSummaryData)
+        return latenessSummaries;
       },
 
-      getLatenessSummaryLinksData: function (latenessSummaries, links) {
-        var indexesOfSelectedLinks = []
-        // latnessSummaries for each run
-        var arrayOflatenessSummaries_eachRun = _.pluck(latenessSummaries, 'latenessSummaries');
+      getLatenessSummaryLinksData: function (latenessSummaries, linkIndex) {
+        var latenessSummaryData_Array = [];
 
-        //find indexes of selected links in all LatenessSummaryLinks array
-        _.each(links, function (val, key) {
-          indexesOfSelectedLinks.push(_.indexOf(latenessSummary_allLinks, links[key]));
+        _.each(latenessSummaries, function (val, key) {
+          var LS = latenessSummaries[key].latenessSummaries[linkIndex].latenessSummary
+          latenessSummaryData_Array.push(LS)
         })
-        var array = []
-        _.each(arrayOflatenessSummaries_eachRun, function (val_1, key_1) {
-          _.each(indexesOfSelectedLinks, function (val_2, key_2) {
-            array.push(arrayOflatenessSummaries_eachRun[key_1][val_2].latenessSummary)
-          })
-        })
-        return array;
+        $log.info(latenessSummaryData_Array)
+        return latenessSummaryData_Array;
       },
 
       getLatenessSummaryLinks: function (latenessSummaries) {
@@ -75,11 +73,15 @@
           },
           data: {
             json: data,
+            keys: {
+              // x: 'name',
+              value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
+            },
             type: 'bar',
             labels: true,
             colors: {
               'actualArrivalEarlinessInSeconds': DRIVE_COLORS.blue,
-              'acheivableArrivalLatenessInSeconds': DRIVE_COLORS.green
+              'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
             }
           },
           axis: {
@@ -106,15 +108,19 @@
       },
 
       setLatenessSummaryChart: function (data) {
-        latenessSummaryChart.load({
-          json: data,
-          keys: {
-            value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'acheivableArrivalLatenessInSeconds'],
+        latenessSummaryChart.unload({
+          done: function () {
+            latenessSummaryChart.load({
+              json: data,
+              keys: {
+                value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds'],
+              }
+            })
           }
+
         })
       }
 
     }
   }
 })();
-

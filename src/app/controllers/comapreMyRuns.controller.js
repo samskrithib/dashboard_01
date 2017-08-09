@@ -7,57 +7,66 @@
 
     .controller('CompareMyRunsController', CompareMyRunsController);
 
-  function CompareMyRunsController(UrlGenerator, httpCallsService, 
-    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory,speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
+  function CompareMyRunsController(UrlGenerator, httpCallsService,
+    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
-    vm.tabs = [
-      { id: "0", title: 'Energy Summary' },
-      { id: "1", title: 'Lateness Summary' },
-      { id: "2", title: 'Speed Distance' }
+    vm.tabs = [{
+        id: "0",
+        title: 'Energy Summary'
+      },
+      {
+        id: "1",
+        title: 'Lateness Summary'
+      },
+      {
+        id: "2",
+        title: 'Speed Distance'
+      }
     ];
     vm.key = false;
-    var energySummaryGraphLabels, energySummaryData, energySummaryTotals;
+    vm.radioModel = 'Kph';
+    var energySummaryGraphLabels, energySummaryData;
     vm.speedDistanceLinks = {};
     vm.chartSubtitle = UrlGenerator.getData().subtitle;
-    vm.promise = httpCallsService.getByJson('assets/driverMultipleRunsResponse.json')
+    vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
+      // vm.promise = httpCallsService.getByJson('assets/driverMultipleRunsResponse.json')
       .then(function (data) {
         vm.response = data;
         vm.error = false;
         _.each(vm.tabs, function (val, key) {
           switch (vm.tabs[key].id) {
-            case "0": {
-              vm.energySummaries = vm.response.energySummaries;
-              // $log.debug(vm.energySummaries);
-              // vm.graphIndicator = vm.energySummaries.energySummaryAdvice.graphIndicator;
-              energySummaryData = energySummaryCompareFactory.getEnergySummaryData(vm.energySummaries)
-              energySummaryTotals = energySummaryCompareFactory.getEnergySummarySumofLinks(energySummaryData);
-              energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
-              energySummaryCompareFactory.getEnergySummaryChart(energySummaryTotals, energySummaryGraphLabels, vm.graphIndicators_array);
-              vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
-              // $log.info(vm.graphLinks)
-              break;
-            }
+            case "0":
+              {
+                // $log.info(_.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney'))
+                vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
+                vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
+                energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
+                energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.graphIndicators_array);
+                vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+                break;
+              }
 
-            case "1": {
-              vm.latenessSummaries = vm.response.latenessSummaries;
-              vm.latenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryData(vm.latenessSummaries)
-              vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
-              latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels)
-              vm.latenessSummaryChartLinks = latenessSummaryCompareFactory.getLatenessSummaryLinks(vm.latenessSummaries[0].latenessSummaries)
-              $log.info(vm.latenessSummaryChartLinks)
-              break;
-            }
-            case "2": {
-              vm.speedDistances = vm.response.speedDistanceReports;
-              vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
-              speedDistanceDataCompare_All(vm.speedDistances)
-              vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
-              vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
-              $log.info(vm.speedDistances)
-              break;
-            }
-            default: {
-            }
+            case "1":
+              {
+                vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
+                vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
+                vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
+                latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels)
+                break;
+              }
+            case "2":
+              {
+                vm.speedDistances = _.pluck(vm.response.driverMultipleRunsReportList, 'speedDistanceReportPerLinkWithLink')
+                vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
+                speedDistanceDataCompare_All(vm.speedDistances)
+                vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+                vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+                var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks);
+                speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.getlatenessSummaryChartLabels)
+                break;
+              }
+            default:
+              {}
           }
         })
         // end of each function
@@ -69,44 +78,50 @@
       speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)
       speedDistanceCompareDataFactory.getActualSpeedDistance(speedDistanceData);
       speedDistanceCompareDataFactory.getFlatoutSpeedDistance(speedDistanceData);
-      speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
-      speedDistanceCompareDataFactory.getSpeedRestrictions(speedDistanceData);
-      speedDistanceCompareDataFactory.getElevation(speedDistanceData);
+      // speedDistanceCompareDataFactory.getOptimalSpeedDistance(speedDistanceData);
+      // speedDistanceCompareDataFactory.getSpeedRestrictions(speedDistanceData);
+      // speedDistanceCompareDataFactory.getElevation(speedDistanceData);
       vm.getDriverAdvice = speedDistanceCompareDataFactory.getDriverAdvice(speedDistanceData)
     };
 
-    vm.linkOnselect = function (selectedLink){
-      if (selectedLink){
-        _.each(vm.graphLinks, function (val, key){
-          if (vm.graphLinks[key] == selectedLink){
+    vm.linkOnselect = function (selectedLink) {
+      // $log.info(selectedLink)
+      if (selectedLink) {
+        _.each(vm.graphLinks, function (val, key) {
+          if (vm.graphLinks[key].stations == selectedLink) {
             vm.indexOfSelectedLink = key
             return vm.indexOfSelectedLink;
           }
         })
         $log.info("the selcted link is " + vm.indexOfSelectedLink)
-        speedDistanceCompareOnSelectLink();
-        
-      }else{
-        $log.info("You did not select a link.");
+        speedDistanceCompareOnSelectLink(vm.indexOfSelectedLink)
+
+      } else {
+        vm.indexOfSelectedLink = null;
+        // $log.info("the selcted link is " + vm.indexOfSelectedLink)
       }
+      energySummaryLinksOnselect(vm.indexOfSelectedLink)
+      latenessSummaryLinksOnselect(vm.indexOfSelectedLink)
     };
 
-    function speedDistanceCompareOnSelectLink() {
+    function speedDistanceCompareOnSelectLink(indexOfSelectedLink) {
       speedDistanceCompareDriverAdviceOfSelectedLink();
-      vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, vm.indexOfSelectedLink, vm.graphLinks)
-      vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, vm.indexOfSelectedLink, vm.graphLinks)
-      speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(vm.modData_Kph, vm.speedDistanceChartLabels);
-      
-      if (vm.radioModel === 'Kph') {
-        speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, vm.indexOfSelectedLink);
-      //  speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink);
-      }else if (vm.radioModel === 'Mph'){
-        speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, vm.indexOfSelectedLink);
-      }
-      
+      // $log.info(vm.speedDistanceData_Kph)
+      vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, indexOfSelectedLink, vm.graphLinks)
+      speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, indexOfSelectedLink);
+
+      // if (vm.radioModel === 'Kph') {
+      //   vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, vm.indexOfSelectedLink, vm.graphLinks)
+      //   speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, vm.indexOfSelectedLink);
+      //   //  speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink);
+      // } else if (vm.radioModel === 'Mph') {
+      //   vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, vm.indexOfSelectedLink, vm.graphLinks)
+      //   speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, vm.indexOfSelectedLink);
+      // }
+
     }
 
-    function speedDistanceCompareDriverAdviceOfSelectedLink(){
+    function speedDistanceCompareDriverAdviceOfSelectedLink() {
       vm.runtimeDescription = vm.getDriverAdvice[vm.indexOfSelectedLink].runtimeDescription
       vm.earlyDepartureAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyDepartureAdvice
       vm.earlyArrivalAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyArrivalAdvice
@@ -118,18 +133,20 @@
     }
 
     vm.links = {};
-    vm.energySummaryLinksOnselect = function () {
-      // $log.debug(vm.links.selected);
-      UtilityService.addCheckedItems(vm.links.selected);
-      vm.newenergySummaryData = energySummaryCompareFactory.getenergySummaryLinksData(vm.energySummaries, vm.links.selected);
-      vm.newEnergySummaryTotal = energySummaryCompareFactory.getEnergySummarySumofLinks(vm.newenergySummaryData.energySummaryLinksData_array);
-      vm.graphIndicators_array = vm.newenergySummaryData.graphIndicators_array;
-      // $log.debug(vm.newEnergySummaryTotal);
-      energySummaryCompareFactory.setEnergySummaryChart(vm.newEnergySummaryTotal, vm.graphIndicators_array);
+
+    function energySummaryLinksOnselect(indexOfSelectedLink) {
+      if (indexOfSelectedLink == null) {
+        energySummaryCompareFactory.setEnergySummaryChart(vm.energySummaryData);
+      } else {
+        vm.newenergySummaryData = energySummaryCompareFactory.getenergySummaryLinksData(vm.energySummaries, indexOfSelectedLink);
+        vm.graphIndicators_array = vm.newenergySummaryData.graphIndicators_array;
+        energySummaryCompareFactory.setEnergySummaryChart(vm.newenergySummaryData);
+      }
+
     };
 
     vm.latenessLinks = {}
-    vm.latenessSummaryKeyOnChange = function(latenessSummaryKey){
+    vm.latenessSummaryKeyOnChange = function (latenessSummaryKey) {
       $log.debug(latenessSummaryKey)
       if (!latenessSummaryKey) {
         //do something
@@ -137,15 +154,20 @@
         return;
       }
     }
-    vm.latenessSummaryLinksOnselect = function () {
-      // $log.debug(vm.latenessLinks.selected)
 
-      vm.newLatenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryLinksData( vm.latenessSummaries, vm.latenessLinks.selected)
-      latenessSummaryCompareFactory.setLatenessSummaryChart(vm.newLatenessSummaryData)
-
+    function latenessSummaryLinksOnselect(indexOfSelectedLink) {
+      $log.info(indexOfSelectedLink)
+      if (indexOfSelectedLink == null) {
+        $log.info(vm.latenessSummaryData)
+        latenessSummaryCompareFactory.setLatenessSummaryChart(vm.latenessSummaryData)
+      } else {
+        vm.newLatenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryLinksData(vm.latenessSummaries, indexOfSelectedLink)
+        $log.info(vm.newLatenessSummaryData)
+        latenessSummaryCompareFactory.setLatenessSummaryChart(vm.newLatenessSummaryData)
+      }
     }
-    
-    vm.radioModel = 'Kph';
+
+
     $scope.$watch('vm.radioModel', function (newValue, oldValue) {
       if (newValue !== oldValue) {
         if (newValue == 'Kph') {
@@ -158,7 +180,7 @@
     })
 
 
-    vm.gridOnOff=true;
+    vm.gridOnOff = true;
     vm.gridbtnOnChange = function (btn) {
       speedDistanceCompareChartFactory.setGridOnOff(btn)
     }
