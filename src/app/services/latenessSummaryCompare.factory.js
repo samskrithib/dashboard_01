@@ -6,7 +6,7 @@
     .module('dassimFrontendV03')
     .service('latenessSummaryCompareFactory', latenessSummaryCompareFactory);
 
-  function latenessSummaryCompareFactory($log, $window, DRIVE_COLORS) {
+  function latenessSummaryCompareFactory($log, $window, DRIVE_COLORS, chartColors) {
     var achievableArrivalLatenessInSeconds, actualArrivalEarlinessInSeconds, actualArrivalLatenessInSeconds;
     var latenessSummary_allLinks;
     var latenessSummaryChart;
@@ -16,36 +16,24 @@
           actualArrivalEarlinessInSeconds_array = [],
           actualArrivalLatenessInSeconds_array = [],
           latenessSummaryData = {};
-          $log.info(latenessSummaries)
-        // _.each(latenessSummaries, function (val, key) {
-        //   var LSPJ = latenessSummaries[key]
-        //   $log.info(LSPJ)
-          //   achievableArrivalLatenessInSeconds = latenessSummaries[key].achievableArrivalLatenessInSeconds
-          //   actualArrivalEarlinessInSeconds = latenessSummaries[key].actualArrivalEarlinessInSeconds
-          //   actualArrivalLatenessInSeconds = latenessSummaries[key].actualArrivalLatenessInSeconds
-
-          //   achievableArrivalLatenessInSeconds_array.push(achievableArrivalLatenessInSeconds)
-          //   actualArrivalEarlinessInSeconds_array.push(actualArrivalEarlinessInSeconds)
-          //   actualArrivalLatenessInSeconds_array.push(actualArrivalLatenessInSeconds)
-        // })
-        // latenessSummaryData = {
-        //   'actualArrivalLatenessInSeconds': actualArrivalLatenessInSeconds_array,
-        //   'actualArrivalEarlinessInSeconds': actualArrivalEarlinessInSeconds_array,
-        //   'achievableArrivalLatenessInSeconds': achievableArrivalLatenessInSeconds_array,
-        // }
-        // $log.info(latenessSummaryData)
         return latenessSummaries;
       },
 
-      getLatenessSummaryLinksData: function (latenessSummaries, linkIndex) {
+      getLatenessSummaryLinksData: function (latenessSummaries, linkIndex, indicatorsData) {
         var latenessSummaryData_Array = [];
-
+        var runtimePerformanceIndicators = []
         _.each(latenessSummaries, function (val, key) {
           var LS = latenessSummaries[key].latenessSummaries[linkIndex].latenessSummary
+          var runtimePerfromanceIndicatorsPerLink = indicatorsData[key].trainUnitPerformancePerLink[linkIndex].runtimePerformanceIndicator
           latenessSummaryData_Array.push(LS)
+          runtimePerformanceIndicators.push(runtimePerfromanceIndicatorsPerLink)
+          // $log.info(runtimePerformanceIndicators)
         })
-        $log.info(latenessSummaryData_Array)
-        return latenessSummaryData_Array;
+        // $log.info(latenessSummaryData_Array)
+        return {
+          latenessSummaryData_Array:latenessSummaryData_Array,
+          runtimePerformanceIndicators: runtimePerformanceIndicators
+        };
       },
 
       getLatenessSummaryLinks: function (latenessSummaries) {
@@ -65,11 +53,11 @@
       },
 
       //------------------------Generate OnTimeRunning chart -----------------------------------------//
-      getLatenessSummaryChart: function (data, graphLabels) {
+      getLatenessSummaryChart: function (data, graphLabels, performanceIndicators) {
         latenessSummaryChart = c3.generate({
-          bindto: '#chart1',
+          bindto: '#latenessSummaryChart',
           size: {
-            height: 400
+            height: 300
           },
           data: {
             json: data,
@@ -80,7 +68,12 @@
             type: 'bar',
             labels: true,
             colors: {
-              'actualArrivalEarlinessInSeconds': DRIVE_COLORS.blue,
+              'actualArrivalLatenessInSeconds':function(d) {
+                 return chartColors.colors([performanceIndicators[d.x]]);
+              },
+              'actualArrivalEarlinessInSeconds': function(d) {
+                 return chartColors.colors([performanceIndicators[d.x]]);
+              },
               'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
             }
           },
@@ -107,14 +100,23 @@
         });
       },
 
-      setLatenessSummaryChart: function (data) {
+      setLatenessSummaryChart: function (data, performanceIndicators) {
         latenessSummaryChart.unload({
           done: function () {
             latenessSummaryChart.load({
               json: data,
               keys: {
                 value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds'],
-              }
+              },
+              colors: {
+              'actualArrivalLatenessInSeconds':function(d) {
+                 return chartColors.colors([performanceIndicators[d.x]]);
+              },
+              'actualArrivalEarlinessInSeconds': function(d) {
+                 return chartColors.colors([performanceIndicators[d.x]]);
+              },
+              'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
+            }
             })
           }
 

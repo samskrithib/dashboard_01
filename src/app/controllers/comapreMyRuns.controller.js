@@ -8,7 +8,7 @@
     .controller('CompareMyRunsController', CompareMyRunsController);
 
   function CompareMyRunsController(UrlGenerator, httpCallsService,
-    $scope, $log, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
+    $scope, $log, unitPerformanceScoreCompareFactory, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [{
         id: "0",
@@ -37,21 +37,32 @@
           switch (vm.tabs[key].id) {
             case "0":
               {
-                // $log.info(_.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney'))
-                vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
-                vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
-                energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
-                energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.graphIndicators_array);
-                vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+                vm.unitPerformanceData = _.pluck(vm.response.driverMultipleRunsReportList, 'trainUnitPerformancePerJourney');
+                // vm.trainUnitPerformancePerLinks_allRuns = [vm.unitPerformanceScores.trainUnitPerformancePerLink]
+                // vm.stationToStationLinks = _.pluck(vm.unitPerformanceScores.trainUnitPerformancePerLink, 'link')
+                vm.unitPerformanceScoreChartLabels = unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChartLabels();
+                vm.chartIndicators = _.pluck(vm.unitPerformanceData, 'journeyPerformanceIndicator')
+                // vm.energyPerformanceIndicators = [vm.unitPerformanceScores.energyPerformanceIndicator]
+                // vm.latenessPerformanceIndicators = [vm.unitPerformanceScores.runtimePerformanceIndicator]
+                // vm.trainUnitPerformancePerJourneyMessage = vm.unitPerformanceScores.message
+                unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChart(vm.unitPerformanceData, vm.unitPerformanceScoreChartLabels, vm.chartIndicators)
                 break;
               }
 
             case "1":
               {
+                vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
+                vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
+                energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
+                energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.chartIndicators);
+                // vm.energyPerformanceIndicators = _.pluck(vm.unitPerformanceData, 'energyPerformanceIndicator')
+                vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+                // $log.info(vm.energyPerformanceIndicators)
+
                 vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
                 vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
                 vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
-                latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels)
+                latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels, vm.chartIndicators)
                 break;
               }
             case "2":
@@ -85,7 +96,6 @@
     };
 
     vm.linkOnselect = function (selectedLink) {
-      // $log.info(selectedLink)
       if (selectedLink) {
         _.each(vm.graphLinks, function (val, key) {
           if (vm.graphLinks[key].stations == selectedLink) {
@@ -93,16 +103,25 @@
             return vm.indexOfSelectedLink;
           }
         })
-        $log.info("the selcted link is " + vm.indexOfSelectedLink)
         speedDistanceCompareOnSelectLink(vm.indexOfSelectedLink)
 
       } else {
         vm.indexOfSelectedLink = null;
-        // $log.info("the selcted link is " + vm.indexOfSelectedLink)
       }
       energySummaryLinksOnselect(vm.indexOfSelectedLink)
       latenessSummaryLinksOnselect(vm.indexOfSelectedLink)
+      unitPerformanceLinksOnSelect(vm.indexOfSelectedLink)
     };
+
+    function unitPerformanceLinksOnSelect(indexOfSelectedLink) {
+      if (indexOfSelectedLink == null) {
+        unitPerformanceScoreCompareFactory.setUnitPerformanceScoreChart(vm.unitPerformanceData, vm.chartIndicators);
+      } else {
+        vm.newUnitPerformanceData = unitPerformanceScoreCompareFactory.getUnitPerfromanceLinksData(vm.unitPerformanceData, indexOfSelectedLink);
+        var performanceIndicatorsArray = vm.newUnitPerformanceData.performanceIndicators;
+        unitPerformanceScoreCompareFactory.setUnitPerformanceScoreChart(vm.newUnitPerformanceData.array, performanceIndicatorsArray);
+      }
+    }
 
     function speedDistanceCompareOnSelectLink(indexOfSelectedLink) {
       speedDistanceCompareDriverAdviceOfSelectedLink();
@@ -136,11 +155,12 @@
 
     function energySummaryLinksOnselect(indexOfSelectedLink) {
       if (indexOfSelectedLink == null) {
-        energySummaryCompareFactory.setEnergySummaryChart(vm.energySummaryData);
+        energySummaryCompareFactory.setEnergySummaryChart(vm.energySummaryData, vm.chartIndicators);
       } else {
-        vm.newenergySummaryData = energySummaryCompareFactory.getenergySummaryLinksData(vm.energySummaries, indexOfSelectedLink);
-        vm.graphIndicators_array = vm.newenergySummaryData.graphIndicators_array;
-        energySummaryCompareFactory.setEnergySummaryChart(vm.newenergySummaryData);
+        vm.newenergySummaryData = energySummaryCompareFactory.getenergySummaryLinksData(vm.energySummaries, indexOfSelectedLink, vm.unitPerformanceData);
+        vm.newEnergySummaryLinksData = vm.newenergySummaryData.energySummaryLinksData_array;
+        vm.energyPerformanceIndicators_array = vm.newenergySummaryData.energyPerformanceIndicators_array;
+        energySummaryCompareFactory.setEnergySummaryChart( vm.newEnergySummaryLinksData, vm.energyPerformanceIndicators_array);
       }
 
     };
@@ -156,14 +176,18 @@
     }
 
     function latenessSummaryLinksOnselect(indexOfSelectedLink) {
-      $log.info(indexOfSelectedLink)
+      var newLatenessSummaryLinksData = [];
+      var runtimePerformanceLinksData = [];
+      // $log.info(indexOfSelectedLink)
       if (indexOfSelectedLink == null) {
-        $log.info(vm.latenessSummaryData)
-        latenessSummaryCompareFactory.setLatenessSummaryChart(vm.latenessSummaryData)
+        // $log.info(vm.latenessSummaryData)
+        latenessSummaryCompareFactory.setLatenessSummaryChart(vm.latenessSummaryData, vm.chartIndicators)
       } else {
-        vm.newLatenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryLinksData(vm.latenessSummaries, indexOfSelectedLink)
-        $log.info(vm.newLatenessSummaryData)
-        latenessSummaryCompareFactory.setLatenessSummaryChart(vm.newLatenessSummaryData)
+        var newLatenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryLinksData(vm.latenessSummaries, indexOfSelectedLink, vm.unitPerformanceData)
+        newLatenessSummaryLinksData = newLatenessSummaryData.latenessSummaryData_Array;
+        runtimePerformanceLinksData = newLatenessSummaryData.runtimePerformanceIndicators
+        $log.info(runtimePerformanceLinksData)
+        latenessSummaryCompareFactory.setLatenessSummaryChart(newLatenessSummaryLinksData, runtimePerformanceLinksData)
       }
     }
 

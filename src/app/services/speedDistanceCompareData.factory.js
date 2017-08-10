@@ -57,7 +57,7 @@
           colors[actualDriving[0]] = DRIVE_COLORS.SingleShadeColorPattern[key]
           colors[flatoutDriving[0]] = DRIVE_COLORS.SingleShadeColorPattern[key]
         })
-        $log.info(colors)
+        // $log.info(colors)
 
         return {
           data: {
@@ -133,7 +133,7 @@
           actualSpeed_Mph_AllRuns.push(actualSpeedMph_Array)
           actualSpeedPosition_Mph_AllRuns.push(actualSpeedPositionM_Array)
 
-          $log.info(actualSpeedPosition_Kph_AllRuns)
+          // $log.info(actualSpeedPosition_Kph_AllRuns)
 
         })
       },
@@ -173,7 +173,7 @@
           flatoutSpeed_Mph_AllRuns.push(flatoutSpeedMph_Array)
           flatoutSpeedPosition_Mph_AllRuns.push(flatoutSpeedPositionM_Array)
 
-          $log.info(flatoutSpeedPosition_Kph_AllRuns)
+          // $log.info(flatoutSpeedPosition_Kph_AllRuns)
 
         })
       },

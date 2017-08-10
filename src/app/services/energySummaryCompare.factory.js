@@ -6,7 +6,7 @@
     .module('dassimFrontendV03')
     .factory('energySummaryCompareFactory', energySummaryCompareFactory);
 
-  function energySummaryCompareFactory($log, $window, $filter, energySummaryBarColors, DRIVE_COLORS) {
+  function energySummaryCompareFactory($log, $window, $filter, energySummaryBarColors, chartColors, DRIVE_COLORS) {
     var actualEnergyTotal, optimalEnergyTotal, onTimeOptimalEnergyTotal, targetEnergyTotal;
     var energySummaryValues = [];
     var EnergySummaryChart;
@@ -22,42 +22,15 @@
         // $log.debug(energySummaryDataAllRuns_array);
         return energySummaryDataAllRuns_array;
       },
-      // Data to generate Total or Sum of selected links Energy sumamry report
-      getEnergySummarySumofLinks: function (energySummaryDataAllRuns_array) {
-        var SumOfLinksEnergySummaryDataAllRuns_array = [];
-        _.each(energySummaryDataAllRuns_array, function (val, key) {
-          // _.reduce sums up all the values and adds to memo
-          actualEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) {
-            return memo + num.actualEnergyConsumption;
-          }, 0), 2);
-          optimalEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) {
-            return memo + num.optimalEnergyConsumption;
-          }, 0), 2);
-          onTimeOptimalEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) {
-            return memo + num.onTimeOptimalEnergyConsumption;
-          }, 0), 2);
-          targetEnergyTotal = $filter('number')(_.reduce(energySummaryDataAllRuns_array[key], function (memo, num) {
-            return memo + num.targetEnergyConsumption;
-          }, 0), 2);
-          //    $log.debug(energySummaryDataAllRuns_array[key])
-          energySummaryValues = {
-            'name': 'Run_' + (key + 1),
-            'actualEnergyConsumption': actualEnergyTotal,
-            'optimalEnergyConsumption': optimalEnergyTotal,
-            'onTimeOptimalEnergyConsumption': onTimeOptimalEnergyTotal,
-            'targetEnergyConsumption': targetEnergyTotal
-          };
-          SumOfLinksEnergySummaryDataAllRuns_array.push(energySummaryValues)
-        })
-        return SumOfLinksEnergySummaryDataAllRuns_array;
-      },
+
       /// Data for view specific links in Energy summary report
-      getenergySummaryLinksData: function (data, linkIndex) {
+      getenergySummaryLinksData: function (data, linkIndex, indicatorsData) {
         var energySummaryLinksData_array = [];
-        var graphIndicators_array = [];
+        var energyPerformanceIndicators_array = [];
+        $log.info(indicatorsData)
         _.each(data, function (val, key) {
           var ES = data[key].energySummaryLinks[linkIndex].energySummary
-
+          var energyPerformanceIndicatorPerLink = indicatorsData[key].trainUnitPerformancePerLink[linkIndex].energyPerformanceIndicator
           var energySummaryValues = {
             'name': 'Run_' + (key + 1),
             'actualEnergyConsumption': ES.actualEnergyConsumption,
@@ -66,13 +39,14 @@
             'targetEnergyConsumption': ES.targetEnergyConsumption
           };
           energySummaryLinksData_array.push(energySummaryValues)
+         energyPerformanceIndicators_array.push(energyPerformanceIndicatorPerLink)
         })
         // $log.info(energySummaryLinksData_array)
-        return energySummaryLinksData_array
-        // return {
-        //   energySummaryLinksData_array: energySummaryLinksData_array,
-        //   graphIndicators_array: graphIndicators_array
-        // }
+        // return energySummaryLinksData_array
+        return {
+          energySummaryLinksData_array: energySummaryLinksData_array,
+          energyPerformanceIndicators_array: energyPerformanceIndicators_array
+        }
       },
 
       getEnergySummaryGraphLinks: function (data) {
@@ -99,9 +73,9 @@
       },
 
       //------------------------------Generate c3 chart----------------------------------------------//
-      getEnergySummaryChart: function (energySummary, graphLabels, graphIndicator) {
+      getEnergySummaryChart: function (energySummary, graphLabels, performanceIndicators) {
         EnergySummaryChart = c3.generate({
-          bindto: '#chart0',
+          bindto: '#chart1',
           size: {
             height: 350
           },
@@ -114,8 +88,18 @@
             type: 'bar',
             names: graphLabels.xAxisLabels,
             labels: true,
-
-            colors: energySummaryBarColors.barColors_JsonInput(graphIndicator)
+            colors: {
+              'actualEnergyConsumption': function (d) {
+                return chartColors.colors([performanceIndicators[d.x]]);
+              },
+              'optimalEnergyConsumption': function (d) {
+                return DRIVE_COLORS.green
+              },
+              'onTimeOptimalEnergyConsumption': function (d) {
+                return DRIVE_COLORS.green_light
+              }
+            },
+            // colors: energySummaryBarColors.barColors_JsonInput(performanceIndicators)
           },
           title: {
             text: graphLabels.graphTitle
@@ -150,14 +134,24 @@
       },
 
 
-      setEnergySummaryChart: function (dataColumns) {
+      setEnergySummaryChart: function (dataColumns, performanceIndicators) {
         EnergySummaryChart.load({
           json: dataColumns,
           keys: {
             // x: 'name',
             value: ['actualEnergyConsumption', 'onTimeOptimalEnergyConsumption', 'optimalEnergyConsumption']
           },
-          //   colors: energySummaryBarColors.barColors_JsonInput(graphIndicator)
+          colors: {
+              'actualEnergyConsumption': function (d) {
+                return chartColors.colors([performanceIndicators[d.x]]);
+              },
+              'optimalEnergyConsumption': function (d) {
+                return DRIVE_COLORS.green
+              },
+              'onTimeOptimalEnergyConsumption': function (d) {
+                return DRIVE_COLORS.green_light
+              }
+            }
 
         });
       },

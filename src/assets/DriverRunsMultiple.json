@@ -220,7 +220,7 @@
             },
             "trainUnitPerformancePerJourney": {
                 "percentageScore": 95,
-                "journeyPerformanceIndicator": "GOOD",
+                "journeyPerformanceIndicator": "POOR",
                 "message": "Good Unit Performance",
                 "trainUnitPerformancePerLink": [
                     {
