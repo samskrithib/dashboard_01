@@ -7,10 +7,10 @@
 
   function speedDistanceCompareDataFactory($log, $filter, mathUtilsService, DRIVE_COLORS) {
     var seriesNameMatchers = [
-      "ActualDriving", "actualPosition",
-      "FlatoutDriving", "flatoutPosition",
-      "EcoDriving", "optimalPosition",
-      "SpeedLimit", "endPoint", "beginPoint",
+      "Actual Driving", "actualPosition",
+      "Optimal Driving(Flatout)", "flatoutPosition",
+      "Optimal Driving(Eco)", "optimalPosition",
+      "Speed Limit", "endPoint", "beginPoint",
       "scaledPosition", "Elevation"
     ];
     var link_Array = [];
@@ -25,6 +25,19 @@
       flatoutSpeed_Mph_AllRuns = [],
       flatoutSpeedPosition_Mph_AllRuns = [];
 
+    var optimalSpeed_Kph_AllRuns = [];
+    var optimalSpeedPosition_Kph_AllRuns = [],
+      optimalSpeed_Mph_AllRuns = [],
+      optimalSpeedPosition_Mph_AllRuns = [];
+
+    var scaledElevation_Array = [],
+      scaledElevationPosition_Array = [],
+      scaledElevationPositionM_Array = [];
+
+    var speedRestrictionsValues_Array = [];
+    var speedRestrictionsPoints_Array = [],
+      speedRestrictionsValuesMph_Array = [],
+      speedRestrictionsPointsM_Array = [];
     return {
       getSpeedDistanceGraphLabels: function () {
         var graphLabelsAndTitles = {
@@ -39,8 +52,9 @@
         var columns = [];
         var colors = {};
         var xs = {};
-        var hideLegendArray=[];
-        var allLegendsArray=[];
+        var names = {};
+        var hideLegendArray = [];
+        var allLegendsArray = [];
 
         _.each(speedDistances.actualDriving, function (value, key) {
           var actualDriving = speedDistances.actualDriving[key][linkIndex]
@@ -48,25 +62,42 @@
           var flatoutDriving = speedDistances.flatoutDriving[key][linkIndex]
           var flatoutPosition = speedDistances.flatoutPosition[key][linkIndex]
 
-          columns.push(actualDriving, actualPosition, flatoutDriving, flatoutPosition)
+          var optimalDriving = speedDistances.optimalDriving[key][linkIndex]
+          var optimalPosition = speedDistances.optimalPosition[key][linkIndex]
+
+          columns.push(actualDriving, actualPosition, flatoutDriving, flatoutPosition, optimalDriving, optimalPosition)
           hideLegendArray.push(flatoutDriving[0])
           allLegendsArray.push(actualDriving[0], flatoutDriving[0])
 
-          xs[flatoutDriving[0]] = flatoutPosition[0]
           xs[actualDriving[0]] = actualPosition[0]
-          colors[actualDriving[0]] = DRIVE_COLORS.SingleShadeColorPattern[key]
-          colors[flatoutDriving[0]] = DRIVE_COLORS.SingleShadeColorPattern[key]
+          xs[flatoutDriving[0]] = flatoutPosition[0]
+          xs[optimalDriving[0]] = optimalPosition[0]
+          colors[actualDriving[0]] = DRIVE_COLORS.blue_dark
+          colors[flatoutDriving[0]] = DRIVE_COLORS.orange
+          colors[optimalDriving[0]] = DRIVE_COLORS.green
         })
         // $log.info(colors)
+        var scaledElevation = speedDistances.Elevation[linkIndex];
+        var scaledPosition = speedDistances.scaledPosition[linkIndex];
+
+        var speedLimit = speedDistances.speedLimit[linkIndex]
+        var endPoint = speedDistances.endPoint[linkIndex]
+
+        columns.push(scaledElevation, scaledPosition, speedLimit, endPoint)
+        xs[scaledElevation[0]] = scaledPosition[0]
+        xs[speedLimit[0]] = endPoint[0]
+        colors[scaledElevation[0]] = DRIVE_COLORS.brown;
+        colors[speedLimit[0]] = '#d62728'
 
         return {
           data: {
             xs: xs,
             colors: colors,
             columns: columns,
-            // axes: {
-            //     Elevation: 'y2'
-            // },
+
+            axes: {
+              Elevation: 'y2'
+            },
             xSort: false,
             // labels: false
           },
@@ -179,96 +210,94 @@
       },
 
       getOptimalSpeedDistance: function (speedDistances) {
-        optimalSpeed_Array = [];
-        optimalSpeedPosition_Array = [];
-        optimalSpeedMph_Array = [];
-        optimalSpeedPositionM_Array = [];
-        dataEntryIterativeCount = 0;
         _.each(speedDistances, function (val, key) {
-          var speedDistanceReportPerJourney = speedDistances[key];
+          var speedDistanceReportPerJourney = speedDistances[key],
+            optimalSpeedPosition_Array = [],
+            optimalSpeed_Array = [],
+            optimalSpeedMph_Array = [],
+            optimalSpeedPositionM_Array = [];
           _.each(speedDistanceReportPerJourney, function (val, key2) {
-            optimalSpeed = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.optimalSpeedAndPositions, 'speed');
-            optimalSpeedPosition = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.optimalSpeedAndPositions, 'position');
+            var optimalSpeed_Kph = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.optimalSpeedAndPositions, 'speed');
+            var optimalSpeedPosition = _.pluck(speedDistanceReportPerJourney[key2].speedDistanceProfiles.optimalSpeedAndPositions, 'position');
 
-            optimalSpeedPositionM = [];
-            optimalSpeedMph = [];
+            var optimalSpeedPositionM = [];
+            var optimalSpeedMph = [];
 
             mathUtilsService.convertMetersToMiles(optimalSpeedPosition, optimalSpeedPositionM);
-            mathUtilsService.convertKphtoMph(optimalSpeed, optimalSpeedMph);
+            mathUtilsService.convertKphtoMph(optimalSpeed_Kph, optimalSpeedMph);
 
-            optimalSpeed.splice(0, 0, seriesNameMatchers[4] + dataEntryIterativeCount);
-            optimalSpeed_Array.push(optimalSpeed);
+            optimalSpeed_Kph.splice(0, 0, seriesNameMatchers[4] + " Run_" + key);
+            optimalSpeed_Array.push(optimalSpeed_Kph);
 
-            optimalSpeedPosition.splice(0, 0, seriesNameMatchers[5] + dataEntryIterativeCount);
+            optimalSpeedPosition.splice(0, 0, seriesNameMatchers[5] + " Run_" + key);
             optimalSpeedPosition_Array.push(optimalSpeedPosition);
 
-            optimalSpeedMph.splice(0, 0, seriesNameMatchers[4] + dataEntryIterativeCount);
+            optimalSpeedMph.splice(0, 0, seriesNameMatchers[4] + " Run_" + key);
             optimalSpeedMph_Array.push(optimalSpeedMph);
 
-            optimalSpeedPositionM.splice(0, 0, seriesNameMatchers[5] + dataEntryIterativeCount);
+            optimalSpeedPositionM.splice(0, 0, seriesNameMatchers[5] + " Run_" + key);
             optimalSpeedPositionM_Array.push(optimalSpeedPositionM);
 
-            dataEntryIterativeCount = dataEntryIterativeCount + 1;
           })
+          optimalSpeed_Kph_AllRuns.push(optimalSpeed_Array)
+          optimalSpeedPosition_Kph_AllRuns.push(optimalSpeedPosition_Array)
+          optimalSpeed_Mph_AllRuns.push(optimalSpeedMph_Array)
+          optimalSpeedPosition_Mph_AllRuns.push(optimalSpeedPositionM_Array)
+
+          // $log.info(flatoutSpeedPosition_Kph_AllRuns)
 
         })
       },
 
-      getSpeedRestrictions: function (speedDistances) {
-        speedRestrictionsValues_Array = [];
-        speedRestrictionsPoints_Array = [];
+      getSpeedRestrictions: function (trackInfo) {
+        $log.info(trackInfo)
 
-        _.each(speedDistances, function (val, key) {
-          var speedDistanceReportPerJourney = speedDistances[key].speedDistanceReportPerJourney;
-          _.each(speedDistanceReportPerJourney, function (val, key2) {
-            speedRestrictionsValue = _.pluck(speedDistanceReportPerJourney[key2].speedRestrictions, 'value');
-            speedRestrictionsPoint = _.pluck(speedDistanceReportPerJourney[key2].speedRestrictions, 'point');
+        _.each(trackInfo, function (val, key) {
+          var speedRestrictionsPerLink = trackInfo[key].speedRestrictions;
+          // _.each(speedRestrictionsPerLink, function (val, key2) {
+          var speedRestrictionsValue = _.pluck(speedRestrictionsPerLink, 'value');
+          var speedRestrictionsPoint = _.pluck(speedRestrictionsPerLink, 'point');
 
-            speedRestrictionsValueMph = [];
-            speedRestrictionsPointM = [];
+          var speedRestrictionsValueMph = [];
+          var speedRestrictionsPointM = [];
 
-            mathUtilsService.convertKphtoMph(speedRestrictionsValue, speedRestrictionsValueMph);
-            mathUtilsService.convertMetersToMiles(speedRestrictionsPoint, speedRestrictionsPointM);
 
-            speedRestrictionsValue.splice(0, 0, seriesNameMatchers[6] + key2);
-            speedRestrictionsValues_Array.push(speedRestrictionsValue);
+          mathUtilsService.convertKphtoMph(speedRestrictionsValue, speedRestrictionsValueMph);
+          mathUtilsService.convertMetersToMiles(speedRestrictionsPoint, speedRestrictionsPointM);
 
-            speedRestrictionsPoint.splice(0, 0, seriesNameMatchers[7] + key2);
-            speedRestrictionsPoints_Array.push(speedRestrictionsPoint);
+          speedRestrictionsValue.splice(0, 0, seriesNameMatchers[6]);
+          speedRestrictionsValues_Array.push(speedRestrictionsValue);
 
-            speedRestrictionsValueMph.splice(0, 0, seriesNameMatchers[6] + key2);
-            speedRestrictionsValuesMph_Array.push(speedRestrictionsValueMph);
+          speedRestrictionsPoint.splice(0, 0, seriesNameMatchers[7]);
+          speedRestrictionsPoints_Array.push(speedRestrictionsPoint);
 
-            speedRestrictionsPointM.splice(0, 0, seriesNameMatchers[7] + key2);
-            speedRestrictionsPointsM_Array.push(speedRestrictionsPointM);
-          })
+          speedRestrictionsValueMph.splice(0, 0, seriesNameMatchers[6]);
+          speedRestrictionsValuesMph_Array.push(speedRestrictionsValueMph);
+
+          speedRestrictionsPointM.splice(0, 0, seriesNameMatchers[7]);
+          speedRestrictionsPointsM_Array.push(speedRestrictionsPointM);
+          // })
 
         })
       },
 
-      getElevation: function (speedDistances) {
-        scaledElevation_Array = [];
-        scaledElevationPosition_Array = [];
-        scaledElevationPositionM_Array = [];
+      getElevation: function (trackInfo) {
+        _.each(trackInfo, function (val, key) {
+          var scaledElevationPerLink = trackInfo[key].scaledElevations;
+          var scaledElevationPosition = _.pluck(scaledElevationPerLink, 'position');
+          var scaledElevation = _.pluck(scaledElevationPerLink, 'scaledElevation');
 
-        _.each(speedDistances, function (val, key) {
-          var speedDistanceReportPerJourney = speedDistances[key].speedDistanceReportPerJourney;
-          _.each(speedDistanceReportPerJourney, function (val, key2) {
-            scaledElevationPosition = _.pluck(speedDistanceReportPerJourney[key2].scaledElevations, 'position');
-            scaledElevation = _.pluck(speedDistanceReportPerJourney[key2].scaledElevations, 'scaledElevation');
+          var scaledElevationPositionM = [];
+          mathUtilsService.convertMetersToMiles(scaledElevationPosition, scaledElevationPositionM);
 
-            scaledElevationPositionM = [];
-            mathUtilsService.convertMetersToMiles(scaledElevationPosition, scaledElevationPositionM);
+          scaledElevationPosition.splice(0, 0, seriesNameMatchers[9]);
+          scaledElevationPosition_Array.push(scaledElevationPosition);
 
-            scaledElevationPosition.splice(0, 0, seriesNameMatchers[9] + key2);
-            scaledElevationPosition_Array.push(scaledElevationPosition);
+          scaledElevation.splice(0, 0, seriesNameMatchers[10]);
+          scaledElevation_Array.push(scaledElevation);
 
-            scaledElevation.splice(0, 0, seriesNameMatchers[10] + key2);
-            scaledElevation_Array.push(scaledElevation);
-
-            scaledElevationPositionM.splice(0, 0, seriesNameMatchers[9] + key2);
-            scaledElevationPositionM_Array.push(scaledElevationPositionM);
-          })
+          scaledElevationPositionM.splice(0, 0, seriesNameMatchers[9]);
+          scaledElevationPositionM_Array.push(scaledElevationPositionM);
 
         })
       },
@@ -280,12 +309,12 @@
           actualPosition: actualSpeedPosition_Kph_AllRuns,
           flatoutDriving: flatoutSpeed_Kph_AllRuns,
           flatoutPosition: flatoutSpeedPosition_Kph_AllRuns,
-          //   ecoDriving: optimalSpeed_Array,
-          //   optimalPosition: optimalSpeedPosition_Array,
-          // speedLimit :  speedRestrictionsValues_Array,
-          // endPoint : speedRestrictionsPoints_Array,
-          // scaledPosition : scaledElevationPosition_Array,
-          // Elevation: scaledElevation_Array
+          optimalDriving: optimalSpeed_Kph_AllRuns,
+          optimalPosition: optimalSpeedPosition_Kph_AllRuns,
+          speedLimit: speedRestrictionsValues_Array,
+          endPoint: speedRestrictionsPoints_Array,
+          scaledPosition: scaledElevationPosition_Array,
+          Elevation: scaledElevation_Array
         }
       },
 
@@ -294,14 +323,14 @@
           links: link_Array,
           actualDriving: actualSpeed_Mph_AllRuns,
           actualPosition: actualSpeedPosition_Mph_AllRuns,
-          //   flatoutDriving: flatoutSpeedMph_Array,
-          //   flatoutPosition: flatoutSpeedPositionM_Array,
-          //   ecoDriving: optimalSpeedMph_Array,
-          //   optimalPosition: optimalSpeedPositionM_Array,
-          //   speedLimit: speedRestrictionsValuesMph_Array,
-          //   endPoint: speedRestrictionsPointsM_Array,
-          //   scaledPosition: scaledElevationPositionM_Array,
-          //   Elevation: scaledElevation_Array
+          flatoutDriving: flatoutSpeed_Mph_AllRuns,
+          flatoutPosition: flatoutSpeedPosition_Mph_AllRuns,
+          optimalDriving: optimalSpeed_Mph_AllRuns,
+          optimalPosition: optimalSpeedPosition_Mph_AllRuns,
+          speedLimit: speedRestrictionsValuesMph_Array,
+          endPoint: speedRestrictionsPointsM_Array,
+          scaledPosition: scaledElevationPositionM_Array,
+          Elevation: scaledElevation_Array
         }
       }
     }

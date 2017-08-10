@@ -34,22 +34,26 @@
             // hide: speedDistanceData.hideLegendArray,
             item: {
               onmouseover: function (id) {
-                var string = (_.rest(id.toString().split(" "), [1])).join();
-                var newArray = [];
-                var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
-                newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString])
-                newArray.push(id)
-                SpeedDistanceCompareChart.focus(newArray)
+                if (id == 'Speed Limit' || id == 'Elevation') {
+                  SpeedDistanceCompareChart.focus(id)
+                } else {
+                  var string = (_.rest(id.toString().split(" "), [2])).join();
+                  var newArray = [];
+                  var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
+                  newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString], id)
+                  newArray.push('Elevation', 'Speed Limit')
+                  SpeedDistanceCompareChart.focus(newArray)
+                }
+
               },
               onmouseout: function (id) {
                 SpeedDistanceCompareChart.revert()
               },
               onclick: function (id) {
-                var string = (_.rest(id.toString().split(" "), [1])).join();
+                var string = (_.rest(id.toString().split(" "), [2])).join();
                 var newArray = [];
                 var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
-                newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString])
-                newArray.push(id)
+                newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString], id)
                 SpeedDistanceCompareChart.toggle(newArray)
               }
             }
@@ -148,10 +152,11 @@
 
       },
       setSpeedDistanceCompareMph: function (speedDistanceData, selected) {
+        $log.info(speedDistanceData)
         SpeedDistanceCompareChart.unload({
           done: function () {
             SpeedDistanceCompareChart.load(
-              speedDistanceData
+              speedDistanceData.data
             )
           }
         })

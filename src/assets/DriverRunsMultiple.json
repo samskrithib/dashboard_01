@@ -220,7 +220,7 @@
             },
             "trainUnitPerformancePerJourney": {
                 "percentageScore": 95,
-                "journeyPerformanceIndicator": "POOR",
+                "journeyPerformanceIndicator": "GOOD",
                 "message": "Good Unit Performance",
                 "trainUnitPerformancePerLink": [
                     {
@@ -1099,7 +1099,7 @@
                                 "position": 6072.1
                             }
                         ],
-                        "flatoutSpeedAndPositions": [
+                        "optimalSpeedAndPositions": [
                             {
                                 "speed": 0,
                                 "position": 0
@@ -1561,7 +1561,7 @@
                                 "position": 6053
                             }
                         ],
-                        "optimalSpeedAndPositions": null
+                        "flatoutSpeedAndPositions": null
                     }
                 },
                 {
@@ -35554,81 +35554,60 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd6fff7",
-                    "sectionID": "2",
-                    "beginPoint": 0,
-                    "endPoint": 298,
-                    "speedRestrictionValue": 24.1395,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 24
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fff9",
-                    "sectionID": "2",
-                    "beginPoint": 298,
-                    "endPoint": 950,
-                    "speedRestrictionValue": 32.186,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 298,
+                    "value": 24
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fffa",
-                    "sectionID": "2",
-                    "beginPoint": 950,
-                    "endPoint": 1632,
-                    "speedRestrictionValue": 40.2325,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 298,
+                    "value": 32
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fffb",
-                    "sectionID": "2",
-                    "beginPoint": 1632,
-                    "endPoint": 3486,
-                    "speedRestrictionValue": 64.372,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 950,
+                    "value": 32
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fffc",
-                    "sectionID": "2",
-                    "beginPoint": 3486,
-                    "endPoint": 3892,
-                    "speedRestrictionValue": 40.2325,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 950,
+                    "value": 40
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fffd",
-                    "sectionID": "2",
-                    "beginPoint": 3892,
-                    "endPoint": 6030,
-                    "speedRestrictionValue": 72.4185,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 1632,
+                    "value": 40
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd6fffe",
-                    "sectionID": "2",
-                    "beginPoint": 6030,
-                    "endPoint": 6053,
-                    "speedRestrictionValue": 64.372,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 1632,
+                    "value": 64
+                },
+                {
+                    "point": 3486,
+                    "value": 64
+                },
+                {
+                    "point": 3486,
+                    "value": 40
+                },
+                {
+                    "point": 3892,
+                    "value": 40
+                },
+                {
+                    "point": 3892,
+                    "value": 72
+                },
+                {
+                    "point": 6030,
+                    "value": 72
+                },
+                {
+                    "point": 6030,
+                    "value": 64
+                },
+                {
+                    "point": 6053,
+                    "value": 64
                 }
             ],
             "scaledElevations": [
@@ -35712,70 +35691,52 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd6ffff",
-                    "sectionID": "3",
-                    "beginPoint": 0,
-                    "endPoint": 794,
-                    "speedRestrictionValue": 64.372,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 64
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70003",
-                    "sectionID": "3",
-                    "beginPoint": 794,
-                    "endPoint": 3498,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 794,
+                    "value": 64
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70004",
-                    "sectionID": "3",
-                    "beginPoint": 3498,
-                    "endPoint": 4634,
-                    "speedRestrictionValue": 88.5115,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 794,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70005",
-                    "sectionID": "3",
-                    "beginPoint": 4634,
-                    "endPoint": 10518,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3498,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70006",
-                    "sectionID": "3",
-                    "beginPoint": 10518,
-                    "endPoint": 11184,
-                    "speedRestrictionValue": 72.4185,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3498,
+                    "value": 88
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70007",
-                    "sectionID": "3",
-                    "beginPoint": 11184,
-                    "endPoint": 13675.8799,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 4634,
+                    "value": 88
+                },
+                {
+                    "point": 4634,
+                    "value": 104
+                },
+                {
+                    "point": 10518,
+                    "value": 104
+                },
+                {
+                    "point": 10518,
+                    "value": 72
+                },
+                {
+                    "point": 11184,
+                    "value": 72
+                },
+                {
+                    "point": 11184,
+                    "value": 104
+                },
+                {
+                    "point": 13675,
+                    "value": 104
                 }
             ],
             "scaledElevations": [
@@ -35867,37 +35828,28 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd70008",
-                    "sectionID": "4",
-                    "beginPoint": 0,
-                    "endPoint": 4350,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7000a",
-                    "sectionID": "4",
-                    "beginPoint": 4350,
-                    "endPoint": 4828.120096,
-                    "speedRestrictionValue": 80.465,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 4350,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7000b",
-                    "sectionID": "4",
-                    "beginPoint": 4828.120096,
-                    "endPoint": 16421.7942,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 4350,
+                    "value": 80
+                },
+                {
+                    "point": 4828,
+                    "value": 80
+                },
+                {
+                    "point": 4828,
+                    "value": 104
+                },
+                {
+                    "point": 16421,
+                    "value": 104
                 }
             ],
             "scaledElevations": [
@@ -35981,48 +35933,36 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd7000c",
-                    "sectionID": "5",
-                    "beginPoint": 0,
-                    "endPoint": 3070.325896,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7000e",
-                    "sectionID": "5",
-                    "beginPoint": 3070.325896,
-                    "endPoint": 3726.325896,
-                    "speedRestrictionValue": 88.5115,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3070,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7000f",
-                    "sectionID": "5",
-                    "beginPoint": 3726.325896,
-                    "endPoint": 4846.325896,
-                    "speedRestrictionValue": 96.558,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3070,
+                    "value": 88
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70010",
-                    "sectionID": "5",
-                    "beginPoint": 4846.325896,
-                    "endPoint": 12128.39138,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3726,
+                    "value": 88
+                },
+                {
+                    "point": 3726,
+                    "value": 96
+                },
+                {
+                    "point": 4846,
+                    "value": 96
+                },
+                {
+                    "point": 4846,
+                    "value": 104
+                },
+                {
+                    "point": 12128,
+                    "value": 104
                 }
             ],
             "scaledElevations": [
@@ -36082,26 +36022,20 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd70011",
-                    "sectionID": "6",
-                    "beginPoint": 0,
-                    "endPoint": 5431.934516,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70013",
-                    "sectionID": "6",
-                    "beginPoint": 5431.934516,
-                    "endPoint": 6374.54157,
-                    "speedRestrictionValue": 96.558,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 5431,
+                    "value": 104
+                },
+                {
+                    "point": 5431,
+                    "value": 96
+                },
+                {
+                    "point": 6374,
+                    "value": 96
                 }
             ],
             "scaledElevations": [
@@ -36145,37 +36079,28 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd70015",
-                    "sectionID": "7",
-                    "beginPoint": 0,
-                    "endPoint": 5547.392946,
-                    "speedRestrictionValue": 104.6045,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70017",
-                    "sectionID": "7",
-                    "beginPoint": 5547.392946,
-                    "endPoint": 5913.392946,
-                    "speedRestrictionValue": 48.279,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 5547,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70018",
-                    "sectionID": "7",
-                    "beginPoint": 5913.392946,
-                    "endPoint": 7751.40062,
-                    "speedRestrictionValue": 88.5115,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 5547,
+                    "value": 48
+                },
+                {
+                    "point": 5913,
+                    "value": 48
+                },
+                {
+                    "point": 5913,
+                    "value": 88
+                },
+                {
+                    "point": 7751,
+                    "value": 88
                 }
             ],
             "scaledElevations": [
@@ -36211,81 +36136,60 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd7001a",
-                    "sectionID": "8",
-                    "beginPoint": 0,
-                    "endPoint": 176,
-                    "speedRestrictionValue": 48.27,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 48
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7001c",
-                    "sectionID": "8",
-                    "beginPoint": 176,
-                    "endPoint": 4760,
-                    "speedRestrictionValue": 104.585,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 176,
+                    "value": 48
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7001d",
-                    "sectionID": "8",
-                    "beginPoint": 4760,
-                    "endPoint": 5446,
-                    "speedRestrictionValue": 88.495,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 176,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7001e",
-                    "sectionID": "8",
-                    "beginPoint": 5446,
-                    "endPoint": 8700,
-                    "speedRestrictionValue": 96.54,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 4760,
+                    "value": 104
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7001f",
-                    "sectionID": "8",
-                    "beginPoint": 8700,
-                    "endPoint": 13126,
-                    "speedRestrictionValue": 80.45,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 4760,
+                    "value": 88
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70020",
-                    "sectionID": "8",
-                    "beginPoint": 13126,
-                    "endPoint": 15400,
-                    "speedRestrictionValue": 96.54,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 5446,
+                    "value": 88
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70021",
-                    "sectionID": "8",
-                    "beginPoint": 15400,
-                    "endPoint": 19332.89027,
-                    "speedRestrictionValue": 80.45,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 5446,
+                    "value": 96
+                },
+                {
+                    "point": 8700,
+                    "value": 96
+                },
+                {
+                    "point": 8700,
+                    "value": 80
+                },
+                {
+                    "point": 13126,
+                    "value": 80
+                },
+                {
+                    "point": 13126,
+                    "value": 96
+                },
+                {
+                    "point": 15400,
+                    "value": 96
+                },
+                {
+                    "point": 15400,
+                    "value": 80
+                },
+                {
+                    "point": 19332,
+                    "value": 80
                 }
             ],
             "scaledElevations": [
@@ -36433,59 +36337,44 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd70022",
-                    "sectionID": "9",
-                    "beginPoint": 0,
-                    "endPoint": 989.102056,
-                    "speedRestrictionValue": 80.465,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 80
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70024",
-                    "sectionID": "9",
-                    "beginPoint": 989.102056,
-                    "endPoint": 3083.102056,
-                    "speedRestrictionValue": 96.558,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 989,
+                    "value": 80
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70025",
-                    "sectionID": "9",
-                    "beginPoint": 3083.102056,
-                    "endPoint": 5939.102056,
-                    "speedRestrictionValue": 80.465,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 989,
+                    "value": 96
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70026",
-                    "sectionID": "9",
-                    "beginPoint": 5939.102056,
-                    "endPoint": 9693.102056,
-                    "speedRestrictionValue": 96.558,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3083,
+                    "value": 96
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd70027",
-                    "sectionID": "9",
-                    "beginPoint": 9693.102056,
-                    "endPoint": 10689.47239,
-                    "speedRestrictionValue": 80.465,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 3083,
+                    "value": 80
+                },
+                {
+                    "point": 5939,
+                    "value": 80
+                },
+                {
+                    "point": 5939,
+                    "value": 96
+                },
+                {
+                    "point": 9693,
+                    "value": 96
+                },
+                {
+                    "point": 9693,
+                    "value": 80
+                },
+                {
+                    "point": 10689,
+                    "value": 80
                 }
             ],
             "scaledElevations": [
@@ -36525,59 +36414,44 @@
             },
             "speedRestrictions": [
                 {
-                    "id": "57ff688b6a7130ea0bd70028",
-                    "sectionID": "10",
-                    "beginPoint": 0,
-                    "endPoint": 193.629666,
-                    "speedRestrictionValue": 80.45,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 0,
+                    "value": 80
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7002a",
-                    "sectionID": "10",
-                    "beginPoint": 193.629666,
-                    "endPoint": 529.629666,
-                    "speedRestrictionValue": 64.36,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 193,
+                    "value": 80
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7002c",
-                    "sectionID": "10",
-                    "beginPoint": 529.629666,
-                    "endPoint": 5763.629666,
-                    "speedRestrictionValue": 96.54,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 193,
+                    "value": 64
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7002e",
-                    "sectionID": "10",
-                    "beginPoint": 5763.629666,
-                    "endPoint": 5900,
-                    "speedRestrictionValue": 80.45,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 529,
+                    "value": 64
                 },
                 {
-                    "id": "57ff688b6a7130ea0bd7002f",
-                    "sectionID": "10",
-                    "beginPoint": 5900,
-                    "endPoint": 6810.629666,
-                    "speedRestrictionValue": 32.18,
-                    "createBy": null,
-                    "createDateTime": null,
-                    "modifyBy": null,
-                    "modifyDateTime": null
+                    "point": 529,
+                    "value": 96
+                },
+                {
+                    "point": 5763,
+                    "value": 96
+                },
+                {
+                    "point": 5763,
+                    "value": 80
+                },
+                {
+                    "point": 5900,
+                    "value": 80
+                },
+                {
+                    "point": 5900,
+                    "value": 32
+                },
+                {
+                    "point": 6810,
+                    "value": 32
                 }
             ],
             "scaledElevations": [
