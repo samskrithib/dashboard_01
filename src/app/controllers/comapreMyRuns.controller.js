@@ -28,56 +28,63 @@
     var energySummaryGraphLabels, energySummaryData;
     vm.speedDistanceLinks = {};
     vm.chartSubtitle = UrlGenerator.getData().subtitle;
-    vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
-      // vm.promise = httpCallsService.getByJson('assets/driverMultipleRunsResponse.json')
-      .then(function (data) {
-        vm.response = data;
-        vm.error = false;
-        _.each(vm.tabs, function (val, key) {
-          switch (vm.tabs[key].id) {
-            case "0":
-              {
-                vm.unitPerformanceData = _.pluck(vm.response.driverMultipleRunsReportList, 'trainUnitPerformancePerJourney');
-                vm.unitPerformanceScoreChartLabels = unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChartLabels();
-                vm.chartIndicators = _.pluck(vm.unitPerformanceData, 'journeyPerformanceIndicator')
-                unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChart(vm.unitPerformanceData, vm.unitPerformanceScoreChartLabels, vm.chartIndicators)
-                break;
-              }
+    vm.error = false;
 
-            case "1":
-              {
-                vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
-                vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
-                energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
-                energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.chartIndicators);
-                vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+    // $log.info(vm.response)
+    vm.promise = UtilityService.getCheckedItems();
+  
+    // vm.promise = httpCallsService.getByJson(data)
+    //   // vm.promise = httpCallsService.getByJson('assets/driverMultipleRunsResponse.json')
+     vm.promise.then(function (data) {
+    vm.response = data;
 
-                vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
-                vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
-                vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
-                latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels, vm.chartIndicators)
-                break;
-              }
-            case "2":
-              {
-                vm.speedDistanceProfiles = _.pluck(vm.response.driverMultipleRunsReportList, 'speedDistanceReportPerLinkWithLink')
-                vm.trackInformationPerLink = vm.response.trackInformationList;
-                vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
-                speedDistanceDataCompare_All(vm.speedDistanceProfiles, vm.trackInformationPerLink)
-                vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
-                vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
-                var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks);
-                speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.getlatenessSummaryChartLabels)
-                break;
-              }
-            default:
-              {}
+    _.each(vm.tabs, function (val, key) {
+      switch (vm.tabs[key].id) {
+        case "0":
+          {
+            
+            $log.info("chdjfhdksj: " + vm.response)
+            vm.unitPerformanceData = _.pluck(vm.response.driverMultipleRunsReportList, 'trainUnitPerformancePerJourney');
+            vm.unitPerformanceScoreChartLabels = unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChartLabels();
+            vm.chartIndicators = _.pluck(vm.unitPerformanceData, 'journeyPerformanceIndicator')
+            unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChart(vm.unitPerformanceData, vm.unitPerformanceScoreChartLabels, vm.chartIndicators)
+            break;
           }
-        })
-        // end of each function
-      }).catch(function (error) {
 
-      })
+        case "1":
+          {
+            vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
+            vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
+            energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
+            energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.chartIndicators);
+            vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
+
+            vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
+            vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
+            vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
+            latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels, vm.chartIndicators)
+            break;
+          }
+        case "2":
+          {
+            vm.speedDistanceProfiles = _.pluck(vm.response.driverMultipleRunsReportList, 'speedDistanceReportPerLinkWithLink')
+            vm.trackInformationPerLink = vm.response.trackInformationList;
+            vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels();
+            speedDistanceDataCompare_All(vm.speedDistanceProfiles, vm.trackInformationPerLink)
+            vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
+            vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
+            var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks);
+            speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.getlatenessSummaryChartLabels)
+            break;
+          }
+        default:
+          {}
+      }
+    })
+    // end of each function
+    }).catch(function (error) {
+
+    })
 
     function speedDistanceDataCompare_All(speedDistanceData, trackInfo) {
       speedDistanceCompareDataFactory.getSpeedDistanceLinks(speedDistanceData)

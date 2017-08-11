@@ -42,7 +42,7 @@
     getDriverAdvice: function(data){
       var driverAdvice=[];
       _.each(data, function(val, key){
-        driverAdvice[key] = data[key].driverAdvice;
+        driverAdvice[key] = data[key].speedDistanceReportPerLink.driverAdvice;
         // $log.debug(driverAdvice[key])
       })
       return driverAdvice;
@@ -53,8 +53,8 @@
       actualSpeedMph=[], actualPositionM=[];
       _.each(data, function(val,key){
 
-       actualSpeed[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositions, 'speed');
-       actualPosition[key] = _.pluck(data[key].speedDistanceProfiles.actualSpeedAndPositions, 'position');
+       actualSpeed[key] = _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.actualSpeedAndPositions, 'speed');
+       actualPosition[key] = _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.actualSpeedAndPositions, 'position');
 
        actualSpeedMph[key]=[];
        actualPositionM[key] =[];
@@ -74,8 +74,8 @@
       flatoutSpeed=[], flatoutPosition=[];
       flatoutSpeedMph=[], flatoutPositionM=[];
       _.each(data, function(val,key){
-        flatoutSpeed[key]= _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositions, 'speed');
-        flatoutPosition[key] = _.pluck(data[key].speedDistanceProfiles.flatoutSpeedAndPositions, 'position');
+        flatoutSpeed[key]= _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.flatoutSpeedAndPositions, 'speed');
+        flatoutPosition[key] = _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.flatoutSpeedAndPositions, 'position');
 
         flatoutSpeedMph[key]=[];
         flatoutPositionM[key]=[];
@@ -96,8 +96,8 @@
       optimalSpeed=[],  optimalPosition=[];
       optimalSpeedMph=[], optimalPositionM=[];
      _.each(data, function(val,key){
-      optimalSpeed[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositions, 'speed');
-      optimalPosition[key] = _.pluck(data[key].speedDistanceProfiles.optimalSpeedAndPositions, 'position');
+      optimalSpeed[key] = _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.optimalSpeedAndPositions, 'speed');
+      optimalPosition[key] = _.pluck(data[key].speedDistanceReportPerLink.speedDistanceProfiles.optimalSpeedAndPositions, 'position');
 
       optimalSpeedMph[key]=[];
       optimalPositionM[key]=[];
@@ -117,8 +117,8 @@
     speedValues = [], speedRestrictionPoints = [];
     speedValuesMph=[], speedRestrictionPointsM=[];
     _.each(data, function(val,key){
-      speedValues[key] = _.pluck(data[key].speedRestrictions, 'value')
-      speedRestrictionPoints[key] = _.pluck(data[key].speedRestrictions, 'point')
+      speedValues[key] = _.pluck(data[key].trackInformation.speedRestrictions, 'value')
+      speedRestrictionPoints[key] = _.pluck(data[key].trackInformation.speedRestrictions, 'point')
 
       speedValuesMph[key]=[];
       speedRestrictionPointsM[key]=[];
@@ -139,8 +139,8 @@
     scaledElevationValue=[],  scaledElevationPosition=[];
     scaledElevationValueMph=[],  scaledElevationPositionM=[];
    _.each(data, function(val,key){
-    scaledElevationValue[key] = _.pluck(data[key].scaledElevations, 'scaledElevation')
-    scaledElevationPosition[key] = _.pluck(data[key].scaledElevations, 'position');
+    scaledElevationValue[key] = _.pluck(data[key].trackInformation.scaledElevations, 'scaledElevation')
+    scaledElevationPosition[key] = _.pluck(data[key].trackInformation.scaledElevations, 'position');
     scaledElevationValueMph[key]=[];
     scaledElevationPositionM[key]=[];
     // Elevation values should always be in Meters(Reqiurement)

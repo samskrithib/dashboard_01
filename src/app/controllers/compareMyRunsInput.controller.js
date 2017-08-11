@@ -31,21 +31,20 @@
     vm.getStations = function () {
       //httpCallsService.getByUrl('locationnamesandtiplocs')
       httpCallsService.getStations()
-      .then(function (data) {
-        if (data.length <= 0) {
+        .then(function (data) {
+          if (data.length <= 0) {
+            vm.state = "NORESULTS";
+            vm.statusmessage = "No results";
+          } else {
+            vm.state = "SUCCESS";
+            vm.statusmessage = "Enter station name";
+            vm.stations = data;
+          }
+        }).catch(function (response) {
           vm.state = "NORESULTS";
-          vm.statusmessage = "No results";
-        }
-        else {
-          vm.state = "SUCCESS";
-          vm.statusmessage = "Enter station name";
-          vm.stations = data;
-        }
-      }).catch(function (response) {
-        vm.state = "NORESULTS";
-        vm.statusmessage = "No Results";
-        $log.debug(/*"controller response: " +*/response);
-      });
+          vm.statusmessage = "No Results";
+          $log.debug( /*"controller response: " +*/ response);
+        });
     };
 
     vm.stations = [];
@@ -72,7 +71,7 @@
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
           httpCallsService.getByUrl(vm.url)
-          //httpCallsService.getByJson("assets/old/times.json")
+            //httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -90,7 +89,7 @@
               vm.timePlaceholder = "No results";
               vm.DepartureTimesFound = "false";
               vm.compareRunsFormdata.date = ''
-              vm.DepartureTimeNotFoundMsg ="There are no departure times for the selected date.";
+              vm.DepartureTimeNotFoundMsg = "There are no departure times for the selected date.";
               alert(response.status);
               $log.debug("controller response: " + response.status);
             })
@@ -135,17 +134,17 @@
     };
 
     vm.checkNumberOfRuns = function () {
-      if ( vm.allRuns.length >= 2){
+      if (vm.allRuns.length >= vm.runslength) {
         return false;
-      }else {
+      } else {
         //alert("hello false");
         return true;
       }
     };
 
     vm.checkExceededNumberOfRuns = function () {
-      if (vm.ExceededNumberOfRunsStatus=="true") {
-        vm.inputRunsExceeded="You can only add 3 input runs.";
+      if (vm.ExceededNumberOfRunsStatus == "true") {
+        vm.inputRunsExceeded = "You can only add 3 input runs.";
         return false;
       } else {
         return true;
@@ -155,125 +154,138 @@
     vm.checkDepartureTime = function () {
       if (vm.DepartureTimesFound == "false") {
         return false;
-      }else {
+      } else {
         return true;
       }
     };
 
     vm.checkDuplicateRuns = function () {
-      if(vm.duplicatedData ==true){
-        vm.duplicateRunMessage="You cannot have any duplicate runs.";
+      if (vm.duplicatedData == true) {
+        vm.duplicateRunMessage = "You cannot have any duplicate runs.";
         return false;
-      }else {
+      } else {
         return true;
       };
     };
 
     vm.checkThereAreRunsInArray = function () {
-      if (vm.allRuns.length == 0){
+      if (vm.allRuns.length == 0) {
         return false;
-      }else {
+      } else {
         return true;
       };
     };
 
     vm.submit = function (isValid) {
       if (isValid) {
-        UtilityService.addCheckedItems(vm.checkedItems);
-        UrlGenerator.generateReportsUrl(vm.inputDate, vm.compareRunsFormdata.departureTime, _selectedFrom, _selectedTo);
-        $location.path("/comparemyruns");
+        $log.info(vm.allRuns)
+        var compareRunsUrl = UrlGenerator.generateCompareRunsUrl(vm.allRuns)
+        $log.info(compareRunsUrl)
+        httpCallsService.getByUrl(compareRunsUrl)
+        .then(function(response){
+          $log.info(response)
+          UtilityService.addCheckedItems(vm.response);
+          $location.path("/comparemyruns");
+          vm.response = response;
+        }).catch(function(error){
+          $log.info(error)
+        })
+        
+        // UrlGenerator.generateReportsUrl(vm.inputDate, vm.compareRunsFormdata.departureTime, _selectedFrom, _selectedTo);
+        // $location.path("/comparemyruns");
       }
     };
 
     vm.reset = function (form) {
       _selectedTo = ''
       _selectedFrom = ''
-      
+
       vm.times = []
-      vm.originTiploc=''
-      vm.destinationTiploc=''
+      vm.originTiploc = ''
+      vm.destinationTiploc = ''
       vm.compareRunsFormdata.origin = ''
       vm.compareRunsFormdata.destination = ''
       vm.compareRunsFormdata.departureTime = ''
       vm.compareRunsFormdata.date = ''
       vm.allRuns = [];
       vm.tstate = "Loading";
-      vm.tstate="loading";
-      vm.state="success";
+      vm.tstate = "loading";
+      vm.state = "success";
       vm.timePlaceholder = ''
       form.$setUntouched();
       form.$setPristine();
-      vm.duplicatedData=false;
-      vm.ExceededNumberOfRunsStatus="false";
-      vm.DepartureTimesFound="true";
+      vm.duplicatedData = false;
+      vm.ExceededNumberOfRunsStatus = "false";
+      vm.DepartureTimesFound = "true";
     }
 
 
     vm.allRuns = [];
 
-    vm.remove = function(allRuns, index){
-      vm.ExceededNumberOfRunsStatus="false";
-      vm.duplicatedData=false;
-      vm.inputRunsExceeded="";
+    vm.remove = function (allRuns, index) {
+      vm.ExceededNumberOfRunsStatus = "false";
+      vm.duplicatedData = false;
+      vm.inputRunsExceeded = "";
       vm.allRuns.splice(index, 1);
     };
 
-    vm.pushDataToArray = function (form){
+    vm.pushDataToArray = function (form) {
       vm.allRuns.push({
-              'date': vm.compareRunsFormdata.date,
-              'origin': vm.compareRunsFormdata.origin,
-              'destination': vm.compareRunsFormdata.destination,
-              'departureTime': vm.compareRunsFormdata.departureTime
-            });
-            vm.compareRunsFormdata.date = undefined;
-            // vm.fromStation = undefined;
-            // vm.toStation = undefined;
-            if(vm.allRuns.length>0){
-              vm.state = "LOADING";
-              $log.debug(vm.state);
-            }
-            vm.compareRunsFormdata.departureTime = undefined;
-            vm.tstate = "Loading";
-            vm.timePlaceholder = ''
-            //  vm.times = undefined;
-            form.$setUntouched();
-            form.$setPristine();
-           
-            // $log.info(vm.allRuns)
+        'date': vm.compareRunsFormdata.date,
+        'origin': vm.compareRunsFormdata.origin,
+        'destination': vm.compareRunsFormdata.destination,
+        'departureTime': vm.compareRunsFormdata.departureTime
+      });
+      vm.compareRunsFormdata.date = undefined;
+      // vm.fromStation = undefined;
+      // vm.toStation = undefined;
+      if (vm.allRuns.length > 0) {
+        vm.state = "LOADING";
+        $log.debug(vm.state);
+      }
+      vm.compareRunsFormdata.departureTime = undefined;
+      vm.tstate = "Loading";
+      vm.timePlaceholder = ''
+      //  vm.times = undefined;
+      form.$setUntouched();
+      form.$setPristine();
+
+      // $log.info(vm.allRuns)
     };
 
     vm.addRun = function (form, isValid) {
-      vm.ExceededNumberOfRunsStatus="false";
-      vm.DepartureTimesFound="true";
+      vm.ExceededNumberOfRunsStatus = "false";
+      vm.DepartureTimesFound = "true";
       vm.duplicatedData = false;
       if (form.$valid) {
-        $log.debug(vm.allRuns.length)
-        if(vm.allRuns.length <= vm.runslength){
-          
+        $log.info(vm.allRuns.length)
+        if (vm.allRuns.length <= vm.runslength) {
+
           if (vm.allRuns.length == 0) {
             vm.pushDataToArray(form);
-          }else{
-            var duplicatedData=false;
-            for (var i=0; i<vm.allRuns.length; i++){
-              if (  vm.allRuns[i].date.getTime() === vm.compareRunsFormdata.date.getTime() &&
-                      vm.allRuns[i].origin === vm.compareRunsFormdata.origin &&
-                        vm.allRuns[i].destination === vm.compareRunsFormdata.destination &&
-                          vm.allRuns[i].departureTime === vm.compareRunsFormdata.departureTime){
-                vm.duplicatedData=true;
-                {break}
+          } else {
+            var duplicatedData = false;
+            for (var i = 0; i < vm.allRuns.length; i++) {
+              if (vm.allRuns[i].date.getTime() === vm.compareRunsFormdata.date.getTime() &&
+                vm.allRuns[i].origin === vm.compareRunsFormdata.origin &&
+                vm.allRuns[i].destination === vm.compareRunsFormdata.destination &&
+                vm.allRuns[i].departureTime === vm.compareRunsFormdata.departureTime) {
+                vm.duplicatedData = true; {
+                  break
+                }
               }
             }
 
             if (vm.duplicatedData == false) {
               vm.pushDataToArray(form);
-            } 
-          }        
+            }
+          }
         } else {
-          vm.ExceededNumberOfRunsStatus="true";
+          vm.ExceededNumberOfRunsStatus = "true";
         }
-        
+
       }
-      
+
     };
 
 

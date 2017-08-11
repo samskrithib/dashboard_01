@@ -17,7 +17,7 @@
           var formatdate = $filter('date')(date, 'dd-MM-yyyy')
           // speedDistanceUrl = 'speeddistancegraph?plannedDepDateTime=' + date + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc;
           subtitle = from.locationName + ' to ' + to.locationName + ' at ' + time + ' on ' + formatdate;
-          viewRunsUrl = 'driverRuns/single?scheduledDepDateTime=' + formatdate + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc
+          viewRunsUrl = 'driver-runs/single-run?scheduledDepDateTime=' + formatdate + ' ' + time + '&originTiploc=' + from.tiploc + '&destinationTiploc=' + to.tiploc
           // viewRunsUrl = 'assets/UnitPerformance_updated.json';
 
           // return viewRunsUrl;
@@ -109,6 +109,15 @@
             data: modifiedData,
             routeIdUrl: routeIdUrl
           }
+        },
+
+        generateCompareRunsUrl: function(data){
+          var url = "driver-runs/multiple-runs?"
+          _.each(data, function(val, i){
+           var date =  $filter('date')(data[i].date, 'dd-MM-yyyy')
+            url += '&originTiploc='+ data[i].origin.tiploc+ '&destinationTiploc='+data[i].destination.tiploc+"&strScheduledDepDateTime="+ date + " " + data[i].departureTime
+          })
+          return url;
         }
 
       }
