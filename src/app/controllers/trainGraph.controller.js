@@ -6,7 +6,7 @@
     .module('dassimFrontendV03')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
+  function TrainGraphController(httpCallsService,$location, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.isCollapsed = false;
     vm.percentilesList = [
@@ -15,7 +15,7 @@
     ]
     // floating_Label();
     vm.currentPage = '1';
-    // $log.info(vm.currentpage)
+    $log.info("getCheck : " +UtilityService.getCheckedItems())
     vm.TTadherencePercentileError = false;
     vm.TTAdherenceTrackTrainsError = false;
     vm.getTabs = UtilityService.getCheckedItems()[0];
@@ -90,6 +90,8 @@
           $log.info(error)
           vm.TTAdherenceTrackTrainsError = true;
           vm.TTAdherenceTrackTrainsErrorMessage = error.statusText + "<h3> Error Message </h3>"
+          
+          // $location.path("/timetableAdherenceInput")
         })
 
     }

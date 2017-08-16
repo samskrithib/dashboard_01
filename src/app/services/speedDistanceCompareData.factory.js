@@ -66,8 +66,8 @@
           var optimalPosition = speedDistances.optimalPosition[key][linkIndex]
 
           columns.push(actualDriving, actualPosition, flatoutDriving, flatoutPosition, optimalDriving, optimalPosition)
-          hideLegendArray.push(flatoutDriving[0])
-          allLegendsArray.push(actualDriving[0], flatoutDriving[0])
+          hideLegendArray.push(flatoutDriving[0], optimalDriving[0])
+          allLegendsArray.push(actualDriving[0], flatoutDriving[0], optimalDriving[0])
 
           xs[actualDriving[0]] = actualPosition[0]
           xs[flatoutDriving[0]] = flatoutPosition[0]
@@ -87,7 +87,7 @@
         xs[scaledElevation[0]] = scaledPosition[0]
         xs[speedLimit[0]] = endPoint[0]
         colors[scaledElevation[0]] = DRIVE_COLORS.brown;
-        colors[speedLimit[0]] = '#d62728'
+        colors[speedLimit[0]] = DRIVE_COLORS.black;
 
         return {
           data: {

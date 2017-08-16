@@ -9,7 +9,7 @@
   .controller('PeriodicReportsController', PeriodicReportsController);
 
   /** @ngInject */
-  function PeriodicReportsController(UtilityService, $scope, $log, $filter, 
+  function PeriodicReportsController(UtilityService,$location, $scope, $log, $filter, 
     $http, energySummaryPeriodicFactory, onTimeRunningFactory, httpCallsService) {
     var vm = this;
     var energySummaryAvg, energySummaryTot, energySummarygraphLabels, nTrains, graphIndicator;
@@ -67,6 +67,7 @@
       vm.periodicEnergySummaryError=true;
       vm.periodicEnergySummaryErrorMessage ='<h1>'+ data.status + data.data + '</h1>' + data;
       $log.debug(data)
+      $location.path("/periodicInput")
     })
 
     vm.promise = httpCallsService.getByParams('periodicOntimeRunningReport', formData)

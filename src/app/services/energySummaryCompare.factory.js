@@ -39,7 +39,7 @@
             'targetEnergyConsumption': ES.targetEnergyConsumption
           };
           energySummaryLinksData_array.push(energySummaryValues)
-         energyPerformanceIndicators_array.push(energyPerformanceIndicatorPerLink)
+          energyPerformanceIndicators_array.push(energyPerformanceIndicatorPerLink)
         })
         // $log.info(energySummaryLinksData_array)
         // return energySummaryLinksData_array
@@ -104,9 +104,8 @@
           title: {
             text: graphLabels.graphTitle
           },
-
           legend: {
-            show: true
+            show: false
           },
           axis: {
             x: {
@@ -130,7 +129,76 @@
             }
           }
 
-        });
+        })
+
+         /* d3.select('.container')
+          .insert('div')
+          .attr('id', 'legendItems')
+          .attr('class', 'container-fluid')
+          .insert('div')
+          .attr('class', 'legend')
+          .insert('ul').attr('class', 'list-group list-group-horizontal')
+          .selectAll('span')
+          .data(['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption'])
+          .enter().append('li').attr('class', 'list-group-item')
+          .attr('data-id', function (id) {
+            return id;
+          })
+          .append('div', '.legend-label')
+          .html(function (id) {
+            return id;
+          })
+          .on('mouseover', function (id) {
+            EnergySummaryChart.focus(id);
+          })
+          .on('mouseout', function (id) {
+            EnergySummaryChart.revert();
+          })
+          .on('click', function (id) {
+            EnergySummaryChart.toggle(id);
+          })
+
+          .insert('span', '.legend-label').attr('class', 'badge-pill')
+          .each(function (id) {
+            if (id == 'actualEnergyConsumption') {
+              d3.select(this)
+                .style('background-color', '#5FD35F')
+            } else {
+
+            }
+          })
+          .html(function (id) {
+            return '&nbsp&nbsp&nbsp&nbsp'
+          })
+          .insert('span', '.legend-label').attr('class', 'badge-pill')
+          .each(function (id) {
+            if (id == 'actualEnergyConsumption') {
+              d3.select(this)
+                .style('background-color', '#FF7F0E')
+            } else {
+              d3.select(this)
+                .style('background-color', EnergySummaryChart.color(id));
+            }
+          })
+          .html(function (id) {
+            return '&nbsp&nbsp&nbsp&nbsp'
+          })
+          .insert('span', '.legend-label').attr('class', 'badge-pill')
+          .each(function (id) {
+            $log.info(this, (id))
+            if (id == 'actualEnergyConsumption') {
+              d3.select(this)
+                .style('background-color', '#D2527F')
+            } else {
+              
+            }
+
+          })
+          .html(function (id) {
+            return '&nbsp&nbsp&nbsp&nbsp'
+          });
+
+          */
       },
 
 
@@ -142,16 +210,16 @@
             value: ['actualEnergyConsumption', 'onTimeOptimalEnergyConsumption', 'optimalEnergyConsumption']
           },
           colors: {
-              'actualEnergyConsumption': function (d) {
-                return chartColors.colors([performanceIndicators[d.x]]);
-              },
-              'optimalEnergyConsumption': function (d) {
-                return DRIVE_COLORS.green
-              },
-              'onTimeOptimalEnergyConsumption': function (d) {
-                return DRIVE_COLORS.green_light
-              }
+            'actualEnergyConsumption': function (d) {
+              return chartColors.colors([performanceIndicators[d.x]]);
+            },
+            'optimalEnergyConsumption': function (d) {
+              return DRIVE_COLORS.green
+            },
+            'onTimeOptimalEnergyConsumption': function (d) {
+              return DRIVE_COLORS.green_light
             }
+          }
 
         });
       },

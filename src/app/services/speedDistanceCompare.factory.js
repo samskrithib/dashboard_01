@@ -39,12 +39,15 @@
                 } else {
                   var string = (_.rest(id.toString().split(" "), [2])).join();
                   var newArray = [];
-                  var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
-                  newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString], id)
-                  newArray.push('Elevation', 'Speed Limit')
+                  // search and push id related optimal profile
+                  speedDistanceData.hideLegendArray.filter(function (val, key) {
+                    if (val.indexOf(string) != -1) {
+                      newArray.push(speedDistanceData.hideLegendArray[key])
+                    }
+                  })
+                  newArray.push(id, 'Elevation', 'Speed Limit')
                   SpeedDistanceCompareChart.focus(newArray)
                 }
-
               },
               onmouseout: function (id) {
                 SpeedDistanceCompareChart.revert()

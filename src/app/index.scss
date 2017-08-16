@@ -23,7 +23,12 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   //  color: white;
   // background-color: $c3-red;
 }
-
+.list-group-item {
+      float: left;
+      border: 0 none;
+      // font-size: 0.8em;
+      padding: 5px 5px;
+      }
 
 #page-wrapper{
   // background-color: $brand-primary !important;

@@ -11,7 +11,7 @@
     })
     .controller('ViewMyRunsController', ViewMyRunsController);
 
-  function ViewMyRunsController($scope, $log, UrlGenerator, httpCallsService, unitPerformanceScoreFactory,
+  function ViewMyRunsController($scope, $log,$location, UrlGenerator, httpCallsService, unitPerformanceScoreFactory,
     energySummaryFactory, latenessSummaryFactory, speedDistanceDataFactory, speedDistanceChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
@@ -90,7 +90,7 @@
 
         })
       }).catch(function (error) {
-
+        $location.path("/view")
       })
 
     function speedDistanceData_All(data) {

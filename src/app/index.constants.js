@@ -9,7 +9,8 @@
     .constant('DRIVE_COLORS', {
       blue: '#7cb5ec',
       blue_dark: '#1f77b4',
-      red : '#D2527F',
+      // red : '#D2527F',
+      red: '#c96768',
       orange : '#FF7F0E',
       green : '#2ca02c',
       green_actual : '#5FD35F',

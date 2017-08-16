@@ -1,4 +1,4 @@
-<div id="wrapper" >
+<div id="wrapper">
   <acme-navbar></acme-navbar>
 
 
@@ -37,9 +37,9 @@
                         <span class="help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.date.$error.required">Required</span>
                       </div>
                       <!--</div>-->
-                      </div>
+                    </div>
                   </div>
-                  
+
                   <div class="form-group typeahead-demo">
                     <!--<div>-->
                     <div ng-class="{
@@ -53,12 +53,12 @@
                         <span class="help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.origin.$error.required || compareRunsForm.origin.$invalid && !compareRunsForm.origin.$pristine">Required</span>
                       </div>
                       <!--</div>-->
-                        <!--<i class="fa fa-exchange fa-rotate-90" aria-hidden="true"></i>-->
+                      <!--<i class="fa fa-exchange fa-rotate-90" aria-hidden="true"></i>-->
                     </div>
                   </div>
-                  
-                    
-                  
+
+
+
                   <div class="form-group typeahead-demo">
                     <!--<div>-->
                     <div ng-class="{
@@ -69,7 +69,7 @@
                         <input type="text" id="destination" name="destination" autocomplete="off" required placeholder={{vm.statusmessage}} ng-disabled='vm.state == "LOADING"'
                           ng-model="vm.toStation" ng-model-options="vm.modelOptions" uib-typeahead="station as station.locationName for station in vm.stations | typeaheadFilter:{locationName:$viewValue}| orderBy:vm.smartOrder"
                           typeahead-popup-template-url="views/customPopupTemplate.html" class="form-control">
-                          <span class="help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.destination.$error.required || compareRunsForm.destination.$invalid && !compareRunsForm.destination.$pristine">Required</span>
+                        <span class="help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.destination.$error.required || compareRunsForm.destination.$invalid && !compareRunsForm.destination.$pristine">Required</span>
                       </div>
                       <!--</div>-->
                     </div>
@@ -88,39 +88,40 @@
                         <span ng-show="vm.tstate == 'LOADING'"><i class="fa fa-refresh fa-spin fa-fw"></i>Loading</span>
                       </div>
                       <span class="col-md-5 help-block" ng-show="compareRunsForm.$submitted && compareRunsForm.time.$error.required ||compareRunsForm.time.$invalid && !compareRunsForm.time.$pristine">Select Departure Time</span>
-                      
+
                     </div>
                   </div>
 
                   <div class="form-group">
-                    
+
                     <div style="padding-left:110px">
                       <input type="submit" value="Add Run" class="btn btn-primary" />
                       <!--<div ng-show="">-->
-                      
-                      <input type="submit" ng-click="vm.submit(compareRunsForm)" class="btn btn-primary" ng-disabled="vm.checkNumberOfRuns()"/>
+
+                      <input type="submit" ng-click="vm.submit(compareRunsForm)" class="btn btn-primary" ng-disabled="vm.checkNumberOfRuns()" />
                       <!--</div>-->
                       <button type="button" class="btn btn-primary" ng-click="vm.reset(compareRunsForm)">Reset</button>
                       <br/>
                     </div>
                   </div>
-                  
-                  <div class ="alert alert-danger" ng-hide="vm.checkExceededNumberOfRuns()">
+
+                  <div class="alert alert-danger" ng-hide="vm.checkExceededNumberOfRuns()">
                     <strong>Warning!</strong> {{vm.inputRunsExceeded}}
                   </div>
-                  <div class ="alert alert-danger" ng-hide="vm.checkDuplicateRuns()">
+                  <div class="alert alert-danger alert-dismissable" ng-hide="!vm.duplicatedData">
+                    <a class="close" data-dismiss="alert" aria-label="close">×</a>
                     <strong>Warning!</strong> {{vm.duplicateRunMessage}}
                   </div>
-                  <div class ="alert alert-danger" ng-hide="vm.checkDepartureTime()">
+                  <div class="alert alert-danger" ng-hide="vm.checkDepartureTime()">
                     <strong>Warning!</strong> {{vm.DepartureTimeNotFoundMsg}}
                   </div>
-
+                  <div uib-alert type="warning" ng-if="!vm._hasSameStoppingPatterns" close="vm.closeAlert(vm._hasSameStoppingPatterns)" dismiss-on-timeout="3000" >{{vm._hasSameStoppingPatternsMessage}}</div>
                 </form>
 
               </td>
-              
+
             </tr>
-            <tr ng-show="vm.checkThereAreRunsInArray()"  >
+            <tr ng-if="vm.allRuns.length != 0">
               <td style="vertical-align: top">
                 <table class="table">
                   <tr>
@@ -133,7 +134,7 @@
                     <th>Departure time
                     </th>
                   </tr>
-                  <tr ng-repeat="run in vm.allRuns" =>
+                  <tr ng-repeat="run in vm.allRuns"=>
                     <td style="word-wrap: break-word;max-width: 160px;">{{run.date | date : mediumDate}}
                     </td>
                     <td style="word-wrap: break-word;max-width: 160px;">{{run.origin.locationName}}
@@ -143,7 +144,7 @@
                     <td style="word-wrap: break-word;max-width: 160px;">{{run.departureTime}}
                     </td>
                     <td> <a ng-click="vm.remove(vm.allRuns, $index)"><button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-trash"></i></button></a></td>
-                    
+
                   </tr>
                 </table>
               </td>
@@ -154,7 +155,7 @@
 
 
 
-      
+
 
     </div>
 

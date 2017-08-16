@@ -77,6 +77,9 @@
               'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
             }
           },
+          legend: {
+            show: false
+          },
           axis: {
 
             y: {
