@@ -1,15 +1,15 @@
 
-
-#routesTable{
-    .clickableRow {
-    cursor: pointer;
-}
-p, textarea {
-    font-variant: small-caps !important;
-    text-rendering: auto;
+@media screen and (min-width: 1024px) {
+    fixed-height{
+        height:250px;
+    }
 }
 
-table {
-    padding: 0px;
+.speedingAdvice{
+    color: #fff56b
+    // color: #FF7F0E
 }
+
+.runtimeDescription{
+    color:  #DCDCDC
 }

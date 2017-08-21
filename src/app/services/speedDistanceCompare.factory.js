@@ -18,6 +18,7 @@
       } : mathUtilsService.formatNumToSIUnits)
       TooltipTitleformatter = d3.format(Mph ? ',.2f' : '.3s')
     }
+
     updatexaxisTickFormatter();
     return {
       getSpeedDistanceCompareChart: function (speedDistanceData, graphLabels) {
@@ -34,10 +35,30 @@
             // hide: speedDistanceData.hideLegendArray,
             item: {
               onmouseover: function (id) {
+                
+
                 if (id == 'Speed Limit' || id == 'Elevation') {
                   SpeedDistanceCompareChart.focus(id)
                 } else {
                   var string = (_.rest(id.toString().split(" "), [2])).join();
+                  //added advices to Utitlityservice in ComparemyRuns Controller
+                  var advices = UtilityService.getCheckedItems()
+                  var valuesOfDriverAdviceObjects= d3.entries(advices[string])
+                 
+                  d3.select("#col-md-8")
+                  .selectAll("div")
+                  // .selectAll("span")
+                  .data(valuesOfDriverAdviceObjects)
+                  .enter()
+                  .append("div")
+                    .attr("class", "driverAdvice")
+                    .attr("class", function(d){
+                      return d.key;
+                    })
+                    .attr("id", "driverAdvice")
+                    .text(function(d) {
+                      return d.value})
+                  
                   var newArray = [];
                   // search and push id related optimal profile
                   speedDistanceData.hideLegendArray.filter(function (val, key) {
@@ -50,6 +71,7 @@
                 }
               },
               onmouseout: function (id) {
+                d3.selectAll("#driverAdvice").remove()
                 SpeedDistanceCompareChart.revert()
               },
               onclick: function (id) {
@@ -57,6 +79,7 @@
                 var newArray = [];
                 var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
                 newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString], id)
+                // $log.info(newArray)
                 SpeedDistanceCompareChart.toggle(newArray)
               }
             }
@@ -155,7 +178,7 @@
 
       },
       setSpeedDistanceCompareMph: function (speedDistanceData, selected) {
-        $log.info(speedDistanceData)
+        // $log.info(speedDistanceData)
         SpeedDistanceCompareChart.unload({
           done: function () {
             SpeedDistanceCompareChart.load(

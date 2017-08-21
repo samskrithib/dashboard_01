@@ -5,7 +5,7 @@
     .module('dassimFrontendV03')
     .factory('speedDistanceCompareDataFactory', speedDistanceCompareDataFactory);
 
-  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService, DRIVE_COLORS) {
+  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService,UtilityService, DRIVE_COLORS) {
     var seriesNameMatchers = [
       "Actual Driving", "actualPosition",
       "Optimal Driving(Flatout)", "flatoutPosition",
@@ -14,7 +14,7 @@
       "scaledPosition", "Elevation"
     ];
     var link_Array = [];
-
+    var driverAdvices_Array = [];
     var actualSpeed_Kph_AllRuns = [];
     var actualSpeedPosition_Kph_AllRuns = [],
       actualSpeed_Mph_AllRuns = [],
@@ -109,18 +109,22 @@
 
       getDriverAdvice: function (speedDistances) {
         var driverAdvice = [];
-        var driverAdvices_Array = [];
+        driverAdvices_Array=[];
         _.each(speedDistances, function (val, key) {
+          var newArray = []
           var speedDistanceReportPerJourney = speedDistances[key];
           _.each(speedDistanceReportPerJourney, function (val, key2) {
             driverAdvice = speedDistanceReportPerJourney[key2].driverAdvice;
-            driverAdvices_Array.push(driverAdvice);
+            newArray.push(driverAdvice);
           })
+          driverAdvices_Array.push(newArray)
         })
-        // $log.info(driverAdvices_Array)
+        // UtilityService.addCheckedItems(driverAdvices_Array)
         return driverAdvices_Array;
       },
-
+      getAllDriveradvices: function(){
+          return driverAdvices_Array;
+      },
       getSpeedDistanceLinks: function (speedDistances) {
         link_Array = [];
         _.each(speedDistances, function (val, key) {
@@ -146,16 +150,16 @@
             mathUtilsService.convertMetersToMiles(actualSpeedPosition, actualSpeedPositionM);
             mathUtilsService.convertKphtoMph(actualSpeed_Kph, actualSpeedMph);
 
-            actualSpeed_Kph.splice(0, 0, seriesNameMatchers[0] + " Run_" + key);
+            actualSpeed_Kph.splice(0, 0, seriesNameMatchers[0] + " " + key);
             actualSpeed_Array.push(actualSpeed_Kph);
 
-            actualSpeedPosition.splice(0, 0, seriesNameMatchers[1] + " Run_" + key);
+            actualSpeedPosition.splice(0, 0, seriesNameMatchers[1] + " " + key);
             actualSpeedPosition_Array.push(actualSpeedPosition);
 
-            actualSpeedMph.splice(0, 0, seriesNameMatchers[0] + " Run_" + key);
+            actualSpeedMph.splice(0, 0, seriesNameMatchers[0] + " " + key);
             actualSpeedMph_Array.push(actualSpeedMph);
 
-            actualSpeedPositionM.splice(0, 0, seriesNameMatchers[1] + " Run_" + key);
+            actualSpeedPositionM.splice(0, 0, seriesNameMatchers[1] + " " + key);
             actualSpeedPositionM_Array.push(actualSpeedPositionM);
 
           })
@@ -186,16 +190,16 @@
             mathUtilsService.convertMetersToMiles(flatoutSpeedPosition, flatoutSpeedPositionM);
             mathUtilsService.convertKphtoMph(flatoutSpeed_Kph, flatoutSpeedMph);
 
-            flatoutSpeed_Kph.splice(0, 0, seriesNameMatchers[2] + " Run_" + key);
+            flatoutSpeed_Kph.splice(0, 0, seriesNameMatchers[2] + " " + key);
             flatoutSpeed_Array.push(flatoutSpeed_Kph);
 
-            flatoutSpeedPosition.splice(0, 0, seriesNameMatchers[3] + " Run_" + key);
+            flatoutSpeedPosition.splice(0, 0, seriesNameMatchers[3] + " " + key);
             flatoutSpeedPosition_Array.push(flatoutSpeedPosition);
 
-            flatoutSpeedMph.splice(0, 0, seriesNameMatchers[2] + " Run_" + key);
+            flatoutSpeedMph.splice(0, 0, seriesNameMatchers[2] + " " + key);
             flatoutSpeedMph_Array.push(flatoutSpeedMph);
 
-            flatoutSpeedPositionM.splice(0, 0, seriesNameMatchers[3] + " Run_" + key);
+            flatoutSpeedPositionM.splice(0, 0, seriesNameMatchers[3] + " " + key);
             flatoutSpeedPositionM_Array.push(flatoutSpeedPositionM);
 
           })
@@ -226,16 +230,16 @@
             mathUtilsService.convertMetersToMiles(optimalSpeedPosition, optimalSpeedPositionM);
             mathUtilsService.convertKphtoMph(optimalSpeed_Kph, optimalSpeedMph);
 
-            optimalSpeed_Kph.splice(0, 0, seriesNameMatchers[4] + " Run_" + key);
+            optimalSpeed_Kph.splice(0, 0, seriesNameMatchers[4] + " " + key);
             optimalSpeed_Array.push(optimalSpeed_Kph);
 
-            optimalSpeedPosition.splice(0, 0, seriesNameMatchers[5] + " Run_" + key);
+            optimalSpeedPosition.splice(0, 0, seriesNameMatchers[5] + " " + key);
             optimalSpeedPosition_Array.push(optimalSpeedPosition);
 
-            optimalSpeedMph.splice(0, 0, seriesNameMatchers[4] + " Run_" + key);
+            optimalSpeedMph.splice(0, 0, seriesNameMatchers[4] + " " + key);
             optimalSpeedMph_Array.push(optimalSpeedMph);
 
-            optimalSpeedPositionM.splice(0, 0, seriesNameMatchers[5] + " Run_" + key);
+            optimalSpeedPositionM.splice(0, 0, seriesNameMatchers[5] + " " + key);
             optimalSpeedPositionM_Array.push(optimalSpeedPositionM);
 
           })

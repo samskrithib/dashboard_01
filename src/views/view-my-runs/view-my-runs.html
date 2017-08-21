@@ -61,14 +61,14 @@
               <div class="subtitle row">
                 <div class="col-md-8">
                   <div ng-show="vm.stationToStationLinks.selected" class="driverAdvice">
-                    <div style="color:  #DCDCDC ;">{{vm.runtimeDescription}}</div>
+                    <div class="runtimeDescription">{{vm.runtimeDescription}}</div>
                     <div ng-if="vm.earlyDepartureAdvice">{{vm.earlyDepartureAdvice}}</div>
                     <div ng-if="vm.earlyArrivalAdvice">{{vm.earlyArrivalAdvice}}</div>
                     <div ng-if="vm.timeSavedAdvice">{{vm.timeSavedAdvice}}</div><span ng-if="vm.timeSavingAdvice">{{vm.timeSavingAdvice}}</span>
                     <div ng-if="vm.energyAdvice">{{vm.energyAdvice}}</div>
                     <div ng-if="vm.goodDrivingAdvice">{{vm.goodDrivingAdvice}}</div>
                     <div ng-if="vm.spareTimeAdvice">{{vm.spareTimeAdvice}}</div>
-                    <div ng-if="vm.speedingAdvice"><span style="background-color: orangered"> {{vm.speedingAdvice}}</span> </div>
+                    <div ng-if="vm.speedingAdvice"><span class="speedingAdvice"> {{vm.speedingAdvice}}</span> </div>
                   </div>
                 </div>
                 <div class="col-md-4">

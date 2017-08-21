@@ -18,7 +18,15 @@
     vm.open = function () {
       vm.datePickerPopup.opened = true
     };
-    vm.runslength = 2;
+    
+    httpCallsService.getByUrl('driver-runs/multiple-run-maximum')
+    .then(function(response){
+      vm.runslength = response-1;
+      // $log.info(vm.runslength)
+    }).catch(function(error){
+      vm.runslength = 2;
+      $log.info(error)
+    })
     vm.dateOptions = {
       // dateDisabled: disabled, check https://angular-ui.github.io/bootstrap/#!#datepickerPopup
       formatYear: 'yy',
@@ -143,7 +151,7 @@
 
     vm.checkExceededNumberOfRuns = function () {
       if (vm.ExceededNumberOfRunsStatus == "true") {
-        vm.inputRunsExceeded = "You can only add 3 input runs.";
+        vm.inputRunsExceeded = "You can only compare upto "+ (vm.runslength+1) + " runs.";
         return false;
       } else {
         return true;
@@ -223,7 +231,7 @@
     }
 
     function checkStoppingPatterns(allRuns, form) {
-      $log.info(allRuns, vm.compareRunsFormdata.date, vm._hasSameStoppingPatterns)
+      // $log.info(allRuns, vm.compareRunsFormdata.date, vm._hasSameStoppingPatterns)
       var obj = {
         'date': vm.compareRunsFormdata.date,
         'origin': vm.compareRunsFormdata.origin,
@@ -236,13 +244,13 @@
       httpCallsService.getByUrl(stoppingPatternUrl)
         .then(function (response) {
           vm._hasSameStoppingPatterns = true;
-          $log.info(response)
+          // $log.info(response)
           pushDataToArray(form)
           vm._hasSameStoppingPatternsMessage = response.message
         }).catch(function (error) {
           vm._hasSameStoppingPatterns = false;
           vm._hasSameStoppingPatternsMessage = error.data.message
-          $log.info($q.reject(error.data))
+          // $log.info($q.reject(error.data))
         })
 
       return vm._hasSameStoppingPatterns;

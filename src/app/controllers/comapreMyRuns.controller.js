@@ -27,14 +27,14 @@
     vm.radioModel = 'Kph';
     var energySummaryGraphLabels, energySummaryData;
     vm.speedDistanceLinks = {};
-    vm.chartSubtitle = UrlGenerator.getData().subtitle;
+    vm.chartSubtitle = UrlGenerator.getCompareRunsInputData().compareRunsSubtitle;
     vm.error = false;
 
     // $log.info(vm.response)
     var url = UtilityService.getCheckedItems();
 
-    // vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
-    vm.promise = httpCallsService.getByUrl(url)
+    vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
+    // vm.promise = httpCallsService.getByUrl(url)
       .then(function (data) {
         vm.response = data;
 
@@ -166,14 +166,12 @@
     }
 
     function speedDistanceCompareDriverAdviceOfSelectedLink() {
-      vm.runtimeDescription = vm.getDriverAdvice[vm.indexOfSelectedLink].runtimeDescription
-      vm.earlyDepartureAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyDepartureAdvice
-      vm.earlyArrivalAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].earlyArrivalAdvice
-      vm.timeSavedAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].timeSavedAdvice
-      vm.energyAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].energyAdvice
-      vm.goodDrivingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].goodDrivingAdvice
-      vm.spareTimeAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].spareTimeAdvice
-      vm.speedingAdvice = vm.getDriverAdvice[vm.indexOfSelectedLink].speedingAdvice
+      var array=[];
+      _.each(vm.getDriverAdvice, function(val, key){
+        array.push(vm.getDriverAdvice[key][vm.indexOfSelectedLink])
+      })
+      UtilityService.addCheckedItems(array)
+      // $log.info(array)
     }
 
     $scope.$watch('vm.radioModel', function (newValue, oldValue) {

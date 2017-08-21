@@ -7,6 +7,7 @@
     .factory('UrlGenerator', function UrlGenerator($filter, $log, UtilityService) {
       var url, viewRunsUrl, subtitle, TTAdherencePercentile, TTAdherenceTrackTrains, dwellTimesUrl, routeIdUrl, trainGraphPageIdUrl;
       var modifiedData = {};
+      var compareRunsUrl, compareRunsSubtitle;
       return {
         generateTrainTimesUrl: function (a, b, c) {
           url = 'viewmyruns/departuretimes?date=' + a + '&origin=' + b + '&destination=' + c;
@@ -112,14 +113,20 @@
         },
 
         generateCompareRunsUrl: function(data){
-          var url = "driver-runs/multiple-runs?"
+          compareRunsSubtitle =  data[0].origin.locationName + " - " +  data[0].destination.locationName
+          compareRunsUrl = "driver-runs/multiple-runs?"
           _.each(data, function(val, i){
            var date =  $filter('date')(data[i].date, 'dd-MM-yyyy')
-            url += '&originTiploc='+ data[i].origin.tiploc+ '&destinationTiploc='+data[i].destination.tiploc+"&strScheduledDepDateTime="+ date + " " + data[i].departureTime
+            compareRunsUrl += '&originTiploc='+ data[i].origin.tiploc+ '&destinationTiploc='+data[i].destination.tiploc+"&strScheduledDepDateTime="+ date + " " + data[i].departureTime
           })
-          return url;
+          return compareRunsUrl;
         },
-
+        getCompareRunsInputData: function(){
+          return{
+            compareRunsUrl: compareRunsUrl,
+            compareRunsSubtitle: compareRunsSubtitle
+          }
+        },
         generateCompareStoppingPatternUrl: function(data){
           var url= "driver-runs/compare-two-trains-stopping-pattern?"
           var date1 = $filter('date')(data[0].date, 'dd-MM-yyyy')
