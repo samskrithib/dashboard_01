@@ -22,6 +22,7 @@
     updatexaxisTickFormatter();
     return {
       getSpeedDistanceCompareChart: function (speedDistanceData, graphLabels) {
+        $log.info(graphLabels)
         SpeedDistanceCompareChart = c3.generate({
           bindto: '#chart2',
           size: {
@@ -115,7 +116,7 @@
                 bottom: 0
               },
               label: {
-                text: 'graphLabels.yAxisLabel',
+                text: graphLabels.yAxisLabel,
                 position: 'outer-middle'
               }
             },

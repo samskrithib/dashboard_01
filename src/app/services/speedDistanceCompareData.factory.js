@@ -5,7 +5,7 @@
     .module('dassimFrontendV03')
     .factory('speedDistanceCompareDataFactory', speedDistanceCompareDataFactory);
 
-  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService,UtilityService, DRIVE_COLORS) {
+  function speedDistanceCompareDataFactory($log, $filter, mathUtilsService, UtilityService, DRIVE_COLORS) {
     var seriesNameMatchers = [
       "Actual Driving", "actualPosition",
       "Optimal Driving(Flatout)", "flatoutPosition",
@@ -48,7 +48,7 @@
         return graphLabelsAndTitles;
       },
 
-      getDataFormat: function (speedDistances, linkIndex, graphLinks) {
+      getDataFormat: function (speedDistances, linkIndex, graphLinks, trainIdentifiers) {
         var columns = [];
         var colors = {};
         var xs = {};
@@ -75,6 +75,15 @@
           colors[actualDriving[0]] = DRIVE_COLORS.blue_dark
           colors[flatoutDriving[0]] = DRIVE_COLORS.orange
           colors[optimalDriving[0]] = DRIVE_COLORS.green
+          //For names
+          if (trainIdentifiers) {
+            // data[key].name = name;
+            $log.info(_.initial(actualDriving[0].split(" "), [1]).join(" "))
+            names[actualDriving[0]] = _.initial(actualDriving[0].split(" "), [1]).join(" ") + " " + trainIdentifiers[key]
+            names[flatoutDriving[0]] = _.initial(flatoutDriving[0].split(" "), [1]).join(" ") + " " + trainIdentifiers[key]
+            names[optimalDriving[0]] = _.initial(optimalDriving[0].split(" "), [1]).join(" ") + " " + trainIdentifiers[key]
+          }
+
         })
         // $log.info(colors)
         var scaledElevation = speedDistances.Elevation[linkIndex];
@@ -94,7 +103,7 @@
             xs: xs,
             colors: colors,
             columns: columns,
-
+            names: names,
             axes: {
               Elevation: 'y2'
             },
@@ -109,7 +118,7 @@
 
       getDriverAdvice: function (speedDistances) {
         var driverAdvice = [];
-        driverAdvices_Array=[];
+        driverAdvices_Array = [];
         _.each(speedDistances, function (val, key) {
           var newArray = []
           var speedDistanceReportPerJourney = speedDistances[key];
@@ -122,8 +131,8 @@
         // UtilityService.addCheckedItems(driverAdvices_Array)
         return driverAdvices_Array;
       },
-      getAllDriveradvices: function(){
-          return driverAdvices_Array;
+      getAllDriveradvices: function () {
+        return driverAdvices_Array;
       },
       getSpeedDistanceLinks: function (speedDistances) {
         link_Array = [];

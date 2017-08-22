@@ -64,7 +64,6 @@
               if (numOfDays <= data.daysRange.length) {
                 var array = UtilityService.daysOfDatesSelected(data.fromDate, data.toDate, data.daysRange)
                 var newAray = _.intersection(data.daysRange, array)
-                // $log.info(newAray)
                 modifiedData.daysRange = newAray.toString();
               } else if (data.daysRange.length == 2) {
                 var array = UtilityService.daysOfDatesSelected(data.fromDate, data.toDate, data.daysRange)
@@ -75,10 +74,14 @@
               else {
                 modifiedData.daysRange = data.daysRange.toString();
               }
+            }else{
+              modifiedData.daysRange = data.daysRange.toString();
             }
             modifiedData.daysOfTheWeek = data.daysRange.toString();
+            
           } else {
             modifiedData.daysOfTheWeek = data.daysOfTheWeek.toString();
+            modifiedData.daysRange = data.daysOfTheWeek.toString();
           }
 
           if (getTab == 'TTPercentile') {

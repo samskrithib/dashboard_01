@@ -13,14 +13,12 @@
     var energySummaryDataAllRuns_array = [];
     var eachRunallLinks;
     return {
-      getEnergySummaryData: function (energySummaries) {
-        energySummaryDataAllRuns_array = [];
-        _.each(energySummaries, function (val, key) {
-          eachRunallLinks = _.pluck(energySummaries[key].energySummaryLinks, 'energySummary');
-          energySummaryDataAllRuns_array.push(eachRunallLinks)
+      getEnergySummaryData: function (data, trainIdentifiers) {
+        _.each(data, function (val, key) {
+          data[key].name = trainIdentifiers[key];
         })
-        // $log.debug(energySummaryDataAllRuns_array);
-        return energySummaryDataAllRuns_array;
+        // $log.info(data) 
+        return data;
       },
 
       /// Data for view specific links in Energy summary report
@@ -32,7 +30,7 @@
           var ES = data[key].energySummaryLinks[linkIndex].energySummary
           var energyPerformanceIndicatorPerLink = indicatorsData[key].trainUnitPerformancePerLink[linkIndex].energyPerformanceIndicator
           var energySummaryValues = {
-            'name': 'Run_' + (key + 1),
+            // 'name': 'Run_' + (key + 1),
             'actualEnergyConsumption': ES.actualEnergyConsumption,
             'optimalEnergyConsumption': ES.optimalEnergyConsumption,
             'onTimeOptimalEnergyConsumption': ES.onTimeOptimalEnergyConsumption,
@@ -82,7 +80,7 @@
           data: {
             json: energySummary,
             keys: {
-              // x: 'name',
+              x: 'name',
               value: ['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption']
             },
             type: 'bar',
@@ -131,74 +129,74 @@
 
         })
 
-         /* d3.select('.container')
-          .insert('div')
-          .attr('id', 'legendItems')
-          .attr('class', 'container-fluid')
-          .insert('div')
-          .attr('class', 'legend')
-          .insert('ul').attr('class', 'list-group list-group-horizontal')
-          .selectAll('span')
-          .data(['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption'])
-          .enter().append('li').attr('class', 'list-group-item')
-          .attr('data-id', function (id) {
-            return id;
-          })
-          .append('div', '.legend-label')
-          .html(function (id) {
-            return id;
-          })
-          .on('mouseover', function (id) {
-            EnergySummaryChart.focus(id);
-          })
-          .on('mouseout', function (id) {
-            EnergySummaryChart.revert();
-          })
-          .on('click', function (id) {
-            EnergySummaryChart.toggle(id);
-          })
+        /* d3.select('.container')
+         .insert('div')
+         .attr('id', 'legendItems')
+         .attr('class', 'container-fluid')
+         .insert('div')
+         .attr('class', 'legend')
+         .insert('ul').attr('class', 'list-group list-group-horizontal')
+         .selectAll('span')
+         .data(['actualEnergyConsumption', 'optimalEnergyConsumption', 'onTimeOptimalEnergyConsumption'])
+         .enter().append('li').attr('class', 'list-group-item')
+         .attr('data-id', function (id) {
+           return id;
+         })
+         .append('div', '.legend-label')
+         .html(function (id) {
+           return id;
+         })
+         .on('mouseover', function (id) {
+           EnergySummaryChart.focus(id);
+         })
+         .on('mouseout', function (id) {
+           EnergySummaryChart.revert();
+         })
+         .on('click', function (id) {
+           EnergySummaryChart.toggle(id);
+         })
 
-          .insert('span', '.legend-label').attr('class', 'badge-pill')
-          .each(function (id) {
-            if (id == 'actualEnergyConsumption') {
-              d3.select(this)
-                .style('background-color', '#5FD35F')
-            } else {
+         .insert('span', '.legend-label').attr('class', 'badge-pill')
+         .each(function (id) {
+           if (id == 'actualEnergyConsumption') {
+             d3.select(this)
+               .style('background-color', '#5FD35F')
+           } else {
 
-            }
-          })
-          .html(function (id) {
-            return '&nbsp&nbsp&nbsp&nbsp'
-          })
-          .insert('span', '.legend-label').attr('class', 'badge-pill')
-          .each(function (id) {
-            if (id == 'actualEnergyConsumption') {
-              d3.select(this)
-                .style('background-color', '#FF7F0E')
-            } else {
-              d3.select(this)
-                .style('background-color', EnergySummaryChart.color(id));
-            }
-          })
-          .html(function (id) {
-            return '&nbsp&nbsp&nbsp&nbsp'
-          })
-          .insert('span', '.legend-label').attr('class', 'badge-pill')
-          .each(function (id) {
-            $log.info(this, (id))
-            if (id == 'actualEnergyConsumption') {
-              d3.select(this)
-                .style('background-color', '#D2527F')
-            } else {
-              
-            }
+           }
+         })
+         .html(function (id) {
+           return '&nbsp&nbsp&nbsp&nbsp'
+         })
+         .insert('span', '.legend-label').attr('class', 'badge-pill')
+         .each(function (id) {
+           if (id == 'actualEnergyConsumption') {
+             d3.select(this)
+               .style('background-color', '#FF7F0E')
+           } else {
+             d3.select(this)
+               .style('background-color', EnergySummaryChart.color(id));
+           }
+         })
+         .html(function (id) {
+           return '&nbsp&nbsp&nbsp&nbsp'
+         })
+         .insert('span', '.legend-label').attr('class', 'badge-pill')
+         .each(function (id) {
+           $log.info(this, (id))
+           if (id == 'actualEnergyConsumption') {
+             d3.select(this)
+               .style('background-color', '#D2527F')
+           } else {
+             
+           }
 
-          })
-          .html(function (id) {
-            return '&nbsp&nbsp&nbsp&nbsp'
-          });
+         })
+         .html(function (id) {
+           return '&nbsp&nbsp&nbsp&nbsp'
+         });
 
-          */
+         */
       },
 
 

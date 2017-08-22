@@ -19,17 +19,27 @@
         }
         return chartLabelsAndTitles;
       },
+      getUnitPerformanceData: function(data, trainIdentifiers){
+        _.each(data, function(val, key){
+          data[key].name = trainIdentifiers[key];
+        })
+          // $log.info(data) 
+          return data;
+      },
       getUnitPerfromanceLinksData: function (data, linkIndex) {
         var array = [];
         var performanceIndicators = [];
+        var performanceMessages = [];
         _.each(data, function (val, key) {
           var UPS = data[key].trainUnitPerformancePerLink[linkIndex]
           array.push(UPS)
           performanceIndicators.push(UPS.linkPerformanceIndicator)
+          performanceMessages.push(UPS.message)
         })
         return {
           array: array,
-          performanceIndicators: performanceIndicators
+          performanceIndicators: performanceIndicators,
+          performanceMessages: performanceMessages
         };
       },
       //------------------------------Generate c3 chart----------------------------------------------//
@@ -41,7 +51,9 @@
           },
           data: {
             json: unitPerformanceScores,
+            
             keys: {
+              x: 'name',
               value: ['percentageScore']
             },
             xSort: false,
@@ -61,16 +73,16 @@
           },
           axis: {
             x: {
-              tick: {
-                format: function () {
-                  return ''
-                }
-              },
+              // tick: {
+              //   format: function (d) {
+              //     return d;
+              //   }
+              // },
               type: 'category',
               height: 50
             },
             y: {
-              //min: 0,
+              max: 100,
               label: {
                 text: chartLabels.yAxisLabel,
                 position: 'outer-middle'

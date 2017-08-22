@@ -7,7 +7,7 @@
 
     .controller('CompareMyRunsController', CompareMyRunsController);
 
-  function CompareMyRunsController(UrlGenerator,$location, httpCallsService,
+  function CompareMyRunsController(UrlGenerator, $location, httpCallsService,
     $scope, $log, unitPerformanceScoreCompareFactory, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [{
@@ -33,20 +33,29 @@
     // $log.info(vm.response)
     var url = UtilityService.getCheckedItems();
 
-    vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
-    // vm.promise = httpCallsService.getByUrl(url)
+    // vm.promise = httpCallsService.getByJson('assets/DriverRunsMultiple.json')
+      vm.promise = httpCallsService.getByUrl(url)
       .then(function (data) {
         vm.response = data;
-
+        //used as x-axis labels for all charts
+        vm.trainIdentifiers = _.pluck(vm.response.driverMultipleRunsReportList, 'trainIdentifier')
+        var namesArray = []
+        _.each(vm.trainIdentifiers, function (val, key) {
+          var date = moment(vm.trainIdentifiers[key].scheduledDepartureTimeAtOrigin).format("D-MMM-YY hhmm")
+          var name = date + " "+ vm.trainIdentifiers[key].headcode
+          namesArray.push(name)
+        })
+        //
         _.each(vm.tabs, function (val, key) {
           switch (vm.tabs[key].id) {
             case "0":
               {
-                $log.info("chdjfhdksj: " + vm.response)
                 vm.unitPerformanceData = _.pluck(vm.response.driverMultipleRunsReportList, 'trainUnitPerformancePerJourney');
+                var unitPerformanceswithNames = unitPerformanceScoreCompareFactory.getUnitPerformanceData(vm.unitPerformanceData, namesArray)
                 vm.unitPerformanceScoreChartLabels = unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChartLabels();
                 vm.chartIndicators = _.pluck(vm.unitPerformanceData, 'journeyPerformanceIndicator')
-                unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChart(vm.unitPerformanceData, vm.unitPerformanceScoreChartLabels, vm.chartIndicators)
+                vm.journeyPerformanceMessages = _.pluck(vm.unitPerformanceData, 'message')
+                unitPerformanceScoreCompareFactory.getUnitPerformanceScoreChart(unitPerformanceswithNames, vm.unitPerformanceScoreChartLabels, vm.chartIndicators)
                 break;
               }
 
@@ -54,12 +63,15 @@
               {
                 vm.energySummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'energySummaryReportPerJourney');
                 vm.energySummaryData = _.pluck(vm.energySummaries, 'energySummaryPerJourney')
+                var energySummaryDatawithNames = energySummaryCompareFactory.getEnergySummaryData(vm.energySummaryData, namesArray)
                 energySummaryGraphLabels = energySummaryCompareFactory.getEnergySummaryGraphLabels();
-                energySummaryCompareFactory.getEnergySummaryChart(vm.energySummaryData, energySummaryGraphLabels, vm.chartIndicators);
+                energySummaryCompareFactory.getEnergySummaryChart(energySummaryDatawithNames, energySummaryGraphLabels, vm.chartIndicators);
                 vm.graphLinks = energySummaryCompareFactory.getEnergySummaryGraphLinks(vm.energySummaries[0].energySummaryLinks);
 
                 vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
                 vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
+                var latenessSummaryDatawithNames = latenessSummaryCompareFactory.getLatenessSummaryData(vm.latenessSummaryData, namesArray)
+                $log.info(vm.latenessSummaryData)
                 vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
                 latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels, vm.chartIndicators)
                 break;
@@ -72,8 +84,9 @@
                 speedDistanceDataCompare_All(vm.speedDistanceProfiles, vm.trackInformationPerLink)
                 vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
                 vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
-                var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks);
-                speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.getlatenessSummaryChartLabels)
+                vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels()
+                var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks, namesArray);
+                speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.speedDistanceChartLabels)
                 break;
               }
             default:
@@ -82,9 +95,9 @@
         })
         // end of each function
       }).catch(function (error) {
-          if(error.data.status == '404'){
-            $location.path("/comparemyrunsInput");
-          }
+        if (error.data.status == '404') {
+          $location.path("/comparemyrunsInput");
+        }
       })
 
     function speedDistanceDataCompare_All(speedDistanceData, trackInfo) {
@@ -121,6 +134,8 @@
       } else {
         vm.newUnitPerformanceData = unitPerformanceScoreCompareFactory.getUnitPerfromanceLinksData(vm.unitPerformanceData, indexOfSelectedLink);
         var performanceIndicatorsArray = vm.newUnitPerformanceData.performanceIndicators;
+        vm.performanceMessagesArray = vm.newUnitPerformanceData.performanceMessages;
+        $log.info(vm.performanceMessagesArray)
         unitPerformanceScoreCompareFactory.setUnitPerformanceScoreChart(vm.newUnitPerformanceData.array, performanceIndicatorsArray);
       }
     }
@@ -166,8 +181,8 @@
     }
 
     function speedDistanceCompareDriverAdviceOfSelectedLink() {
-      var array=[];
-      _.each(vm.getDriverAdvice, function(val, key){
+      var array = [];
+      _.each(vm.getDriverAdvice, function (val, key) {
         array.push(vm.getDriverAdvice[key][vm.indexOfSelectedLink])
       })
       UtilityService.addCheckedItems(array)

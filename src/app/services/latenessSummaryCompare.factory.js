@@ -11,12 +11,12 @@
     var latenessSummary_allLinks;
     var latenessSummaryChart;
     return {
-      getLatenessSummaryData: function (latenessSummaries) {
-        var achievableArrivalLatenessInSeconds_array = [],
-          actualArrivalEarlinessInSeconds_array = [],
-          actualArrivalLatenessInSeconds_array = [],
-          latenessSummaryData = {};
-        return latenessSummaries;
+      getLatenessSummaryData: function (data, trainIdentifiers) {
+         _.each(data, function(val, key){
+          data[key].name = trainIdentifiers[key];
+        })
+          // $log.info(data) 
+          return data;
       },
 
       getLatenessSummaryLinksData: function (latenessSummaries, linkIndex, indicatorsData) {
@@ -31,7 +31,7 @@
         })
         // $log.info(latenessSummaryData_Array)
         return {
-          latenessSummaryData_Array:latenessSummaryData_Array,
+          latenessSummaryData_Array: latenessSummaryData_Array,
           runtimePerformanceIndicators: runtimePerformanceIndicators
         };
       },
@@ -52,27 +52,28 @@
         return graphLabelsAndTitles;
       },
 
-      //------------------------Generate OnTimeRunning chart -----------------------------------------//
-      getLatenessSummaryChart: function (data, graphLabels, performanceIndicators) {
+      //------------------------Generate LatenessSummary chart -----------------------------------------//
+      getLatenessSummaryChart: function (latenessSummary, graphLabels, performanceIndicators) {
         latenessSummaryChart = c3.generate({
           bindto: '#latenessSummaryChart',
           size: {
             height: 300
           },
           data: {
-            json: data,
+            json: latenessSummary,
             keys: {
-              // x: 'name',
+              x: 'name',
               value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
             },
             type: 'bar',
+            names: graphLabels.xAxisLabels,
             labels: true,
             colors: {
-              'actualArrivalLatenessInSeconds':function(d) {
-                 return chartColors.colors([performanceIndicators[d.x]]);
+              'actualArrivalLatenessInSeconds': function (d) {
+                return chartColors.colors([performanceIndicators[d.x]]);
               },
-              'actualArrivalEarlinessInSeconds': function(d) {
-                 return chartColors.colors([performanceIndicators[d.x]]);
+              'actualArrivalEarlinessInSeconds': function (d) {
+                return chartColors.colors([performanceIndicators[d.x]]);
               },
               'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
             }
@@ -81,7 +82,11 @@
             show: false
           },
           axis: {
-
+            x: {
+              type: 'category',
+              // categories: graphLabels.xAxisLabels,
+              height: 50
+            },
             y: {
               //min: 0,
               label: {
@@ -112,14 +117,14 @@
                 value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds'],
               },
               colors: {
-              'actualArrivalLatenessInSeconds':function(d) {
-                 return chartColors.colors([performanceIndicators[d.x]]);
-              },
-              'actualArrivalEarlinessInSeconds': function(d) {
-                 return chartColors.colors([performanceIndicators[d.x]]);
-              },
-              'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
-            }
+                'actualArrivalLatenessInSeconds': function (d) {
+                  return chartColors.colors([performanceIndicators[d.x]]);
+                },
+                'actualArrivalEarlinessInSeconds': function (d) {
+                  return chartColors.colors([performanceIndicators[d.x]]);
+                },
+                'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
+              }
             })
           }
 
