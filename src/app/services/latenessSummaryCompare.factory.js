@@ -12,11 +12,11 @@
     var latenessSummaryChart;
     return {
       getLatenessSummaryData: function (data, trainIdentifiers) {
-         _.each(data, function(val, key){
+        _.each(data, function (val, key) {
           data[key].name = trainIdentifiers[key];
         })
-          // $log.info(data) 
-          return data;
+        // $log.info(data) 
+        return data;
       },
 
       getLatenessSummaryLinksData: function (latenessSummaries, linkIndex, indicatorsData) {
@@ -45,7 +45,13 @@
       getlatenessSummaryChartLabels: function (data) {
         var graphLabelsAndTitles = {
           "xAxisLabels": "",
+          "graphTitle": "Actual vs Achievable Arrival Lateness/Earliness",
           "yAxisLabel": "Lateness (seconds)",
+          "seriesLabels": {
+            actualArrivalLatenessInSeconds: "Actual Arrival Lateness",
+            actualArrivalEarlinessInSeconds: "Actual Arrival Earliness",
+            achievableArrivalLatenessInSeconds: "Achievable Arrival Lateness"
+          }
           //   "graphTitle": "Actual vs Achievable On-Time Running",
 
         };
@@ -66,7 +72,7 @@
               value: ['actualArrivalLatenessInSeconds', 'actualArrivalEarlinessInSeconds', 'achievableArrivalLatenessInSeconds']
             },
             type: 'bar',
-            names: graphLabels.xAxisLabels,
+            names: graphLabels.seriesLabels,
             labels: true,
             colors: {
               'actualArrivalLatenessInSeconds': function (d) {
@@ -80,6 +86,10 @@
           },
           legend: {
             show: false
+          },
+          tooltip:{
+            // grouped: false,
+            order:false
           },
           axis: {
             x: {

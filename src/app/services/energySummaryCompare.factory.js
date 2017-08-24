@@ -121,6 +121,9 @@
               }
             }
           },
+          tooltip:{
+            order:false
+          },
           bar: {
             width: {
               ratio: 0.3 // this makes bar width 30% of length between ticks
