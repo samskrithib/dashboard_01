@@ -56,7 +56,7 @@
             labels: false,
             colors: {
               'ActualDriving': DRIVE_COLORS.blue_dark,
-              'FlatoutDriving': DRIVE_COLORS.green,
+              'FlatoutDriving': DRIVE_COLORS.orange,
               'EcoDriving': DRIVE_COLORS.green,
               'SpeedLimit': DRIVE_COLORS.black,
               'Elevation': DRIVE_COLORS.brown

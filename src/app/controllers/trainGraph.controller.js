@@ -69,10 +69,11 @@
 
     if (vm.TTUrl) {
       vm.promise = httpCallsService.getHeaders(vm.TTUrl)
-        // vm.promise = httpCallsService.getByJson("assets/trainGraph_PerfomranceTest.json")
+        // vm.promise = httpCallsService.getByJson("assets/midnight.json")
         .then(function (response) {
           vm.response = response.data;
-          // $log.info(response)
+          // vm.response = response;
+          $log.info("response", response)
           if (!vm.response) {
             vm.TTAdherenceTrackTrainsError = true;
             vm.TTAdherenceTrackTrainsErrorMessage = response.statusText + "<h3> Error Message </h3>"
@@ -81,6 +82,7 @@
             vm.lines = gridlines(vm.response.timetableAdherenceGraph.timetableAdherenceGraphLocationList);
             /* Performance Test */
             var modData = trainGraphFactory.getDataFormat(vm.response.timetableAdherenceGraph.timetableAdherenceGraphSeriesList, keyxValue)
+            $log.info("modData", modData)
             trainGraphFactory.getTrainGraphChart(modData, tickFormat, tooltipFormat, vm.lines)
             /*End */
             vm.totalItems = vm.response.timetableAdherenceGraph.totalRecords;

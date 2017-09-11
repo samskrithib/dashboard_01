@@ -124,16 +124,16 @@
 
     vm.formData = {};
     /* Defaults */
-    vm.formData.fromStation = {
-      "locationName": "Newcastle",
-      "tiploc": "NWCSTLE"
-    };
-    vm.formData.toStation = {
-      "locationName": "Carlisle",
-      "tiploc": "CARLILE"
-    };
-    vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
-    vm.formData.toTiploc = vm.formData.toStation.tiploc;
+    // vm.formData.fromStation = {
+    //   "locationName": "Newcastle",
+    //   "tiploc": "NWCSTLE"
+    // };
+    // vm.formData.toStation = {
+    //   "locationName": "Carlisle",
+    //   "tiploc": "CARLILE"
+    // };
+    // vm.formData.fromTiploc = vm.formData.fromStation.tiploc;
+    // vm.formData.toTiploc = vm.formData.toStation.tiploc;
     vm.formData.fromDate = new Date();
     vm.formData.toDate = new Date();
     vm.formData.percentileSelected = '80%';
@@ -209,10 +209,11 @@
       }
       httpCallsService.getHeaders(ttAderenceUrl, serviceCodes)
         // httpCallsService.getByJson("assets/timetableAdherenceGraph.json")
-        // httpCallsService.getByJson("assets/timetableRoutes.json")
+        // httpCallsService.getByJson("assets/old/timetableRoutes.json")
         .then(function (response) {
           vm.response = response.data;
-          $log.info(vm.response)
+          // vm.response = response;
+          // $log.info(vm.response)
           if (vm.response.timetableRoutes) {
             routesFlag = true;
             vm.timetableRoutes = vm.response.timetableRoutes;

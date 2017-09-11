@@ -50,7 +50,7 @@
         }).catch(function (response) {
           vm.state = "NORESULTS";
           vm.statusmessage = "No Results";
-          $log.debug( /*"controller response: " +*/ response);
+          $log.info( /*"controller response: " +*/ response);
         });
     };
 
@@ -69,16 +69,16 @@
         if (typeof newValues[0] === 'undefined' || typeof newValues[1] === 'undefined' || typeof newValues[2] === 'undefined') {
           return ''
         } else if (newValues[0] === '' || newValues[1] === '' || newValues[2] === '') {
-          $log.debug(" null values" + newValues);
+          $log.info(" null values" + newValues);
           return ''
         } else {
-          $log.debug("newValues" + newValues);
+          $log.info("newValues" + newValues);
           vm.tstate = "LOADING";
           vm.timePlaceholder = "Loading.."
           vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
           httpCallsService.getByUrl(vm.url)
-            //httpCallsService.getByJson("assets/old/times.json")
+            // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -98,7 +98,7 @@
               vm.compareRunsFormdata.date = ''
               vm.DepartureTimeNotFoundMsg = "There are no departure times for the selected date.";
               // alert(response.status);
-              $log.debug("controller response: " + response.status);
+              $log.info("controller response: " + response.status);
             })
         }
       }
@@ -109,7 +109,7 @@
         _selectedFrom = value;
         vm.compareRunsFormdata.origin = _selectedFrom;
         vm.originTiploc = _selectedFrom.tiploc;
-        $log.debug(_selectedFrom)
+        $log.info(_selectedFrom)
       } else {
         return _selectedFrom;
       }
@@ -119,7 +119,7 @@
         _selectedTo = value;
         vm.compareRunsFormdata.destination = _selectedTo;
         vm.destinationTiploc = _selectedTo.tiploc
-        $log.debug(vm.compareRunsFormdata.destination)
+        $log.info(vm.compareRunsFormdata.destination)
       } else {
         return _selectedTo;
       }
@@ -242,9 +242,10 @@
       data.push(allRuns[allRuns.length - 1], obj)
       var stoppingPatternUrl = UrlGenerator.generateCompareStoppingPatternUrl(data)
       httpCallsService.getByUrl(stoppingPatternUrl)
+      // httpCallsService.getByJson("assets/patterns.json")
         .then(function (response) {
           vm._hasSameStoppingPatterns = true;
-          // $log.info(response)
+          $log.info(response)
           pushDataToArray(form)
           vm._hasSameStoppingPatternsMessage = response.message
         }).catch(function (error) {

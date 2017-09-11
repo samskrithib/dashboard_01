@@ -45,7 +45,7 @@
           $http.get(path + 'locationnamesandtiplocs', {
               cache: true
             })
-            // $http.get('assets/data.json')
+            // $http.get('assets/old/locationandTiplocs.json')
             .then(function (response) {
               deferred.resolve(response.data);
             })
