@@ -22,7 +22,6 @@
     updatexaxisTickFormatter();
     return {
       getSpeedDistanceCompareChart: function (speedDistanceData, graphLabels) {
-        $log.info(graphLabels)
         SpeedDistanceCompareChart = c3.generate({
           bindto: '#chart2',
           size: {
@@ -42,30 +41,29 @@
                   var string = (_.rest(id.toString().split(" "), [2])).join();
                   //added advices to Utitlityservice in ComparemyRuns Controller
                   var advices = UtilityService.getCheckedItems()
-                  var valuesOfDriverAdviceObjects= d3.entries(advices[string])
-                 
+                  var valuesOfDriverAdviceObjects = d3.entries(advices[string])
                   d3.select("#col-md-8")
-                  .selectAll("div")
-                  // .selectAll("span")
-                  .data(valuesOfDriverAdviceObjects)
-                  .enter()
-                  .append("div")
+                    .selectAll("div")
+                    .data(valuesOfDriverAdviceObjects)
+                    .enter()
+                    .append("div")
                     .attr("class", "driverAdvice")
-                    .attr("class", function(d){
+                    .attr("class", function (d) {
                       return d.key;
                     })
                     .attr("id", "driverAdvice")
-                    .text(function(d) {
-                      return d.value})
-                  
+                    .text(function (d) {
+                      return d.value
+                    })
+
                   var newArray = [];
                   // search and push id related optimal profile
-                  speedDistanceData.hideLegendArray.filter(function (val, key) {
+                  speedDistanceData.allLegendsArray.filter(function (val, key) {
                     if (val.indexOf(string) != -1) {
-                      newArray.push(speedDistanceData.hideLegendArray[key])
+                      newArray.push(speedDistanceData.allLegendsArray[key])
                     }
                   })
-                  newArray.push(id, 'Elevation', 'Speed Limit')
+                  newArray.push('Elevation', 'Speed Limit')
                   SpeedDistanceCompareChart.focus(newArray)
                 }
               },
@@ -78,7 +76,6 @@
                 var newArray = [];
                 var index_of_matchedString = UtilityService._findStringinArray(string, speedDistanceData.hideLegendArray)
                 newArray.push(speedDistanceData.hideLegendArray[index_of_matchedString], id)
-                // $log.info(newArray)
                 SpeedDistanceCompareChart.toggle(newArray)
               }
             }
