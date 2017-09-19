@@ -36,8 +36,6 @@
             // hide: speedDistanceData.hideLegendArray,
             item: {
               onmouseover: function (id) {
-                
-
                 if (id == 'Speed Limit' || id == 'Elevation') {
                   SpeedDistanceCompareChart.focus(id)
                 } else {

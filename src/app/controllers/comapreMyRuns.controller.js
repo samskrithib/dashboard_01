@@ -10,18 +10,10 @@
   function CompareMyRunsController(UrlGenerator, $location, httpCallsService,
     $scope, $log, unitPerformanceScoreCompareFactory, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
     var vm = this;
-    vm.tabs = [{
-        id: "0",
-        title: 'Unit Performance'
-      },
-      {
-        id: "1",
-        title: 'Energy & Lateness Summary'
-      },
-      {
-        id: "2",
-        title: 'Speed Distance'
-      }
+    vm.tabs = [
+      {id: "0",title: 'Unit Performance'},
+      {id: "1",title: 'Energy & Lateness Summary'},
+      {id: "2",title: 'Speed Distance'}
     ];
     vm.key = false;
     vm.radioModel = 'Kph';
@@ -29,7 +21,7 @@
     vm.speedDistanceLinks = {};
     vm.chartSubtitle = UrlGenerator.getCompareRunsInputData().compareRunsSubtitle;
     vm.error = false;
-
+    var namesArray = []
     // $log.info(vm.response)
     var url = UtilityService.getCheckedItems();
 
@@ -39,12 +31,13 @@
         vm.response = data;
         //used as x-axis labels for all charts
         vm.trainIdentifiers = _.pluck(vm.response.driverMultipleRunsReportList, 'trainIdentifier')
-        var namesArray = []
+        namesArray=[];
         _.each(vm.trainIdentifiers, function (val, key) {
           var date = moment(vm.trainIdentifiers[key].scheduledDepartureTimeAtOrigin).format("D-MMM-YY hhmm")
           var name = date + " "+ vm.trainIdentifiers[key].headcode
           namesArray.push(name)
         })
+        $log.info("namesArray", namesArray)
         //
         _.each(vm.tabs, function (val, key) {
           switch (vm.tabs[key].id) {
@@ -71,7 +64,7 @@
                 vm.latenessSummaries = _.pluck(vm.response.driverMultipleRunsReportList, 'latenessSummaryReportPerJourney');
                 vm.latenessSummaryData = _.pluck(vm.latenessSummaries, 'latenessSummaryPerJourney')
                 var latenessSummaryDatawithNames = latenessSummaryCompareFactory.getLatenessSummaryData(vm.latenessSummaryData, namesArray)
-                $log.info(vm.latenessSummaryData)
+                // $log.info(vm.latenessSummaryData)
                 vm.latenessSummaryChartLabels = latenessSummaryCompareFactory.getlatenessSummaryChartLabels()
                 latenessSummaryCompareFactory.getLatenessSummaryChart(vm.latenessSummaryData, vm.latenessSummaryChartLabels, vm.chartIndicators)
                 break;
@@ -85,6 +78,7 @@
                 vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
                 vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
                 vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels()
+                
                 var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks, namesArray);
                 speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.speedDistanceChartLabels)
                 break;
@@ -135,7 +129,7 @@
         vm.newUnitPerformanceData = unitPerformanceScoreCompareFactory.getUnitPerfromanceLinksData(vm.unitPerformanceData, indexOfSelectedLink);
         var performanceIndicatorsArray = vm.newUnitPerformanceData.performanceIndicators;
         vm.performanceMessagesArray = vm.newUnitPerformanceData.performanceMessages;
-        $log.info(vm.performanceMessagesArray)
+        // $log.info(vm.performanceMessagesArray)
         unitPerformanceScoreCompareFactory.setUnitPerformanceScoreChart(vm.newUnitPerformanceData.array, performanceIndicatorsArray);
       }
     }
@@ -151,7 +145,7 @@
         var newLatenessSummaryData = latenessSummaryCompareFactory.getLatenessSummaryLinksData(vm.latenessSummaries, indexOfSelectedLink, vm.unitPerformanceData)
         newLatenessSummaryLinksData = newLatenessSummaryData.latenessSummaryData_Array;
         runtimePerformanceLinksData = newLatenessSummaryData.runtimePerformanceIndicators
-        $log.info(runtimePerformanceLinksData)
+        // $log.info(runtimePerformanceLinksData)
         latenessSummaryCompareFactory.setLatenessSummaryChart(newLatenessSummaryLinksData, runtimePerformanceLinksData)
       }
     }
@@ -171,10 +165,10 @@
     function speedDistanceCompareOnSelectLink(indexOfSelectedLink) {
       speedDistanceCompareDriverAdviceOfSelectedLink();
       if (vm.radioModel === 'Kph') {
-        vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, indexOfSelectedLink, vm.graphLinks)
+        vm.modData_Kph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, indexOfSelectedLink, vm.graphLinks, namesArray)
         speedDistanceCompareChartFactory.setSpeedDistanceCompareKph(vm.modData_Kph, indexOfSelectedLink);
       } else if (vm.radioModel === 'Mph') {
-        vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, indexOfSelectedLink, vm.graphLinks)
+        vm.modData_Mph = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Mph, indexOfSelectedLink, vm.graphLinks, namesArray)
         speedDistanceCompareChartFactory.setSpeedDistanceCompareMph(vm.modData_Mph, indexOfSelectedLink);
       }
 

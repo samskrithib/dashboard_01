@@ -49,6 +49,7 @@
       },
 
       getDataFormat: function (speedDistances, linkIndex, graphLinks, trainIdentifiers) {
+        $log.info("speedDistances.actualDriving", speedDistances.actualDriving.length)
         var columns = [];
         var colors = {};
         var xs = {};
@@ -85,7 +86,7 @@
           }
 
         })
-        // $log.info(colors)
+        $log.info("names", names)
         var scaledElevation = speedDistances.Elevation[linkIndex];
         var scaledPosition = speedDistances.scaledPosition[linkIndex];
 
@@ -143,6 +144,11 @@
         return link_Array;
       },
       getActualSpeedDistance: function (speedDistances) {
+        actualSpeed_Kph_AllRuns = [];
+        actualSpeedPosition_Kph_AllRuns = [];
+        actualSpeed_Mph_AllRuns = [];
+        actualSpeedPosition_Mph_AllRuns = [];
+
         _.each(speedDistances, function (val, key) {
           var speedDistanceReportPerJourney = speedDistances[key],
             actualSpeedPosition_Array = [],
@@ -183,6 +189,10 @@
       },
 
       getFlatoutSpeedDistance: function (speedDistances) {
+        flatoutSpeed_Kph_AllRuns = [];
+        flatoutSpeedPosition_Kph_AllRuns = []
+        flatoutSpeed_Mph_AllRuns = []
+        flatoutSpeedPosition_Mph_AllRuns = [];
         _.each(speedDistances, function (val, key) {
           var speedDistanceReportPerJourney = speedDistances[key],
             flatoutSpeedPosition_Array = [],
@@ -223,6 +233,10 @@
       },
 
       getOptimalSpeedDistance: function (speedDistances) {
+        optimalSpeed_Kph_AllRuns = [];
+        optimalSpeedPosition_Kph_AllRuns = []
+        optimalSpeed_Mph_AllRuns = []
+        optimalSpeedPosition_Mph_AllRuns = [];
         _.each(speedDistances, function (val, key) {
           var speedDistanceReportPerJourney = speedDistances[key],
             optimalSpeedPosition_Array = [],
@@ -263,7 +277,10 @@
       },
 
       getSpeedRestrictions: function (trackInfo) {
-        $log.info(trackInfo)
+        speedRestrictionsValues_Array = [];
+        speedRestrictionsPoints_Array = [];
+        speedRestrictionsValuesMph_Array = [];
+        speedRestrictionsPointsM_Array = [];
 
         _.each(trackInfo, function (val, key) {
           var speedRestrictionsPerLink = trackInfo[key].speedRestrictions;
@@ -295,6 +312,11 @@
       },
 
       getElevation: function (trackInfo) {
+        scaledElevation_Array = [];
+        scaledElevationPosition_Array = [];
+        scaledElevationPositionM_Array = [];
+
+
         _.each(trackInfo, function (val, key) {
           var scaledElevationPerLink = trackInfo[key].scaledElevations;
           var scaledElevationPosition = _.pluck(scaledElevationPerLink, 'position');

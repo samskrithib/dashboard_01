@@ -25,7 +25,7 @@
       getenergySummaryLinksData: function (data, linkIndex, indicatorsData) {
         var energySummaryLinksData_array = [];
         var energyPerformanceIndicators_array = [];
-        $log.info(indicatorsData)
+        // $log.info(indicatorsData)
         _.each(data, function (val, key) {
           var ES = data[key].energySummaryLinks[linkIndex].energySummary
           var energyPerformanceIndicatorPerLink = indicatorsData[key].trainUnitPerformancePerLink[linkIndex].energyPerformanceIndicator
