@@ -40,19 +40,19 @@
       })
       .state('timetableAdherenceInput', {
         url: '/timetableAdherenceInput',
-        templateUrl: 'views/trainGraph/trainGraphInput.html',
+        templateUrl: 'app/components/timetableAdherence/partials/trainGraphInput.html',
         controller: 'TimetableAdherenceInputController',
         controllerAs: 'vm'
       })
       .state('timetableAdherenceInputScreen2', {
         url: '/ttAInput2',
-        templateUrl: 'views/trainGraph/trainGraphInputScreen2.html',
+        templateUrl: 'app/components/timetableAdherence/partials/trainGraphInputScreen2.html',
         controller: 'TimetableAdherenceInput_2_Controller',
         controllerAs: 'vm'
       })
       .state('timetableAdherence', {
         url: '/timetableAdherence',
-        templateUrl: 'views/trainGraph/trainGraph.html',
+        templateUrl: 'app/components/timetableAdherence/partials/trainGraph.html',
         controller: 'TrainGraphController',
         controllerAs: 'vm'
       })

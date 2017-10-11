@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
+    .module('timetableAdherenceModule')
     .controller('TimetableAdherenceInputController', TimetableAdherenceInputController)
 
   function TimetableAdherenceInputController(httpCallsService, $cookies, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService) {

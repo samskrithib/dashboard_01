@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('timetableAdherenceModule')
     .factory('trainGraphFactory', trainGraphFactory);
   function trainGraphFactory($log, UtilityService, DRIVE_COLORS) {
     var timetableAdherenceChart;

@@ -1,0 +1,80 @@
+<div id="wrapper">
+  <acme-navbar></acme-navbar>
+
+
+  <div id="page-wrapper">
+    <!--<div class="container-fluid">-->
+    <div class="row">
+      <!--<div class="col-lg-12">
+          <h4 ng-if="vm.getTabs =='TTTrackTrains'" class="page-header">Timetable Adherence Track Trains</h4>
+          <h4 ng-if="vm.getTabs =='TTPercentile'" class="page-header">Timetable Adherence Percentiles</h4>
+        </div>-->
+      <div class="tabscss col-lg-12 col-xl-8">
+        <uib-tabset justified="true" active="active">
+          <uib-tab index="0" heading={{vm.pageHeader}}>
+            <div ng-if="vm.getTabs =='TTTrackTrains'" class="tab-container" id="index0">
+              <div class="subtitle row" style="font-size: 0.8em" ng-bind-html="vm.subTitle"></div>
+              <div ng-show="!vm.TTAdherenceTrackTrainsError">
+                <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
+                  <div id="trainGraph"></div>
+                </div>
+                <div ng-show="vm.totalItems > 10" class="text-center">
+                  <ul uib-pagination total-items="vm.totalItems" items-per-page="15" boundary-links="true" force-ellipses="true" max-size="5" ng-model="vm.currentPage" ng-change="vm.pageChanged(vm.currentPage)"></ul>
+                </div>
+              </div>
+
+              <div ng-show="vm.TTAdherenceTrackTrainsError" ng-bind-html="vm.TTAdherenceTrackTrainsErrorMessage"></div>
+            </div>
+            <!-- <div class="panel-footer">Panel Footer</div> -->
+            <!--</div>-->
+            <div ng-if="vm.getTabs =='TTPercentile'" class="tab-container" id="index0">
+              <!--<div class="col-lg-12 col-xl-8" ng-click="vm.isCollapsed = !vm.isCollapsed">
+                <a href="">Add percentile <i class="fa fa-plus-circle text-primary" aria-hidden="true"></i> </a>
+              </div>-->
+              <!--<form class="form-inline col-lg-12 col-xl-8" ng-show="vm.isCollapsed">-->
+              <!--<form class="card card-block bg-faded" ng-show="vm.isCollapsed">
+                <div class="form-group">
+                  <div>
+                    <div class="col-md-3">
+                      <ui-select ng-model="vm.formData.percentileSelected" theme="bootstrap">
+                        <ui-select-match placeholder="Select percentile...">{{$select.selected}}</ui-select-match>
+                        <ui-select-choices ui-disable-choice="80%" repeat="percentile in vm.percentilesList | filter: $select.search">
+                          <div ng-bind-html="percentile | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                      <input type="hidden" ng-model="vm.formData.percentileSelected" name="selectPercentile" required />
+                      <span class="help-block" ng-show="form.$submitted && form.selectPercentile.$error.required">Required</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+              </form>-->
+              <!--<br>-->
+              <div class="subtitle row" style="font-size: 0.8em" ng-bind-html="vm.subTitle"></div>
+              <div cg-busy="{promise:vm.promise, message:'Loading your chart', minDuration:1000}">
+                <div ng-show="!vm.TTAdherenceTrackTrainsError">
+                  <div id="trainGraph"></div>
+
+                </div>
+
+                <div ng-show="vm.TTAdherenceTrackTrainsError" ng-bind-html="vm.TTAdherenceTrackTrainsErrorMessage"></div>
+              </div>
+            </div>
+
+          </uib-tab>
+
+        </uib-tabset>
+
+        <!-- /.col-lg-12 -->
+        <div>
+
+        </div>
+      </div>
+
+
+    </div>
+    <!--</div>-->
+  </div>
+</div>

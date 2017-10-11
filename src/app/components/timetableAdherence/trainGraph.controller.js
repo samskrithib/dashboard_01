@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
+    .module('timetableAdherenceModule')
     .controller('TrainGraphController', TrainGraphController);
 
   function TrainGraphController(httpCallsService,$location, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
