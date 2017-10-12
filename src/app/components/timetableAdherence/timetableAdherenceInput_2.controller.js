@@ -6,7 +6,7 @@
     .module('timetableAdherenceModule')
     .controller('TimetableAdherenceInput_2_Controller', TimetableAdherenceInput_2_Controller);
 
-  function TimetableAdherenceInput_2_Controller(httpCallsService,timetableAdherenceUrlGeneratorService, $scope, $location, $log, UtilityService) {
+  function TimetableAdherenceInput_2_Controller(timetableAdherenceUrlGeneratorService, $location, $log, UtilityService) {
     var vm = this;
 
     vm.timetableRoutes = UtilityService.getCheckedItems()[0];

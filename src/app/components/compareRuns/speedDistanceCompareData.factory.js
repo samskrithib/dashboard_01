@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('compareRunsModule')
     .factory('speedDistanceCompareDataFactory', speedDistanceCompareDataFactory);
 
   function speedDistanceCompareDataFactory($log, $filter, mathUtilsService, UtilityService, DRIVE_COLORS) {

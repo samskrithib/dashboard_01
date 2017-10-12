@@ -10,7 +10,7 @@
     $stateProvider
       .state('login', {
         url: '/login',
-        templateUrl: 'views/login/login.html',
+        templateUrl: 'app/components/login/partials/login.html',
         controller: 'loginController',
         controllerAs: 'vm'
       })
@@ -28,13 +28,13 @@
       })
       .state('periodicInput', {
         url: '/periodicInput',
-        templateUrl: 'views/periodicReports/periodicReportsInput.html',
+        templateUrl: 'app/components/periodicReports/partials/periodicReportsInput.html',
         controller: 'PeriodicReportsInputController',
         controllerAs: 'vm'
       })
       .state('periodicReports', {
         url: '/periodicReports',
-        templateUrl: 'views/periodicReports/periodicReports.html',
+        templateUrl: 'app/components/periodicReports/partials/periodicReports.html',
         controller: 'PeriodicReportsController',
         controllerAs: 'vm'
       })
@@ -64,25 +64,25 @@
       })
       .state('dwellTimesInput',{
          url: '/dwellTimesInput',
-        templateUrl: 'views/dwellTimes/dwellTimesPerJourneyInput.html',
+        templateUrl: 'app/components/dwellTimes/partials/dwellTimesPerJourneyInput.html',
         controller: 'dwellTimesInputController',
         controllerAs: 'vm'
       })
       .state('dwellTimes',{
          url: '/dwellTimes',
-        templateUrl: 'views/dwellTimes/dwellTimesPerJourney.html',
+        templateUrl: 'app/components/dwellTimes/partials/dwellTimesPerJourney.html',
         controller: 'dwellTimesController',
         controllerAs: 'vm'
       })
       .state('comparemyrunsInput', {
         url: '/comparemyrunsInput',
-        templateUrl: 'views/compare-my-runs/compare-my-runs-input.html',
+        templateUrl: 'app/components/compareRuns/partials/compare-my-runs-input.html',
         controller: 'CompareMyRunsInputController',
         controllerAs: 'vm'
       })
       .state('comparemyruns', {
         url: '/comparemyruns',
-        templateUrl: 'views/compare-my-runs/compare-my-runs.html',
+        templateUrl: 'app/components/compareRuns/partials/compare-my-runs.html',
         controller: 'CompareMyRunsController',
         controllerAs: 'vm'
       });

@@ -3,14 +3,14 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
+    .module('dwellTimesModule')
     .controller('dwellTimesController', dwellTimesController);
 
-  function dwellTimesController($scope, $log, UrlGenerator, httpCallsService ) {
+  function dwellTimesController($scope, $log, dwellTimesUrlGeneratorService, httpCallsService ) {
     var vm = this;
     vm.tabs = [];
-    
-    var dwellTimesUrl = UrlGenerator.getDwellTimesUrl();
+
+    var dwellTimesUrl = dwellTimesUrlGeneratorService.getDwellTimesUrl();
     $log.debug(dwellTimesUrl)
     vm.promise = httpCallsService.getByUrl(dwellTimesUrl)
     // vm.promise = httpCallsService.getByJson(dwellTimesUrl)
@@ -19,8 +19,8 @@
         vm.dwellTimes = vm.response.dwellTimes
         vm.headcode = vm.response.headcode
         $log.debug(vm.response)
-       
-       
+
+
       }).catch(function (error) {
 
       })

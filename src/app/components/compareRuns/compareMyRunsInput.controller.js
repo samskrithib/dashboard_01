@@ -2,11 +2,11 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('compareRunsModule')
     .controller('CompareMyRunsInputController', CompareMyRunsInputController);
 
   /** @ngInject */
-  function CompareMyRunsInputController(UrlGenerator, $q, $scope, $filter, $timeout, $log, $location, httpCallsService, UtilityService) {
+  function CompareMyRunsInputController(compareRunsUrlGeneratorService, $q, $scope, $filter, $timeout, $log, $location, httpCallsService, UtilityService) {
     var vm = this;
     var _selectedFrom, _selectedTo, _selectedTime;
     vm.opened = false;
@@ -18,12 +18,12 @@
     vm.open = function () {
       vm.datePickerPopup.opened = true
     };
-    
+
     httpCallsService.getByUrl('driver-runs/multiple-run-maximum')
-    .then(function(response){
-      vm.runslength = response-1;
-      // $log.info(vm.runslength)
-    }).catch(function(error){
+      .then(function (response) {
+        vm.runslength = response - 1;
+        // $log.info(vm.runslength)
+      }).catch(function (error) {
       vm.runslength = 2;
       $log.info(error)
     })
@@ -48,10 +48,10 @@
             vm.stations = data;
           }
         }).catch(function (response) {
-          vm.state = "NORESULTS";
-          vm.statusmessage = "No Results";
-          $log.info( /*"controller response: " +*/ response);
-        });
+        vm.state = "NORESULTS";
+        vm.statusmessage = "No Results";
+        $log.info(/*"controller response: " +*/ response);
+      });
     };
 
     vm.stations = [];
@@ -75,10 +75,10 @@
           $log.info("newValues" + newValues);
           vm.tstate = "LOADING";
           vm.timePlaceholder = "Loading.."
-          vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
+          vm.url = compareRunsUrlGeneratorService.generateTrainTimesUrl(vm.inputDate, vm.originTiploc, vm.destinationTiploc);
           $log.info(vm.url);
           httpCallsService.getByUrl(vm.url)
-            // httpCallsService.getByJson("assets/old/times.json")
+          // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
               vm.tstate = "SUCCESS";
               vm.compareRunsFormdata.departureTime = '';
@@ -92,14 +92,14 @@
                 vm.times = $filter('orderBy')(data, data.value);
               }
             }).catch(function (response) {
-              vm.tstate = "NORESULTS";
-              vm.timePlaceholder = "No results";
-              vm.DepartureTimesFound = "false";
-              vm.compareRunsFormdata.date = ''
-              vm.DepartureTimeNotFoundMsg = "There are no departure times for the selected date.";
-              // alert(response.status);
-              $log.info("controller response: " + response.status);
-            })
+            vm.tstate = "NORESULTS";
+            vm.timePlaceholder = "No results";
+            vm.DepartureTimesFound = "false";
+            vm.compareRunsFormdata.date = ''
+            vm.DepartureTimeNotFoundMsg = "There are no departure times for the selected date.";
+            // alert(response.status);
+            $log.info("controller response: " + response.status);
+          })
         }
       }
 
@@ -151,11 +151,12 @@
 
     vm.checkExceededNumberOfRuns = function () {
       if (vm.ExceededNumberOfRunsStatus == "true") {
-        vm.inputRunsExceeded = "You can only compare upto "+ (vm.runslength+1) + " runs.";
+        vm.inputRunsExceeded = "You can only compare upto " + (vm.runslength + 1) + " runs.";
         return false;
       } else {
         return true;
-      };
+      }
+      ;
     };
     vm.remove = function (allRuns, index) {
       vm.ExceededNumberOfRunsStatus = "false";
@@ -173,7 +174,7 @@
     };
     vm.duplicateRunMessage = "You cannot compare duplicate runs.";
     vm.allRuns = [];
-    
+
     vm._hasSameStoppingPatterns = true;
 
     vm.addRun = function (form, isValid) {
@@ -202,7 +203,7 @@
     vm.submit = function (isValid) {
       if (isValid) {
         $log.info(vm.allRuns)
-        var compareRunsUrl = UrlGenerator.generateCompareRunsUrl(vm.allRuns)
+        var compareRunsUrl = compareRunsUrlGeneratorService.generateCompareRunsUrl(vm.allRuns)
         $log.info(compareRunsUrl)
         UtilityService.addCheckedItems(compareRunsUrl);
         $location.path("/comparemyruns");
@@ -240,7 +241,7 @@
       }
       var data = [];
       data.push(allRuns[allRuns.length - 1], obj)
-      var stoppingPatternUrl = UrlGenerator.generateCompareStoppingPatternUrl(data)
+      var stoppingPatternUrl = compareRunsUrlGeneratorService.generateCompareStoppingPatternUrl(data)
       httpCallsService.getByUrl(stoppingPatternUrl)
       // httpCallsService.getByJson("assets/patterns.json")
         .then(function (response) {
@@ -249,10 +250,10 @@
           pushDataToArray(form)
           vm._hasSameStoppingPatternsMessage = response.message
         }).catch(function (error) {
-          vm._hasSameStoppingPatterns = false;
-          vm._hasSameStoppingPatternsMessage = error.data.message
-          // $log.info($q.reject(error.data))
-        })
+        vm._hasSameStoppingPatterns = false;
+        vm._hasSameStoppingPatternsMessage = error.data.message
+        // $log.info($q.reject(error.data))
+      })
 
       return vm._hasSameStoppingPatterns;
     }

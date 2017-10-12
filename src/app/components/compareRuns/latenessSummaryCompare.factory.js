@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('compareRunsModule')
     .service('latenessSummaryCompareFactory', latenessSummaryCompareFactory);
 
   function latenessSummaryCompareFactory($log, $window, DRIVE_COLORS, chartColors) {

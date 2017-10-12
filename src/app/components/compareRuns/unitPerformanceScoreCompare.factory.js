@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('compareRunsModule')
     .factory('unitPerformanceScoreCompareFactory', unitPerformanceScoreCompareFactory)
 
   function unitPerformanceScoreCompareFactory($log, $window, $filter, DRIVE_COLORS, chartColors) {

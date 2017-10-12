@@ -19,7 +19,7 @@
                   novalidate>
                   <div class="form-group">
                     <div ng-class="{
-                      'has-error': compareRunsForm.$submitted && compareRunsForm.date.$invalid, 
+                      'has-error': compareRunsForm.$submitted && compareRunsForm.date.$invalid,
                       'has-success': compareRunsForm.$submitted && compareRunsForm.date.$valid}">
                       <!--<div>-->
                       <label for="date" class="col-md-3 control-label mandatory">Date</label>
@@ -43,7 +43,7 @@
                   <div class="form-group typeahead-demo">
                     <!--<div>-->
                     <div ng-class="{
-                      'has-error': compareRunsForm.$submitted && compareRunsForm.origin.$invalid, 
+                      'has-error': compareRunsForm.$submitted && compareRunsForm.origin.$invalid,
                       'has-success': compareRunsForm.$submitted && compareRunsForm.origin.$valid}">
                       <label for="from" class="col-md-3 control-label mandatory">Origin</label>
                       <div class="col-md-3" ng-class="{ 'has-error' : compareRunsForm.origin.$invalid && !compareRunsForm.origin.$pristine }">
@@ -62,7 +62,7 @@
                   <div class="form-group typeahead-demo">
                     <!--<div>-->
                     <div ng-class="{
-                      'has-error': compareRunsForm.$submitted && compareRunsForm.destination.$invalid, 
+                      'has-error': compareRunsForm.$submitted && compareRunsForm.destination.$invalid,
                       'has-success': compareRunsForm.$submitted && compareRunsForm.destination.$valid}">
                       <label for="to" class="col-md-3 control-label mandatory">Destination</label>
                       <div class="col-md-3" ng-class="{ 'has-error' : form.destination.$invalid && !form.destination.$pristine }">
@@ -77,7 +77,7 @@
 
                   <div class="form-group typeahead-demo">
                     <div ng-class="{
-                      'has-error': compareRunsForm.$submitted && compareRunsForm.time.$invalid, 
+                      'has-error': compareRunsForm.$submitted && compareRunsForm.time.$invalid,
                       'has-success': compareRunsForm.$submitted && compareRunsForm.time.$valid}">
                       <label for="time" class="col-md-3 control-label mandatory">Departure Time</label>
                       <div class="col-md-3 " ng-class="{ 'has-error' : compareRunsForm.time.$invalid && !compareRunsForm.time.$pristine }">
@@ -134,7 +134,7 @@
                     <th>Departure time
                     </th>
                   </tr>
-                  <tr ng-repeat="run in vm.allRuns"=>
+                  <tr ng-repeat="run in vm.allRuns">
                     <td style="word-wrap: break-word;max-width: 160px;">{{run.date | date : mediumDate}}
                     </td>
                     <td style="word-wrap: break-word;max-width: 160px;">{{run.origin.locationName}}

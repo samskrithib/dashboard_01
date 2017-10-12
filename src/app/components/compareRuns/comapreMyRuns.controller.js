@@ -3,12 +3,13 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
-
+    .module('compareRunsModule')
     .controller('CompareMyRunsController', CompareMyRunsController);
 
-  function CompareMyRunsController(UrlGenerator, $location, httpCallsService,
-    $scope, $log, unitPerformanceScoreCompareFactory, energySummaryCompareFactory, latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
+  function CompareMyRunsController(compareRunsUrlGeneratorService, $location, httpCallsService,
+    $scope, $log, unitPerformanceScoreCompareFactory, energySummaryCompareFactory,
+                                   latenessSummaryCompareFactory, speedDistanceCompareDataFactory, speedDistanceCompareChartFactory, UtilityService) {
+
     var vm = this;
     vm.tabs = [
       {id: "0",title: 'Unit Performance'},
@@ -19,7 +20,7 @@
     vm.radioModel = 'Kph';
     var energySummaryGraphLabels, energySummaryData;
     vm.speedDistanceLinks = {};
-    vm.chartSubtitle = UrlGenerator.getCompareRunsInputData().compareRunsSubtitle;
+    vm.chartSubtitle = compareRunsUrlGeneratorService.getCompareRunsInputData().compareRunsSubtitle;
     vm.error = false;
     var namesArray = []
     // $log.info(vm.response)
@@ -78,7 +79,7 @@
                 vm.speedDistanceData_Kph = speedDistanceCompareDataFactory.getSpeedDistanceData_Kph();
                 vm.speedDistanceData_Mph = speedDistanceCompareDataFactory.getSpeedDistanceData_Mph();
                 vm.speedDistanceChartLabels = speedDistanceCompareDataFactory.getSpeedDistanceGraphLabels()
-                
+
                 var formatData = speedDistanceCompareDataFactory.getDataFormat(vm.speedDistanceData_Kph, 0, vm.graphLinks, namesArray);
                 speedDistanceCompareChartFactory.getSpeedDistanceCompareChart(formatData, vm.speedDistanceChartLabels)
                 break;

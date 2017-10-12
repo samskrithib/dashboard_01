@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('compareRunsModule')
     .factory('energySummaryCompareFactory', energySummaryCompareFactory);
 
   function energySummaryCompareFactory($log, $window, $filter, energySummaryBarColors, chartColors, DRIVE_COLORS) {

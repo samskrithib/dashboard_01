@@ -6,7 +6,7 @@
     .module('timetableAdherenceModule')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService,$location,timetableAdherenceUrlGeneratorService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
+  function TrainGraphController(httpCallsService, timetableAdherenceUrlGeneratorService, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.isCollapsed = false;
     vm.percentilesList = [

@@ -3,11 +3,10 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
-
+    .module('loginModule')
     .controller('loginController',loginController);
 
-  function loginController(httpCallsService, $scope, $log, UtilityService, testFactory) {
+  function loginController($log) {
     var vm = this;
     $log.info("login")
   }

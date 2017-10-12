@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../../sass/variables';
 //compareRuns
 #compareRunsEnergySummarychart, #compareRunslatenessSummarychart, #compareRunsUnitPerformanceChart, #compareRunsSpeedDistanceChart{
   .c3-axis-y, .c3-chart-text, .c3-ygrid-line text{
@@ -13,6 +13,18 @@
   .c3-title {
     font-size: 1.5em;
     font-weight: bold;
+  }
+
+  .c3-axis-x path, .c3 .c3-axis-x line {
+    stroke: $gray-light;
+  }
+  .c3-axis-y path, .c3-axis-y line {
+    /*stroke: transparent;*/
+    stroke: $gray-light;
+  }
+  .c3-axis-y2 path, .c3-axis-y2 line {
+    /*stroke: transparent;*/
+    stroke: $c3-brown;
   }
 }
 
@@ -45,4 +57,13 @@
     font-size: 1.2em;
     /*font-weight: bold;*/
   }
+}
+
+.speedingAdvice {
+  color: $speedingColor;
+  // color: #FF7F0E
+}
+
+.runtimeDescription {
+  color: $runtimeDescriptionColor;
 }
