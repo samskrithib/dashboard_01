@@ -15,7 +15,7 @@
         <!--<div class="alert alert-info">All fields marked with an asterisk (*) are required</div>-->
         <div class="form-group">
           <div ng-class="{
-          'has-error': form.$submitted && form.date.$invalid, 
+          'has-error': form.$submitted && form.date.$invalid,
           'has-success': form.$submitted && form.date.$valid}">
             <label for="inputDate" class="col-md-2 control-label mandatory">Date</label>
             <div class="col-md-3" ng-class="{'has-error' : form.date.$invalid && !form.date.$pristine }">
@@ -23,8 +23,8 @@
                 <input type="text" name="date" class="form-control" id="inputDate" uib-datepicker-popup="dd/MM/yyyy" ng-model="vm.input.date"
                   is-open="vm.dpOpenStatus.withRequired" min="2016-01-01" required placeholder="Date" />
                 <span class="input-group-btn">
-                <button type="button" 
-                        class="btn btn-default" 
+                <button type="button"
+                        class="btn btn-default"
                         ng-click="vm.setDpOpenStatus('withRequired', $event)">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                 </button>
@@ -37,7 +37,7 @@
         <div class="form-group typeahead-demo">
           <div class="col-md-12">
             <div class="form-group">
-              <div ng-class="{'has-error': form.$submitted && form.from.$invalid, 
+              <div ng-class="{'has-error': form.$submitted && form.from.$invalid,
           'has-success': form.$submitted && form.from.$valid}">
                 <label for="from" class="col-md-2 control-label mandatory">Origin</label>
                 <div class="col-md-3" ng-class="{ 'has-error' : form.from.$invalid && !form.from.$pristine }">
@@ -47,7 +47,7 @@
                   <span class="help-block" ng-show="form.$submitted && form.from.$error.required || form.from.$invalid && !form.from.$pristine">Required</span>
                 </div>
               </div>
-              <div ng-class="{'has-error': form.$submitted && form.to.$invalid, 
+              <div ng-class="{'has-error': form.$submitted && form.to.$invalid,
           'has-success': form.$submitted && form.to.$valid}">
                 <label for="to" class="col-md-2 control-label mandatory">Destination</label>
                 <div class="col-md-3" ng-class="{ 'has-error' : form.to.$invalid && !form.to.$pristine }">
@@ -63,7 +63,7 @@
         </div>
         <div class="form-group typeahead-demo">
           <!--<div class=" label alert-danger" role="alert">Select Departure Time</div>-->
-          <div ng-class="{'has-error': form.$submitted && form.time.$invalid, 
+          <div ng-class="{'has-error': form.$submitted && form.time.$invalid,
           'has-success': form.$submitted && form.time.$valid}">
             <label for="time" class="col-md-2 control-label mandatory">Scheduled Departure Time</label>
             <div class="col-md-3 " ng-class="{'has-error' : form.time.$invalid && !form.time.$pristine }">

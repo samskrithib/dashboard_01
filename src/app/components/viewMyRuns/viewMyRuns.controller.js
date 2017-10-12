@@ -3,15 +3,15 @@
   'use strict';
 
   angular
-    .module('dassimFrontendV03')
-    .factory('$exceptionHandler', function ($log) {
+    .module('viewMyRunsModule')
+    /*.factory('$exceptionHandler', function ($log) {
       return function (exception, cause) {
         $log.debug(exception, cause);
       }
-    })
+    })*/
     .controller('ViewMyRunsController', ViewMyRunsController);
 
-  function ViewMyRunsController($scope, $log,$location, UrlGenerator, httpCallsService, unitPerformanceScoreFactory,
+  function ViewMyRunsController($scope, $log,$location,viewMyRunsUrlGeneratorService, httpCallsService, unitPerformanceScoreFactory,
     energySummaryFactory, latenessSummaryFactory, speedDistanceDataFactory, speedDistanceChartFactory, UtilityService) {
     var vm = this;
     vm.tabs = [];
@@ -30,7 +30,7 @@
     UtilityService.addTab('Energy & Lateness Summary', '1')
     UtilityService.addTab('Speed Distance', '2')
     vm.tabs = UtilityService.getTab();
-    var viewRunsUrl = UrlGenerator.getData().viewRunsUrl;
+    var viewRunsUrl = viewMyRunsUrlGeneratorService.getData().viewRunsUrl;
     $log.info("url " + viewRunsUrl)
     vm.promise = httpCallsService.getByUrl(viewRunsUrl)
       // vm.promise = httpCallsService.getByJson(viewRunsUrl)
@@ -38,7 +38,7 @@
         vm.response = response;
         vm.trainIdentifiers = vm.response.trainIdentifier
         $log.info(vm.response)
-        vm.chartSubtitle = UrlGenerator.getData().subtitle
+        vm.chartSubtitle = viewMyRunsUrlGeneratorService.getData().subtitle
           + '<div>' +
           vm.trainIdentifiers.unitNumber
           + '<span ng-show=' + vm.trainIdentifiers.headcode + '> - ' + vm.trainIdentifiers.headcode + ' </span >'
@@ -108,7 +108,7 @@
         vm.arrayOfSelectedLinksPerformanceIndicators = []
         vm.arrayOfSelectedLinksEnergyPerformanceIndicators = []
         vm.arrayOfSelectedLinksRuntimePerformanceIndicators = []
-        //find index of links 
+        //find index of links
         _.each(vm.stationToStationLinks, function (val, key) {
           if (vm.stationToStationLinks[key].stations == selectedLink) {
             vm.indexOfSelectedLink = key

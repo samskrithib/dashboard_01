@@ -4,7 +4,7 @@
 
   angular
     .module('timetableAdherenceModule')
-    .controller('TimetableAdherenceInputController', TimetableAdherenceInputController)
+    .controller('TimetableAdherenceInputController', TimetableAdherenceInputController);
 
   function TimetableAdherenceInputController(httpCallsService, timetableAdherenceUrlGeneratorService, $scope, $location, $log, typeaheadService, UtilityService) {
     var vm = this;

@@ -15,7 +15,7 @@
         _.each(data, function (val, key) {
           data[key].name = trainIdentifiers[key];
         })
-        // $log.info(data) 
+        // $log.info(data)
         return data;
       },
 
@@ -61,7 +61,7 @@
       //------------------------Generate LatenessSummary chart -----------------------------------------//
       getLatenessSummaryChart: function (latenessSummary, graphLabels, performanceIndicators) {
         latenessSummaryChart = c3.generate({
-          bindto: '#latenessSummaryChart',
+          bindto: '#compareRunslatenessSummarychart',
           size: {
             height: 300
           },

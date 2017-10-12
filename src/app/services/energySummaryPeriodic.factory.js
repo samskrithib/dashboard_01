@@ -82,7 +82,7 @@
       //------------------------------Generate c3 chart----------------------------------------------//
       getEnergySummaryChart: function (energySummary, graphLabels, graphIndicator) {
         EnergySummaryChart = c3.generate({
-          bindto: '#chart0',
+          bindto: '#periodicEnergySummaryChart',
           size: {
             height: 350
           },

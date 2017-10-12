@@ -1,0 +1,43 @@
+#periodicOnTimeChart, #periodicEnergySummaryChart{
+  .c3-axis-x, .c3-axis-y, .c3-chart-text, .c3-ygrid-line text{
+    font-size: 1.3em;
+    font-weight: bold;
+    fill: $gray;
+  }
+  .c3-axis-x{
+    fill: $gray;
+    font-size: 1.3em;
+  }
+  .c3-title {
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  .c3-legend-tooltip-container {
+    position: absolute;
+    pointer-events: none;
+    background: white;
+    border: 1px solid $brand-info;
+    border-radius: 3px;
+    display: none;
+    padding: 10px;
+  }
+
+  .c3-legend-tooltip {
+    color: black;
+  }
+}
+
+
+@media only screen and (max-device-width: 480px) {
+  .c3-axis-x, .c3-axis-y, .c3-axis-y2, .c3-chart-text, .c3-ygrid-line text{
+    font-size: 1em;
+    font-weight: normal;
+    fill: black;
+  }
+
+  .c3-title {
+    font-size: 1.2em;
+    /*font-weight: bold;*/
+  }
+}

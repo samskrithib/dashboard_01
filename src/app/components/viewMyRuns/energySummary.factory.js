@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('viewMyRunsModule')
     .factory('energySummaryFactory', energySummaryFactory)
 
   function energySummaryFactory($log, $window, $filter, chartColors, c3LegendOnHoverFactory, DRIVE_COLORS) {
@@ -33,7 +33,7 @@
       //------------------------------Generate c3 chart----------------------------------------------//
       getEnergySummaryChart: function (energySummary, graphLabels, graphIndicator) {
         EnergySummaryChart = c3.generate({
-          bindto: '#chart1',
+          bindto: '#viewMyRunsEnergySummaryChart',
           size: {
             height: 300
           },

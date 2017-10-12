@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('viewMyRunsModule')
     .factory('speedDistanceChartFactory', speedDistanceChartFactory);
   function speedDistanceChartFactory($log, $window, DRIVE_COLORS, mathUtilsService) {
     var SpeedDistanceChart;
@@ -19,7 +19,7 @@
     return {
       getSpeedDistanceChart: function (data, graphLabels) {
         SpeedDistanceChart = c3.generate({
-          bindto: '#chart2',
+          bindto: '#viewMyRunsSpeedDistanceChart',
           size: {
             height: 400
           },
@@ -61,7 +61,7 @@
               'SpeedLimit': DRIVE_COLORS.black,
               'Elevation': DRIVE_COLORS.brown
             }
-            
+
           },
           zoom: {
             enabled: false
@@ -134,7 +134,7 @@
         .style('fill', 'red')
         .attr('r', 10)
         .on("mouseover", mouseover)
-        
+
         function mouseover() {
          var self = d3.select('.c3-circles-ActualDriving .c3-circle-50');
          $log.debug(self.attr('cx'));

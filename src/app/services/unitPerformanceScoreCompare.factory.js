@@ -23,7 +23,7 @@
         _.each(data, function(val, key){
           data[key].name = trainIdentifiers[key];
         })
-          // $log.info(data) 
+          // $log.info(data)
           return data;
       },
       getUnitPerfromanceLinksData: function (data, linkIndex) {
@@ -45,13 +45,13 @@
       //------------------------------Generate c3 chart----------------------------------------------//
       getUnitPerformanceScoreChart: function (unitPerformanceScores, chartLabels, performanceIndicators) {
         unitPerformanceScoreChart = c3.generate({
-          bindto: '#chart0',
+          bindto: '#compareRunsUnitPerformanceChart',
           size: {
             height: 350
           },
           data: {
             json: unitPerformanceScores,
-            
+
             keys: {
               x: 'name',
               value: ['percentageScore']

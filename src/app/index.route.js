@@ -16,13 +16,13 @@
       })
       .state('view', {
         url: '/view',
-        templateUrl: 'views/view-my-runs/view-my-runs-input.html',
+        templateUrl: 'app/components/viewMyRuns/partials/view-my-runs-input.html',
         controller: 'ViewMyRunsInputController',
         controllerAs: 'vm'
       })
       .state('view-my-runs', {
         url: '/view-my-runs',
-        templateUrl: 'views/view-my-runs/view-my-runs.html',
+        templateUrl: 'app/components/viewMyRuns/partials/view-my-runs.html',
         controller: 'ViewMyRunsController',
         controllerAs: 'vm'
       })

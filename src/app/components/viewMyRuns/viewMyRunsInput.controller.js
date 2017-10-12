@@ -2,11 +2,11 @@
 (function() {
   'use strict';
   angular
-  .module('dassimFrontendV03')
+  .module('viewMyRunsModule')
   .controller('ViewMyRunsInputController', ViewMyRunsInputController);
-  
+
   /** @ngInject */
-  function ViewMyRunsInputController(UrlGenerator, $scope, $filter, $timeout, $log, $location, typeaheadService, httpCallsService, UtilityService) {
+  function ViewMyRunsInputController(viewMyRunsUrlGeneratorService, $scope, $filter, $timeout, $log, $location, typeaheadService, httpCallsService, UtilityService) {
     var vm = this;
     var _selectedFrom,_selectedTo,_selectedTime;
     vm.opened = false;
@@ -41,7 +41,7 @@
 
     vm.stations = [];
     vm.getStations();
-    
+
     //order station names with leading character on higher rank
     vm.smartOrder = function (obj) {
       var queryObj = typeaheadService.getQueryObject(),
@@ -52,16 +52,16 @@
       }
       return ('b' + obj[key]);
     };
-    
-    
+
+
     // to convert the time format
     function toTime(timeString){
       var timeTokens = timeString.split(':');
       return new Date(null,null,null, timeTokens[0], timeTokens[1]);
     }
 
-    
-    
+
+
     //check if the from-station and to-station inputs are filled
     //call function if both stations are filled and valid
     // $log.debug(vm.date);
@@ -69,7 +69,7 @@
       vm.inputDate = $filter('date')(vm.input.date, 'yyyy-MM-dd');
       // var result = [];
       // $log.debug('inputDate,fromStat, toStat are changed');
-      
+
         if (newValues != oldValues) {
           if(typeof newValues[0] === 'undefined' || typeof newValues[1] === 'undefined' || typeof newValues[2] === 'undefined'){
             return ''
@@ -79,7 +79,7 @@
             // $log.debug(newValues);
             vm.tstate = "LOADING";
             vm.timePlaceholder = "Loading.."
-            vm.url = UrlGenerator.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
+            vm.url = viewMyRunsUrlGeneratorService.generateTrainTimesUrl(vm.inputDate, vm.fromStat, vm.toStat);
             httpCallsService.getByUrl(vm.url)
             // httpCallsService.getByJson("assets/old/times.json")
             .then(function (data) {
@@ -153,14 +153,14 @@
         return object[key];
       });
     };
-    
+
     UtilityService.clearTab();
- 
+
     vm.submit = function(isValid){
       if(isValid){
         UtilityService.addCheckedItems(vm.checkedItems);
         $log.debug(_selectedFrom, _selectedTo)
-        UrlGenerator.generateReportsUrl(vm.inputDate, vm.customTimeSelected, _selectedFrom, _selectedTo);
+        viewMyRunsUrlGeneratorService.generateReportsUrl(vm.inputDate, vm.customTimeSelected, _selectedFrom, _selectedTo);
         $location.path("/view-my-runs");
       }
     };

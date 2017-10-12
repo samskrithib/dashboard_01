@@ -23,7 +23,7 @@
     return {
       getSpeedDistanceCompareChart: function (speedDistanceData, graphLabels) {
         SpeedDistanceCompareChart = c3.generate({
-          bindto: '#chart2',
+          bindto: '#compareRunsSpeedDistanceChart',
           size: {
             height: 400
           },

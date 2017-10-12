@@ -2,11 +2,11 @@
 (function() {
   'use strict';
   angular
-  .module('dassimFrontendV03')
+  .module('viewMyRunsModule')
   .factory('speedDistanceDataFactory', speedDistanceDataFactory);
 
   function speedDistanceDataFactory($log, $filter, mathUtilsService) {
-    
+
     var links=[];
     var actualSpeed=[], actualPosition=[];
     var flatoutSpeed=[], flatoutPosition=[];
@@ -18,13 +18,13 @@
     var optimalSpeedMph=[], optimalPositionM=[];
     // var speedRestrictionValueMph=[], speedRestrictionendPointM=[], speedRestrictionbeginPointM=[];
     var scaledElevationValueMph=[],  scaledElevationPositionM=[];
-    
+
     var speedRestrictionPointsM = [], speedValuesMph = [];
     var speedRestrictionPoints=[], speedValues = [];
 
     var seriesNameMatchers = [
-    "ActualDriving", "actualPosition",  
-    "FlatoutDriving", "flatoutPosition", 
+    "ActualDriving", "actualPosition",
+    "FlatoutDriving", "flatoutPosition",
     "EcoDriving", "optimalPosition",
     "SpeedLimit", "endPoint", "beginPoint",
     "scaledPosition", "Elevation"
@@ -89,7 +89,7 @@
         flatoutPositionM[key].splice(0,0, seriesNameMatchers[3])
 
       })
-      
+
     },
 
     getOptimalSpeedDistance : function(data){

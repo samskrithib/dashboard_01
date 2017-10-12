@@ -1,0 +1,65 @@
+
+#viewMyRunsUnitPerformanceChart, #viewMyRunsSpeedDistanceChart, #viewMyRunsEnergySummaryChart, #viewMyRunslatenessSummaryChart{
+  .c3-axis-x, .c3-axis-y, .c3-chart-text, .c3-ygrid-line text{
+    font-size: 1.3em;
+    font-weight: bold;
+    fill: $gray;
+  }
+  .c3-axis-x{
+    fill: $gray;
+    font-size: 1.3em;
+  }
+  .c3-title {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+}
+#viewMyRunsUnitPerformanceChart .c3-ygrid-line line {
+  stroke: $brand-danger;
+}
+
+#viewMyRunsSpeedDistanceChart{
+  .c3-line-ActualDriving, .c3-line-FlatoutDriving, .c3-line-EcoDriving {
+    stroke-width: 2px;
+  }
+  .c3-axis-y2 text{
+    font-size: 1.3em;
+    font-weight: bold;
+    fill: $c3-brown;
+  }
+
+  .c3-circles-actualDriving .c3-circle-100{
+    fill: red;
+    stroke: black;
+  }
+}
+
+
+.GOOD {
+  color: $c3-green !important;
+  // color: white;
+  // background-color: $c3-green;
+}
+.AVERAGE {
+  color: $c3-orange;
+  //  color: white;
+  //  background-color: $c3-orange;
+}
+.POOR{
+  color: $c3-red;
+  //  color: white;
+  // background-color: $c3-red;
+}
+@media only screen and (max-device-width: 480px) {
+  .c3-axis-x, .c3-axis-y, .c3-axis-y2, .c3-chart-text, .c3-ygrid-line text{
+    font-size: 1em;
+    font-weight: normal;
+    fill: black;
+  }
+
+  .c3-title {
+    font-size: 1.2em;
+    /*font-weight: bold;*/
+  }
+}

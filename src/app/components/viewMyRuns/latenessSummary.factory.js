@@ -3,7 +3,7 @@
 (function () {
     'use strict';
     angular
-        .module('dassimFrontendV03')
+        .module('viewMyRunsModule')
         .factory('latenessSummaryFactory', latenessSummaryFactory)
 
     function latenessSummaryFactory($log, $window, $filter, chartColors, DRIVE_COLORS) {
@@ -31,7 +31,7 @@
             //------------------------------Generate c3 chart----------------------------------------------//
             getLatenessSummaryChart: function (latenessSummary, graphLabels, graphIndicator) {
                 LatenessSummaryChart = c3.generate({
-                    bindto: '#latenessSummaryChart',
+                    bindto: '#viewMyRunslatenessSummaryChart',
                     size: {
                         height: 300
                     },
@@ -118,9 +118,9 @@
                         },
                         'achievableArrivalLatenessInSeconds': DRIVE_COLORS.green
                     }
-                   
+
                 });
-                
+
             }
 
         }

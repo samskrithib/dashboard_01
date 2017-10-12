@@ -1,44 +1,20 @@
 // @import "bower_components/bootswatch/lumen/_variables.scss";
-
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// @import "bower_components/bootswatch/lumen/_bootswatch.scss";
+//@import "bower_components/bootswatch/lumen/_bootswatch.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
+
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 @import "sass/variables.scss";
 
-
-.GOOD {
-  color: $c3-green !important;
-   
-  // color: white;
-  // background-color: $c3-green;
-}
-.AVERAGE {
-   color: $c3-orange;
-  //  color: white;
-  //  background-color: $c3-orange;
-}
-.POOR{
-   color: $c3-red;
-  //  color: white;
-  // background-color: $c3-red;
-}
-.list-group-item {
-      float: left;
-      border: 0 none;
-      // font-size: 0.8em;
-      padding: 5px 5px;
-      }
-
-#page-wrapper{
+#page-wrapper {
   // background-color: $brand-primary !important;
-  .row{
-    margin-left: 0px;
+  .row {
+    //margin-left: 0px;
 
     ul.list-group:after {
-    clear: both;
-    display: block;
-    content: "";
+      clear: both;
+      display: block;
+      content: "";
     }
 
     .list-group-item {
@@ -46,30 +22,46 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
       border: 0 none;
       font-size: 0.8em;
       padding: 5px 5px;
-      }
+    }
   }
-  
+
 }
-.btn-default.btn-on-1.active{background-color: $brand-primary;color: white;}
-.btn-default.btn-off-1.active{background-color: $brand-success;color: white;}
-.help-block{
+
+.list-group-item {
+  float: left;
+  border: 0 none;
+  // font-size: 0.8em;
+  padding: 5px 5px;
+}
+
+.btn-default.btn-on-1.active {
+  background-color: $brand-primary;
+  color: white;
+}
+
+.btn-default.btn-off-1.active {
+  background-color: $brand-success;
+  color: white;
+}
+
+.help-block {
   font-size: 0.8em;
   color: darkred;
 }
 
 .capitalize {
-   text-transform: capitalize;
+  text-transform: capitalize;
 }
+
 #RadioButtonModel {
-  .btn-default.active{
+  .btn-default.active {
     background-color: $brand-primary;
     color: white
   }
-  
+
 }
 
-
-#separator{
+#separator {
   @media screen and (min-width: 991px) {
     border-right: dashed 1px;
   }
@@ -105,9 +97,8 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   z-index: 1000;
   display: none;
   background-color: #f9f9f9;
-  
-  }
 
+}
 
 #from .dropdown-menu {
   max-height: 250px;
@@ -117,6 +108,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 .mandatory {
   /* Note that we require this empty class to include content after */
 }
+
 .mandatory:after {
   content: "*";
   color: darkred;
@@ -124,19 +116,19 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 }
 
 .tabscss {
-  
- 
- li.active a.ng-binding {
+
+  li.active a.ng-binding {
     color: white !important;
     background-color: $brand-primary !important;
     border-color: $brand-primary !important;
+    border-radius: 0px;
     text-decoration: none;
   }
-  .row{
+  .row {
     margin-right: 0;
     margin-left: 0;
   }
-  .subtitle{
+  .subtitle {
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
     color: white !important;
@@ -144,22 +136,21 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
     clear: both;
   }
   li a.ng-binding {
-   color: #777777;
-   border-color: gainsboro;
-   text-decoration: none;
- }
-  li a.ng-binding:hover{
+    color: #777777;
+    border-color: gainsboro;
+    text-decoration: none;
+  }
+  li a.ng-binding:hover {
     color: $brand-primary;
   }
   .tab-container {
     border-style: solid;
     border-color: $brand-primary;
-    border-width: 1px 1px 1px 1px;
+    border-width: 1px;
     /*background-color: #8CBEB2;*/
-   /* padding: 15px;*/
+    /* padding: 15px;*/
   }
 
-  
 }
 
 /**

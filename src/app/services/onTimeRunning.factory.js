@@ -41,7 +41,7 @@
       getOnTimeChart: function (data, graphLabels) {
 
         onTimeChart = c3.generate({
-          bindto: '#chart1',
+          bindto: '#periodicOnTimeChart',
           size: {
             height: 400
           },
@@ -68,7 +68,7 @@
                 }
               }
             },
-            
+
           },
           title: {
             text: graphLabels.graphTitle,

@@ -3,7 +3,7 @@
 (function () {
     'use strict';
     angular
-        .module('dassimFrontendV03')
+        .module('viewMyRunsModule')
         .factory('unitPerformanceScoreFactory', unitPerformanceScoreFactory)
     function unitPerformanceScoreFactory($log, $window, $filter, chartColors) {
         var unitPerformanceScoreChart;
@@ -22,7 +22,7 @@
             //------------------------------Generate c3 chart----------------------------------------------//
             getUnitPerformanceScoreChart: function (unitPerformanceScores, performanceIndicators, chartLabels) {
                 unitPerformanceScoreChart = c3.generate({
-                    bindto: '#chart0',
+                    bindto: '#viewMyRunsUnitPerformanceChart',
                     size: {
                         height: 350
                     },

@@ -17,7 +17,7 @@
         _.each(data, function (val, key) {
           data[key].name = trainIdentifiers[key];
         })
-        // $log.info(data) 
+        // $log.info(data)
         return data;
       },
 
@@ -73,7 +73,7 @@
       //------------------------------Generate c3 chart----------------------------------------------//
       getEnergySummaryChart: function (energySummary, graphLabels, performanceIndicators) {
         EnergySummaryChart = c3.generate({
-          bindto: '#chart1',
+          bindto: '#compareRunsEnergySummarychart',
           size: {
             height: 350
           },
@@ -191,7 +191,7 @@
              d3.select(this)
                .style('background-color', '#D2527F')
            } else {
-             
+
            }
 
          })
