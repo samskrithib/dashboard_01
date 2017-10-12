@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('periodicReportsModule')
     .factory('energySummaryPeriodicFactory', energySummaryPeriodicFactory)
 
   function energySummaryPeriodicFactory($log, $window, $filter, energySummaryBarColors) {

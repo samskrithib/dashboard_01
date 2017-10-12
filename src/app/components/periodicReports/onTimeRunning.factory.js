@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('periodicReportsModule')
     .service('onTimeRunningFactory', onTimeRunningFactory);
   function onTimeRunningFactory($log, $window, c3LegendOnHoverFactory) {
     var onTimeChart;

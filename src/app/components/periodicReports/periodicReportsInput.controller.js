@@ -2,7 +2,7 @@
 (function() {
   'use strict';
   angular
-    .module('dassimFrontendV03')
+    .module('periodicReportsModule')
     .controller('PeriodicReportsInputController', PeriodicReportsInputController)
     .config(['$logProvider', function($logProvider){
       $logProvider.debugEnabled(false);
@@ -13,9 +13,9 @@
       }
     })
 
-  
+
   /** @ngInject */
-  function PeriodicReportsInputController($scope, $filter, $timeout, $log, $location, $http, httpCallsService, UtilityService) {
+  function PeriodicReportsInputController($scope, $filter, $log, $location, httpCallsService, UtilityService) {
     var vm = this;
     var _selectedFrom;
     vm.opened = false;
@@ -54,7 +54,7 @@
   }
     vm.state = "LOADING" ;
     vm.statusmessage = "Loading..." ;
-    
+
     vm.getStations = function () {
       httpCallsService.getStations().then(function (data) {
         //console.log(data);
@@ -78,8 +78,8 @@
     vm.getStations();
 
     /* date value is obtained here */
-    
-    
+
+
     vm.stationsModel = function(value) {
       if (arguments.length) {
         _selectedFrom = value;
@@ -89,7 +89,7 @@
         return _selectedFrom;
       }
     };
-    
+
   vm.modelOptions = {
       debounce: {
         default: 500,
@@ -113,8 +113,8 @@
     .then(function(response){
        vm.serviceCodeChoices = response;
     })
-   
-    
+
+
 
     $scope.periodicSubmit = function (isValid) {
       if(isValid){

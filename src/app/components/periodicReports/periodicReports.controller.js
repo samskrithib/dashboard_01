@@ -5,11 +5,11 @@
   'use strict';
 
   angular
-  .module('dassimFrontendV03')
+  .module('periodicReportsModule')
   .controller('PeriodicReportsController', PeriodicReportsController);
 
   /** @ngInject */
-  function PeriodicReportsController(UtilityService,$location, $scope, $log, $filter, 
+  function PeriodicReportsController(UtilityService,$location, $scope, $log, $filter,
     $http, energySummaryPeriodicFactory, onTimeRunningFactory, httpCallsService) {
     var vm = this;
     var energySummaryAvg, energySummaryTot, energySummarygraphLabels, nTrains, graphIndicator;
@@ -36,7 +36,7 @@
     }else{
       serviceCodeSubTitle = formData.serviceCode;
     }
-    
+
 
     vm.subTitle="<p> From Date : " + formData.periodFromDate + ", To Date : " + formData.periodToDate +
     '</p> <p> Rollingstock : ' + rollingStockSubTitle + ', ServiceCode : ' + serviceCodeSubTitle + "</p>"
@@ -54,9 +54,9 @@
         vm.graphIndicator = vm.getResponse.energySummaryAdvice.graphIndicator;
         vm.energySummaryAdvice = vm.getResponse.energySummaryAdvice.energySummaryAdvice;
         energySummaryAvg = [
-        $filter('number')(vm.getResponse.actualEnergyConsumption/nTrains, decimalPlace), 
-        $filter('number')(vm.getResponse.optimalEnergyConsumption/nTrains, decimalPlace), 
-        $filter('number')(vm.getResponse.onTimeOptimalEnergyConsumption/nTrains, decimalPlace), 
+        $filter('number')(vm.getResponse.actualEnergyConsumption/nTrains, decimalPlace),
+        $filter('number')(vm.getResponse.optimalEnergyConsumption/nTrains, decimalPlace),
+        $filter('number')(vm.getResponse.onTimeOptimalEnergyConsumption/nTrains, decimalPlace),
         $filter('number')(vm.getResponse.targetEnergyConsumption/nTrains, decimalPlace)]
         // $log.debug(energySummaryAvg)
         energySummarygraphLabels = energySummaryPeriodicFactory.getGraphLabelsPeriodic();
@@ -87,7 +87,7 @@
          vm.PeriodicOnTimeErrorMessage ='<h1>'+ data.status + data.data + '</h1>' + data;
         $log.debug("controller response: " +data.status)
       })
-    
+
   vm.opened = false;
   vm.open = function() {
     vm.opened = true;
