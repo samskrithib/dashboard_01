@@ -6,7 +6,7 @@
     .module('timetableAdherenceModule')
     .controller('TimetableAdherenceInputController', TimetableAdherenceInputController)
 
-  function TimetableAdherenceInputController(httpCallsService, $cookies, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService) {
+  function TimetableAdherenceInputController(httpCallsService, timetableAdherenceUrlGeneratorService, $scope, $location, $log, typeaheadService, UtilityService) {
     var vm = this;
     var defaultStartTime = function () {
       var d = new Date()
@@ -189,11 +189,11 @@
       var ttAdherenceUrl, keyxValue, stinglength;
       var currentPage = 0;
       if (vm.RadioButtonModel === 'TTTrackTrains') {
-        ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData, currentPage).trackTrains;
+        ttAdherenceUrl = timetableAdherenceUrlGeneratorService.generateTTAdherenceUrls(vm.formData, currentPage).trackTrains;
         keyxValue = 'unixTime';
         stinglength = 7;
       } else {
-        ttAdherenceUrl = UrlGenerator.generateTTAdherenceUrls(vm.formData, currentPage).percentile;
+        ttAdherenceUrl = timetableAdherenceUrlGeneratorService.generateTTAdherenceUrls(vm.formData, currentPage).percentile;
         keyxValue = 'timeInSeconds';
         stinglength = 9;
       }

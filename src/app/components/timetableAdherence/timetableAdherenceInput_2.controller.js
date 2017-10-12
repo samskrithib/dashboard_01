@@ -6,7 +6,7 @@
     .module('timetableAdherenceModule')
     .controller('TimetableAdherenceInput_2_Controller', TimetableAdherenceInput_2_Controller);
 
-  function TimetableAdherenceInput_2_Controller(httpCallsService, UrlGenerator, $scope, $location, $log, typeaheadService, UtilityService, trainGraphFactory) {
+  function TimetableAdherenceInput_2_Controller(httpCallsService,timetableAdherenceUrlGeneratorService, $scope, $location, $log, UtilityService) {
     var vm = this;
 
     vm.timetableRoutes = UtilityService.getCheckedItems()[0];
@@ -53,7 +53,7 @@
     };
 
     vm.routeIdSelected = function ($valid) {
-      var routeIdUrl = UrlGenerator.generateRouteIdUrl(vm.selectRoute)
+      var routeIdUrl = timetableAdherenceUrlGeneratorService.generateRouteIdUrl(vm.selectRoute)
       $log.info(routeIdUrl)
       UtilityService.addCheckedItems([vm.getTabs, routeIdUrl, vm.routesFlag])
       $location.path("timetableAdherence")

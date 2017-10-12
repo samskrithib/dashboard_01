@@ -6,7 +6,7 @@
     .module('timetableAdherenceModule')
     .controller('TrainGraphController', TrainGraphController);
 
-  function TrainGraphController(httpCallsService,$location, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
+  function TrainGraphController(httpCallsService,$location,timetableAdherenceUrlGeneratorService, UrlGenerator, $q, $scope, $log, UtilityService, trainGraphFactory) {
     var vm = this;
     vm.isCollapsed = false;
     vm.percentilesList = [
@@ -20,7 +20,7 @@
     vm.TTAdherenceTrackTrainsError = false;
     vm.getTabs = UtilityService.getCheckedItems()[0];
     vm.routesFlag = UtilityService.getCheckedItems()[2];
-    var subtitle = UrlGenerator.getTTAdherenceUrl().data;
+    var subtitle = timetableAdherenceUrlGeneratorService.getTTAdherenceUrl().data;
     // $log.info(vm.getTabs)
     vm.subTitle = subtitle.fromStation.locationName + "  to  " + subtitle.toStation.locationName +
       "<p>" + subtitle.fromDate + " to " + subtitle.toDate + "</p> " + "<strong> Days : </strong> " + subtitle.daysRange
@@ -40,7 +40,7 @@
         TTAdherenceTrackTrainsUrl = UtilityService.getCheckedItems()[1]
       }
       else {
-        TTAdherenceTrackTrainsUrl = UrlGenerator.getTTAdherenceUrl().trackTrains;
+        TTAdherenceTrackTrainsUrl = timetableAdherenceUrlGeneratorService.getTTAdherenceUrl().trackTrains;
       }
       vm.TTUrl = TTAdherenceTrackTrainsUrl;
 
@@ -61,7 +61,7 @@
         percentileUrl = UtilityService.getCheckedItems()[1]
       }
       else {
-        percentileUrl = UrlGenerator.getTTAdherenceUrl().percentile;
+        percentileUrl = timetableAdherenceUrlGeneratorService.getTTAdherenceUrl().percentile;
       }
 
       vm.TTUrl = percentileUrl;
@@ -92,7 +92,7 @@
           $log.info(error)
           vm.TTAdherenceTrackTrainsError = true;
           vm.TTAdherenceTrackTrainsErrorMessage = error.statusText + "<h3> Error Message </h3>"
-          
+
           // $location.path("/timetableAdherenceInput")
         })
 
@@ -100,7 +100,7 @@
     vm.pageChanged = function (currentpage) {
       var pageId = currentpage - 1;
       vm.routesFlag = false;
-      var trainGraphPageIdUrl = UrlGenerator.generatePageIdUrl(pageId);
+      var trainGraphPageIdUrl = timetableAdherenceUrlGeneratorService.generatePageIdUrl(pageId);
       // $log.info(trainGraphPageIdUrl)
       httpCallsService.getHeaders(trainGraphPageIdUrl)
         .then(function (response) {
