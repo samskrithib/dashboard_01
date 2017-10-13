@@ -2,8 +2,8 @@
 (function() {
   'use strict';
   angular
-  .module('dassimFrontendV03')
-  
+  .module('typeaheadModule', [])
+
   .filter('typeaheadFilter', ['typeaheadService', function (typeaheadService) {
     return function (input, queryObj) {
       var key = Object.keys(queryObj)[0],
@@ -37,5 +37,5 @@
       };
     }
     ])
-  
+
 })();

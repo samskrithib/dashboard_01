@@ -17,18 +17,18 @@
     vm.tabs = [];
     //Color code for links displayed in dropdown list
     vm.getLinkClass = function (link) {
-      if (link.linkPerformanceIndicator == "POOR") {
+      if (link.linkPerformanceIndicator === "POOR") {
         return "POOR"
-      } else if (link.linkPerformanceIndicator == "AVERAGE") {
+      } else if (link.linkPerformanceIndicator === "AVERAGE") {
         return "AVERAGE"
-      } else if (link.linkPerformanceIndicator == "GOOD") {
+      } else if (link.linkPerformanceIndicator === "GOOD") {
         return "GOOD"
       }
 
     };
-    UtilityService.addTab('Unit Performance', '0')
-    UtilityService.addTab('Energy & Lateness Summary', '1')
-    UtilityService.addTab('Speed Distance', '2')
+    UtilityService.addTab('Unit Performance', '0');
+    UtilityService.addTab('Energy & Lateness Summary', '1');
+    UtilityService.addTab('Speed Distance', '2');
     vm.tabs = UtilityService.getTab();
     var viewRunsUrl = viewMyRunsUrlGeneratorService.getData().viewRunsUrl;
     $log.info("url " + viewRunsUrl)
@@ -36,8 +36,8 @@
       // vm.promise = httpCallsService.getByJson(viewRunsUrl)
       .then(function (response) {
         vm.response = response;
-        vm.trainIdentifiers = vm.response.trainIdentifier
-        $log.info(vm.response)
+        vm.trainIdentifiers = vm.response.trainIdentifier;
+        $log.info(vm.response);
         vm.chartSubtitle = viewMyRunsUrlGeneratorService.getData().subtitle
           + '<div>' +
           vm.trainIdentifiers.unitNumber
@@ -110,7 +110,7 @@
         vm.arrayOfSelectedLinksRuntimePerformanceIndicators = []
         //find index of links
         _.each(vm.stationToStationLinks, function (val, key) {
-          if (vm.stationToStationLinks[key].stations == selectedLink) {
+          if (vm.stationToStationLinks[key].stations === selectedLink) {
             vm.indexOfSelectedLink = key
             return vm.indexOfSelectedLink;
           }
@@ -188,7 +188,7 @@
     vm.radioModel = 'Kph';
     $scope.$watch('vm.radioModel', function (newValue, oldValue) {
       if (newValue !== oldValue) {
-        if (newValue == 'Kph') {
+        if (newValue === 'Kph') {
           speedDistanceChartFactory.setSpeedDistanceKph(vm.speedDistanceData_Kph, vm.indexOfSelectedLink)
         } else {
           speedDistanceChartFactory.setSpeedDistanceMph(vm.speedDistanceData_Mph, vm.indexOfSelectedLink)

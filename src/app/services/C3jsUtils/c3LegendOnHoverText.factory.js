@@ -3,7 +3,7 @@
 (function () {
     'use strict';
     angular
-        .module('dassimFrontendV03')
+        .module('c3jsUtils', [])
         .service('c3LegendOnHoverFactory', c3LegendOnHoverFactory);
     function c3LegendOnHoverFactory($log, $window) {
         function insertAfter(referenceNode, newNode) {
@@ -45,7 +45,7 @@
                 })
                 return obj;
             },
-           
+
             legend: function () {
                 var top = {
                      item : {

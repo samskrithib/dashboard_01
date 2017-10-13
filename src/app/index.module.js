@@ -9,6 +9,8 @@
       'compareRunsModule',
       'dwellTimesModule',
       'loginModule',
+      'typeaheadModule',
+      'c3jsUtils',
       'ngAnimate',
       'ui.select',
       'ngCookies',
