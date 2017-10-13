@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
 
       </button>
-    <a class="navbar-brand" ui-sref="view"><img class="img-responsive" src="assets/images/Cogitare.jpg" height="200" width="770"/></a>
+    <a class="navbar-brand" ui-sref="view"><img class="img-responsive" src="assets/images/Cogitare.jpg"/></a>
   </div>
   <!-- /.navbar-header -->
 
@@ -19,9 +19,9 @@
 
   <ul class="nav navbar-nav navbar-right acme-navbar-text" style="margin-right: 0px">
     <li>
-      <button id="menu-toggle" type="button" data-toggle="button" class="btn btn-default btn-xs">
-                        <i class="fa fa-exchange fa-fw"></i>
-                    </button>
+      <!--<button id="menu-toggle" type="button" data-toggle="button" class="btn btn-default btn-xs">-->
+                        <!--<i class="fa fa-exchange fa-fw"></i>-->
+                    <!--</button>-->
     </li>
     <li uib-dropdown>
       <a uib-dropdown-toggle>
@@ -37,20 +37,20 @@
 
   </ul>
   <!-- </div> -->
-  <!--<div id="sidebar-wrapper">-->
+  <div id="sidebar-wrapper">
     <div class="navbar-default sidebar" role="navigation">
       <div class="sidebar-nav navbar-collapse" uib-collapse="vm.isCollapsed">
         <ul class="nav in" id="side-menu">
-          <li ui-sref-active="active">
+          <li>
             <a ui-sref="view"><i class="fa fa-bar-chart fa-fw"></i> View Runs</a>
           </li>
-          <li ui-sref-active="active">
+          <li>
             <a ui-sref="periodicInput"><i class="fa fa-clock-o fa-fw"></i> Periodic Reports</a>
           </li>
-          <li ui-sref-active="active">
+          <li>
             <a ui-sref="timetableAdherenceInput"><i class="fa fa-line-chart fa-fw"></i> Train Graph</a>
           </li>
-          <li ui-sref-active="active">
+          <li>
             <a ui-sref="dwellTimesInput"><i class="fa fa-table" aria-hidden="true"></i> Dwell Times</a>
           </li>
           <!--<li>
@@ -61,7 +61,7 @@
       </div>
       <!-- /.sidebar-collapse -->
     </div>
-  <!--</div>-->
+  </div>
   <!-- /.navbar-static-side -->
 
 </nav>

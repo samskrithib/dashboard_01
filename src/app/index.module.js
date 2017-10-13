@@ -19,7 +19,6 @@
       'ui.router',
       'ui.bootstrap',
       'cgBusy',
-      'toastr',
       'ui.toggle',
       'angular-loading-bar'
     ]);
