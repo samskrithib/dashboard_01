@@ -42,10 +42,10 @@
         },
         getStations: function () {
           var deferred = $q.defer();
-          $http.get(path + 'locationnamesandtiplocs', {
-              cache: true
-            })
-            // $http.get('assets/old/locationandTiplocs.json')
+          // $http.get(path + 'locationnamesandtiplocs', {
+          //     cache: true
+          //   })
+            $http.get('assets/data/locationandTiplocs.json')
             .then(function (response) {
               deferred.resolve(response.data);
             })

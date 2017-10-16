@@ -32,8 +32,8 @@
     vm.tabs = UtilityService.getTab();
     var viewRunsUrl = viewMyRunsUrlGeneratorService.getData().viewRunsUrl;
     $log.info("url " + viewRunsUrl)
-    vm.promise = httpCallsService.getByUrl(viewRunsUrl)
-      // vm.promise = httpCallsService.getByJson(viewRunsUrl)
+    // vm.promise = httpCallsService.getByUrl(viewRunsUrl)
+      vm.promise = httpCallsService.getByJson('assets/data/singleRun.json')
       .then(function (response) {
         vm.response = response;
         vm.trainIdentifiers = vm.response.trainIdentifier;

@@ -47,6 +47,22 @@
 
 }
 
+#viewMyRunsEnergySummaryChart {
+  .c3-legend-tooltip-container {
+    position: absolute;
+    pointer-events: none;
+    background: white;
+    border: 1px solid $brand-info;
+    border-radius: 3px;
+    display: none;
+    padding: 10px;
+  }
+
+  .c3-legend-tooltip {
+    color: black;
+  }
+}
+
 .speedingAdvice {
   color: $speedingColor;
   // color: #FF7F0E
